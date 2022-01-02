@@ -1,3 +1,8 @@
+/*
+	© CKSDA Church
+	cksda.church/
+*/
+
 //// *********** Livesteam Youtube *********** ////
 var month = new Date().getUTCMonth();
 var daylightSaving;
