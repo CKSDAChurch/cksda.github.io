@@ -41,17 +41,18 @@ var header = `<!-- <span class="logo icon fa-paper-plane"></span> -->
 <span class="logo icon">
 	<img src="./images/logo-light.png"/>
 </span>`
-if (url.endsWith("bulletin.html")) {
+// if (url.endsWith("bulletin.html")) {
+// 	header += `<p>
+// 	<a href="./index.html">Home</a> |
+// 	<a href="./calendar.html">Calendar</a> |
+// 	<a href="./college.html">College</a>
+// </p>
+// <h1>CKSDA Church Bulletin</h1>`
+// } else 
+if (url.endsWith("calendar.html")) {
 	header += `<p>
 	<a href="./index.html">Home</a> |
-	<a href="./calendar.html">Calendar</a> |
-	<a href="./college.html">College</a>
-</p>
-<h1>CKSDA Church Bulletin</h1>`
-} else if (url.endsWith("calendar.html")) {
-	header += `<p>
-	<a href="./index.html">Home</a> |
-	<a href="./bulletin.html">Bulletin</a> |
+	<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
 	<a href="./college.html">College</a>
 </p>
 <h1>CKSDA Church Calendar</h1>
@@ -59,13 +60,13 @@ if (url.endsWith("bulletin.html")) {
 } else if (url.endsWith("college.html")) {
 	header += `<p>
 	<a href="./index.html">Home</a> |
-	<a href="./bulletin.html">Bulletin</a> |
+	<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
 	<a href="./calendar.html">Calendar</a>
 </p>
 <h1>CKSDA Church Collegiate</h1>`
 } else {
 	header += `<p>
-		<a href="./bulletin.html">Bulletin</a> |
+		<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
 		<a href="./calendar.html">Calendar</a> |
 		<a href="./college.html">College</a>
 	</p>
