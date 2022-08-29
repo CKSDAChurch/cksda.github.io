@@ -54,7 +54,8 @@ if (url.endsWith("calendar.html")) {
 	<a href="./index.html">Home</a> |
 	<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
 	<a href="./college.html">College</a> |
-	<a href="./pathfinders.html">Pathfinders</a>
+	<a href="./pathfinders.html">Pathfinders</a> |
+    <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
 </p>
 <h1>CKSDA Church Calendar</h1>
 <p>If you know of an event that hasn't been added to the church calendar, please contact clerk@cksda.church with the details.</p>`
@@ -63,7 +64,8 @@ if (url.endsWith("calendar.html")) {
 	<a href="./index.html">Home</a> |
 	<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
 	<a href="./calendar.html">Calendar</a> |
-	<a href="./pathfinders.html">Pathfinders</a>
+	<a href="./pathfinders.html">Pathfinders</a> |
+    <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
 </p>
 <h1>CKSDA Church Collegiate</h1>`
 } else if (url.endsWith("pathfinders.html")) {
@@ -72,6 +74,7 @@ if (url.endsWith("calendar.html")) {
 	<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
 	<a href="./calendar.html">Calendar</a> |
 	<a href="./college.html">College</a> |
+    <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
 </p>
 <h1>Pioneers Pathfinders Club</h1>`
 } else {
@@ -79,7 +82,8 @@ if (url.endsWith("calendar.html")) {
 		<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
 		<a href="./calendar.html">Calendar</a> |
 		<a href="./college.html">College</a> |
-		<a href="./pathfinders.html">Pathfinders</a>
+		<a href="./pathfinders.html">Pathfinders</a> |
+    <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
 	</p>
 	<h1>Collegedale Korean SDA Church</h1>
 	<p>To share the everlasting gospel while providing an environment were we can all grow together in the Grace of God;<br />in doing so prepare our community for the eminent return of our Lord and Savior Jesus Christ.</p>`
