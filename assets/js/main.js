@@ -52,7 +52,7 @@ var header = `<!-- <span class="logo icon fa-paper-plane"></span> -->
 if (url.endsWith("calendar.html")) {
 	header += `<p>
 	<a href="./index.html">Home</a> |
-	<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
+	<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
 	<a href="./college.html">College</a> |
 	<a href="./pathfinders.html">Pathfinders</a> |
     <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
@@ -62,7 +62,7 @@ if (url.endsWith("calendar.html")) {
 } else if (url.endsWith("college.html")) {
 	header += `<p>
 	<a href="./index.html">Home</a> |
-	<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
+	<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
 	<a href="./calendar.html">Calendar</a> |
 	<a href="./pathfinders.html">Pathfinders</a> |
     <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
@@ -71,7 +71,7 @@ if (url.endsWith("calendar.html")) {
 } else if (url.endsWith("pathfinders.html")) {
 	header += `<p>
 	<a href="./index.html">Home</a> |
-	<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
+	<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
 	<a href="./calendar.html">Calendar</a> |
 	<a href="./college.html">College</a> |
     <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
@@ -79,7 +79,7 @@ if (url.endsWith("calendar.html")) {
 <h1>Pioneers Pathfinders Club</h1>`
 } else {
 	header += `<p>
-		<a href="https://cksdachurch-my.sharepoint.com/:f:/g/personal/av_cksda_church/Et8PnXgEVulGl8o9Gi0QyXkBJnetDURRxcKFHcH87ib1Mg?e=vhEBh6" target="_blank">Bulletin</a> |
+		<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
 		<a href="./calendar.html">Calendar</a> |
 		<a href="./college.html">College</a> |
 		<a href="./pathfinders.html">Pathfinders</a> |
