@@ -41,52 +41,58 @@ var header = `<!-- <span class="logo icon fa-paper-plane"></span> -->
 <span class="logo icon">
 	<img src="./images/logo-light.png"/>
 </span>`
-// if (url.endsWith("bulletin.html")) {
-// 	header += `<p>
-// 	<a href="./index.html">Home</a> |
-// 	<a href="./calendar.html">Calendar</a> |
-// 	<a href="./college.html">College</a>
-// </p>
-// <h1>CKSDA Church Bulletin</h1>`
-// } else 
-if (url.endsWith("calendar.html")) {
+if (url.endsWith("calendar.html") || url.endsWith("calendar")) {
 	header += `<p>
 	<a href="./index.html">Home</a> |
 	<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
 	<a href="./college.html">College</a> |
+	<a href="./music.html">Music Ministry</a> |
 	<a href="./pathfinders.html">Pathfinders</a> |
     <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
 </p>
 <h1>CKSDA Church Calendar</h1>
 <p>If you know of an event that hasn't been added to the church calendar, please contact clerk@cksda.church with the details.</p>`
-} else if (url.endsWith("college.html")) {
+} else if (url.endsWith("college.html") || url.endsWith("college")) {
 	header += `<p>
 	<a href="./index.html">Home</a> |
 	<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
 	<a href="./calendar.html">Calendar</a> |
+	<a href="./music.html">Music Ministry</a> |
 	<a href="./pathfinders.html">Pathfinders</a> |
     <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
-</p>
-<h1>CKSDA Church Collegiate</h1>`
-} else if (url.endsWith("pathfinders.html")) {
+	</p>
+	<h1>CKSDA Church Collegiate Ministry</h1>`
+} else if (url.endsWith("music.html") || url.endsWith("music")) {
 	header += `<p>
 	<a href="./index.html">Home</a> |
 	<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
 	<a href="./calendar.html">Calendar</a> |
 	<a href="./college.html">College</a> |
+	<a href="./pathfinders.html">Pathfinders</a> |
     <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
 </p>
-<h1>Pioneers Pathfinders Club</h1>`
-} else {
+<h1>CKSDA Church Music Ministry</h1>`
+} else if (url.endsWith("pathfinders.html") || url.endsWith("pathfinders")) {
 	header += `<p>
-		<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
-		<a href="./calendar.html">Calendar</a> |
-		<a href="./college.html">College</a> |
-		<a href="./pathfinders.html">Pathfinders</a> |
+	<a href="./index.html">Home</a> |
+	<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
+	<a href="./calendar.html">Calendar</a> |
+	<a href="./college.html">College</a> |
+	<a href="./music.html">Music Ministry</a> |
     <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
 	</p>
+	<h1>Pioneers Pathfinders Club</h1>`
+} else {
+	header += `<p>
+	<a href="https://forms.gle/jgrx672XwhGH1DWcA" target="_blank">Connection Card</a> |
+	<a href="./calendar.html">Calendar</a> |
+	<a href="./college.html">College</a> |
+	<a href="./music.html">Music Ministry</a> |
+	<a href="./pathfinders.html">Pathfinders</a> |
+    <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">AdventistGiving</a>
+</p>
 	<h1>Collegedale Korean SDA Church</h1>
-	<p>To share the everlasting gospel while providing an environment were we can all grow together in the Grace of God;<br />in doing so prepare our community for the eminent return of our Lord and Savior Jesus Christ.</p>`
+<p>To share the everlasting gospel while providing an environment were we can all grow together in the Grace of God;<br />in doing so prepare our community for the eminent return of our Lord and Savior Jesus Christ.</p>`
 }
 
 document.getElementById("header").innerHTML = header
@@ -135,23 +141,16 @@ var footer = `<div class="container medium">
 <p>4717 Ooltewah Ringgold Rd<br />
 	Ooltewah, TN 37363<br />
 <strong>Phone</strong>: (423) 453-3004<br />
-<strong>Website</strong>: <a href="https://cksda.church">cksda.church</a></p>`
+	<strong>Website</strong>: <a href="https://cksda.church">cksda.church</a></p>
 
-if (url.endsWith("college.html")) {
-	footer += `<ul class="icons">
-	<li><a href="https://youtube.com/CKSDAChurch" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-	<li><a href="https://instagram.com/ck.sda" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram (Collegiate)</span></a></li>
-	<li><a href="https://fb.com/CKSDAChurch" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
-	</ul>`
-} else {
-	footer += `<ul class="icons">
-	<li><a href="https://youtube.com/CKSDAChurch" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+	<ul class="icons">
+	<li><a href="https://youtube.com/@CKSDAChurch" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
 	<li><a href="https://instagram.com/CKSDAChurch" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+		<li><a href="https://twitter.com/CKSDAChurch" class="icon brands fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
 	<li><a href="https://fb.com/CKSDAChurch" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
-	</ul>`
-}
+	</ul>
 
-footer += `<ul class="copyright">
+	<ul class="copyright">
 	<li>&copy; Collegedale Korean Seventh-Day Adventist Church</li>
 	<li><a href="http://adventist.org">Seventh-Day Adventist Church Official Website</a></li>
 </ul>
