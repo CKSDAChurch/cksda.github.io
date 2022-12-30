@@ -3,7 +3,7 @@
 	cksda.church/
 */
 
-//// *********** Livesteam Youtube *********** ////
+//// *********** Livestream Youtube *********** ////
 var month = new Date().getUTCMonth();
 var daylightSaving;
 if (month >= 1 && month <= 9) { // March 1st to November 1st
