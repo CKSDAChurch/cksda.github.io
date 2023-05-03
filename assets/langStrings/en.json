@@ -1,0 +1,93 @@
+{
+    "_title": "Collegedale Korean SDA Church",
+    "_subtitle": "To share the everlasting gospel while providing an environment were we can all grow together in the Grace of God; in doing so prepare our community for the eminent return of our Lord and Savior Jesus Christ.",
+    "menuItems": {
+        "adventistGiving": "AdventistGiving",
+        "calendar": "Calendar",
+        "calendarURL": "calendar.html",
+        "college": "College",
+        "collegeURL": "college.html",
+        "connectionCard": "Connection Card",
+        "connectionCardURL": "connection.html",
+        "epochURL": "epoch.html",
+        "home": "Home",
+        "homeURL": "index.html",
+        "musicMinistry": "Music Ministry",
+        "musicMinistryURL": "music.html",
+        "pathfinders": "Pathfinders",
+        "pathfindersURL": "pathfinders.html"
+    },
+    "pageTitles": {
+        "calendarSubtitle": "If you know of an event that hasn't been added to the church calendar, please contact clerk@cksda.church with the details.",
+        "calendarTitle": "CKSDA Church Calendar",
+        "collegeTitle": "CKSDA Church Collegiate Ministry",
+        "epochSubtitle": "Some memories from our yearly epoch",
+        "epochTitle": "CKSDA Church Epoch",
+        "musicMinistryTitle": "CKSDA Church Music Ministry",
+        "pathfindersTitle": "Pioneers Pathfinders Club"
+    },
+    "indexPage": {
+        "browserTitle": "Collegedale Korean Seventh-Day Adventist Church",
+        "missionParagraph" : "Our mission is to proclaim to all people the everlasting gospel in the context of the Three Angels' messages of Revelation 14:6-12.",
+        "titheTitle": "Tithe and Offering",
+        "titheParagraph1": "If you desire to give back to the Lord all of your firstfruits as soon as you have them, you can do it immediately through <a href=\"https://adventistgiving.org/#/org/ANTFHH/envelope/start\" target=\"_blank\">AdventistGiving</a>.</p>",
+        "titheParagraph2": "AdventistGiving allows you to return your tithe and give your offerings online from anywhere you have an internet connection."
+    },
+    "calendarPage": {
+        "browserTitle": "CKSDA Church: Calendar",
+        "calFSMsg": "<a href=\"https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York\">Click Here To View Calendar Fullscreen</a>"
+    },
+    "collegePage": {
+        "browserTitle": "CKSDA Church: Collegiate",
+        "importantLinksTitle": "Important Links",
+        "link1": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSf3oeg4BY8MOzHEq1ppLYK7x8YEwT59FUPZ7ligOqFo0pv_-Q/viewform\" target=\"_blank\">Join our email list!</a>",
+        "link2": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfH58WJ83pvQEUOvDc_eW3_ySRQxFt0EJuqnu5fc4izqS6AVg/viewform\" target=\"_blank\">LifeGroups Signup</a>",
+        "eventsTitle": "Events",
+        "event1": "Prayer Meeting at CKSDA Church (Wednesdays 6:30 P.M.)",
+        "event2": "<a href=\"https://calendar.google.com/calendar/embed?src=c_63i8klbtoarrh3hjkhsij432r0%40group.calendar.google.com&ctz=America%2FNew_York\" target=\"_blank\">See all upcoming events</a>",
+        "socialMediaTitle": "Social Media"
+    },
+    "connectionPage": {
+        "browserTitle": "CKSDA Church: Connection Card"
+    },
+    "epochPage": {
+        "browserTitle": "CKSDA Church: Epoch"
+    },
+    "musicPage": {
+        "browserTitle": "CKSDA Church: Music Ministry",
+        "socialMediaTitle": "Social Media"
+    },
+    "pathfindersPage": {
+        "browserTitle": "CKSDA Church: Pathfinders",
+        "getReadyTitle": "GET READY FOR AN AWESOME 2022-2023",
+        "whoTitle": "WHO",
+        "whatTitle": "WHAT",
+        "registrationTitle": "Registration Day",
+        "openingTitle": "Opening",
+        "contactUsTitle": "Contact Us",
+        "socialMediaTitle": "Social Media"
+    },
+    "footer": {
+        "pastorsTitle": "Pastors",
+        "headPastor": "Kangwon Yang",
+        "headPastorTitle": "Head Pastor",
+        "assistantPastor": "Tony Dennis",
+        "assistantPastorTitle": "Assistant Pastor",
+        "worshipServicesTitle": "Worship Services",
+        "korean": "Korean",
+        "english": "English",
+        "ssTitle": "Sabbath School",
+        "wsTitle": "Worship Service",
+        "enSStime": "10:00AM - 11:00AM",
+        "enWStime": "11:25AM - 12:45PM",
+        "koSStime": "09:30AM - 10:30AM",
+        "koWStime": "10:30AM - 11:15PM",
+        "mailingAddressTitle": "Mailing Address",
+        "mailingAddress": "4717 Ooltewah Ringgold Road<br />Ooltewah, TN 37363",
+        "phoneTitle": "Phone",
+        "phone": "+1 (423) 453-3004",
+        "websiteTitle": "Website",
+        "copyright": "&copy; Collegedale Korean Seventh-Day Adventist Church",
+        "advWebsiteTitle": "Seventh-Day Adventist Church Official Website"
+    }
+}

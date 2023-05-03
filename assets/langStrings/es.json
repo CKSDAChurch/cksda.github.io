@@ -1,0 +1,93 @@
+{
+    "_title": "Iglesia Adventista Coreana de Collegedale",
+    "_subtitle": "Compartir el evangelio eterno mientras proporcionamos un ambiente donde todos podamos crecer juntos en la Gracia de Dios; al hacerlo, preparar a nuestra comunidad para el eminente regreso de nuestro Señor y Salvador Jesucristo",
+    "menuItems": {
+        "adventistGiving": "AdventistGiving",
+        "calendar": "Calendario",
+        "calendarURL": "calendar.html",
+        "college": "Colega",
+        "collegeURL": "college.html",
+        "connectionCard": "tarjeta de conexión",
+        "connectionCardURL": "connection.html",
+        "epochURL": "epoch.html",
+        "home": "Casa",
+        "homeURL": "index.html",
+        "musicMinistry": "ministerio de música",
+        "musicMinistryURL": "music.html",
+        "pathfinders": "Conquistadores",
+        "pathfindersURL": "pathfinders.html"
+    },
+    "pageTitles": {
+        "calendarSubtitle": "Si conoce un evento que no se ha agregado al calendario de la iglesia, comuníquese con clerk@cksda.church con los detalles",
+        "calendarTitle": "Calendario de la Iglesia CKSDA",
+        "collegeTitle": "Ministerio Colegiado de la Iglesia CKSDA",
+        "epochSubtitle": "Algunos recuerdos de nuestra época anual",
+        "epochTitle": "Época de la Iglesia CKSDA",
+        "musicMinistryTitle": "Ministerio de Música de la Iglesia CKSDA",
+        "pathfindersTitle": "Club de Conquistadores de Pioneros"
+    },
+    "indexPage": {
+        "browserTitle": "Iglesia Adventista del Séptimo Día de Corea de Collegedale",
+        "missionParagraph": "Nuestra misión es proclamar a todas las personas el evangelio eterno en el contexto de los mensajes de los Tres Ángeles de Apocalipsis 14:6-12",
+        "titheTitle": "diezmo y ofrenda",
+        "titheParagraph1": "Si desea devolver al Señor todas sus primicias tan pronto como las tenga, puede hacerlo inmediatamente a través de <a href=\"https://adventistgiving.org/#/org/ANTFHH/envelope/start\" target=\"_blank\">AdventistGiving</a>.</p>",
+        "titheParagraph2": "AdventistGiving le permite devolver su diezmo y dar sus ofrendas en línea desde cualquier lugar donde tenga conexión a Internet."
+    },
+    "calendarPage": {
+        "browserTitle": "Iglesia CKSDA: Calendario",
+        "calFSMsg": "<a href=\"https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York\">Haga clic aquí para ver el calendario en pantalla completa</a>"
+    },
+    "collegePage": {
+        "browserTitle": "Iglesia CKSDA: Colegiada",
+        "importantLinksTitle": "Links importantes",
+        "link1": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSf3oeg4BY8MOzHEq1ppLYK7x8YEwT59FUPZ7ligOqFo0pv_-Q/viewform\" target=\"_blank\">¡Únete a nuestra lista de correo electrónico!</a>",
+        "link2": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfH58WJ83pvQEUOvDc_eW3_ySRQxFt0EJuqnu5fc4izqS6AVg/viewform\" target=\"_blank\">Registro de grupos de vida</a>",
+        "eventsTitle": "Eventos",
+        "event1": "Reunión de Oración en la Iglesia CKSDA (Miércoles 6:30 P.M.)",
+        "event2": "<a href=\"https://calendar.google.com/calendar/embed?src=c_63i8klbtoarrh3hjkhsij432r0%40group.calendar.google.com&ctz=America%2FNew_York\" target=\"_blank\">Ver todos los próximos eventos</a>",
+        "socialMediaTitle": "Redes Sociales"
+    },
+    "connectionPage": {
+        "browserTitle": "Iglesia CKSDA: Tarjeta de Conexión"
+    },
+    "epochPage": {
+        "browserTitle": "Iglesia CKSDA: Época"
+    },
+    "musicPage": {
+        "browserTitle": "Iglesia CKSDA: Ministerio de Música",
+        "socialMediaTitle": "Redes Sociales"
+    },
+    "pathfindersPage": {
+        "browserTitle": "Iglesia CKSDA: Conquistadores",
+        "getReadyTitle": "PREPÁRESE PARA UN IMPRESIONANTE 2022-2023",
+        "whoTitle": "Quién",
+        "whatTitle": "Qué",
+        "registrationTitle": "Día de registro",
+        "openingTitle": "Apertura",
+        "contactUsTitle": "Contáctenos",
+        "socialMediaTitle": "Redes Sociales"
+    },
+    "footer": {
+        "pastorsTitle": "pastores",
+        "headPastor": "Kang Won Yang",
+        "headPastorTitle": "pastor principal",
+        "assistantPastor": "tony dennis",
+        "assistantPastorTitle": "pastor asistente",
+        "worshipServicesTitle": "Servicios de Adoración",
+        "korean": "coreano",
+        "english": "inglés",
+        "ssTitle": "Escuela Sabática",
+        "wsTitle": "Servicio de adoración",
+        "enSStime": "10:00 - 11:00",
+        "enWStime": "11:25 - 12:45",
+        "koSStime": "09:30 - 10:30",
+        "koWStime": "10:30 - 23:15",
+        "mailingAddressTitle": "Dirección de envio",
+        "mailingAddress": "4717 Ooltewah Ringgold Road<br />Ooltewah, TN 37363",
+        "phoneTitle": "Teléfono",
+        "phone": "+1 (423) 453-3004",
+        "websiteTitle": "Sitio Web",
+        "copyright": "&copy; Iglesia Adventista del Séptimo Día de Corea de Collegedale",
+        "advWebsiteTitle": "Sitio web oficial de la Iglesia Adventista del Séptimo Día"
+    }
+}

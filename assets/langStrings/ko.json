@@ -1,0 +1,92 @@
+{
+    "_title": "칼리지데일 한인제칠일안식일예수재림교회",
+    "_subtitle": "영원한 복음을 나누며 환경을 제공하는 것은 우리 모두가 하나님의 은혜 안에서 함께 성장할 수 있는 것이었습니다. 그렇게 함으로써 우리의 주이시며 구주이신 예수 그리스도의 저명한 재림을 위해 우리 공동체를 준비시키십시오.",
+    "menuItems": {
+        "adventistGiving": "재림교 기부",
+        "calendar": "달력",
+        "calendarURL": "calendar.html",
+        "college": "대학",
+        "collegeURL": "college.html",
+        "connectionCard": "연결 카드",
+        "connectionCardURL": "connection.html",
+        "epochURL": "epoch.html",
+        "home": "집",
+        "homeURL": "index.html",
+        "musicMinistry": "음악 사역",
+        "musicMinistryURL": "music.html",
+        "pathfinders": "길잡이",
+        "pathfindersURL": "pathfinders.html"
+    },
+    "pageTitles": {
+        "calendarSubtitle": "교회 달력에 추가되지 않은 행사를 알고 계시다면 자세한 내용과 함께 clerk@cksda.church 로 연락해 주십시오.",
+        "calendarTitle": "CKSDA 교회 달력",
+        "collegeTitle": "CKSDA 교회 대학 사역",
+        "epochSubtitle": "연간 시대의 추억",
+        "epochTitle": "CKSDA 교회 에포크",
+        "musicMinistryTitle": "CKSDA 교회 음악 사역",
+        "pathfindersTitle": "선구자 패스파인더 클럽"
+    },
+    "indexPage": {
+        "browserTitle": "칼리지데일 한인제칠일안식일예수재림교회",
+        "titheTitle": "십일조와 헌금",
+        "titheParagraph1": "처음 익은 열매를 받자마자 주님께 돌려드리고 싶다면 <a href=\"https://adventistgiving.org/#/org/ANTFHH/envelope/start\" target=\"_blank\">AdventistGiving</a>를 통해 즉시 할 수 있습니다.</p>",
+        "titheParagraph2": "AdventistGiving을 사용하면 인터넷 연결이 있는 모든 곳에서 온라인으로 십일조를 돌려주고 헌금을 드릴 수 있습니다.",
+        "missionParagraph" : "우리의 사명은 요한계시록 14:6-12의 세 천사의 기별의 맥락에서 모든 사람들에게 영원한 복음을 선포하는 것입니다."
+    },
+    "calendarPage": {
+        "browserTitle": "CKSDA 교회: 달력",
+        "calFSMsg": "<a href=\"https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York\">캘린더를 전체 화면으로 보려면 여기를 클릭하세요.</a>"
+    },
+    "collegePage": {
+        "browserTitle": "CKSDA 교회: 대학",
+        "importantLinksTitle": "중요한 링크",
+        "link1": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSf3oeg4BY8MOzHEq1ppLYK7x8YEwT59FUPZ7ligOqFo0pv_-Q/viewform\" target=\"_blank\">이메일 목록에 가입하십시오!</a>",
+        "link2": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfH58WJ83pvQEUOvDc_eW3_ySRQxFt0EJuqnu5fc4izqS6AVg/viewform\" target=\"_blank\">LifeGroups 가입</a>",
+        "eventsTitle": "이벤트",
+        "event1": "CKSDA 교회 기도회 (수요일 오후 6시 30분)",
+        "event2": "<a href=\"https://calendar.google.com/calendar/embed?src=c_63i8klbtoarrh3hjkhsij432r0%40group.calendar.google.com&ctz=America%2FNew_York\" target=\"_blank\">예정된 이벤트 모두 보기</a>",
+        "socialMediaTitle": "소셜 미디어"
+    },
+    "connectionPage": {
+        "browserTitle": "CKSDA 교회: 연결 카드"
+    },
+    "epochPage": {
+        "browserTitle": "CKSDA 교회: 에포크"
+    },
+    "musicPage": {
+        "browserTitle": "CKSDA 교회: 음악 사역",
+        "socialMediaTitle": "소셜 미디어"
+    },
+    "pathfindersPage": {
+        "getReadyTitle": "멋진 2022-2023년을 준비하세요",
+        "whoTitle": "누구",
+        "whatTitle": "뭐",
+        "registrationTitle": "등록일",
+        "openingTitle": "열리는",
+        "contactUsTitle": "문의하기",
+        "socialMediaTitle": "소셜 미디어"
+    },
+    "footer": {
+        "pastorsTitle": "목사들",
+        "headPastor": "양강원",
+        "headPastorTitle": "담임목사",
+        "assistantPastor": "토니 데니스",
+        "assistantPastorTitle": "부목사",
+        "worshipServicesTitle": "예배 서비스",
+        "korean": "한국인",
+        "english": "영어",
+        "ssTitle": "안식일 학교",
+        "wsTitle": "예배",
+        "enSStime": "오전 10시 - 오전 11시",
+        "enWStime": "오전 11시 25분 - 오후 12시 45분",
+        "koSStime": "오전 09:30 - 오전 10:30",
+        "koWStime": "오전 10시 30분 - 오후 11시 15분",
+        "mailingAddressTitle": "우편 주소",
+        "mailingAddress": "4717 Ooltewah Ringgold Road<br />Ooltewah, TN 37363",
+        "phoneTitle": "핸드폰",
+        "phone": "+1 (423) 453-3004",
+        "websiteTitle": "웹사이트",
+        "copyright": "&copy; 칼리지데일 한인제칠일안식일예수재림교회",
+        "advWebsiteTitle": "제칠일안식일예수재림교회 공식 웹사이트"
+    }
+}
