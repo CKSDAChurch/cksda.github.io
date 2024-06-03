@@ -1,43 +1,62 @@
 {
     "_title": "칼리지데일 한인제칠일안식일예수재림교회",
-    "_subtitle": "영원한 복음을 나누며 환경을 제공하는 것은 우리 모두가 하나님의 은혜 안에서 함께 성장할 수 있는 것이었습니다. 그렇게 함으로써 우리의 주이시며 구주이신 예수 그리스도의 저명한 재림을 위해 우리 공동체를 준비시키십시오.",
+    "_subtitle": "영원한 복음을 나누며 환경을 제공하는 것은 우리 모두가 하나님의 은혜 안에서 함께 성장할 수 있는 것이었습니다. 그렇게 함으로써 우리의 주이시며 구주이신 예수 그리스도의 임박한 재림을 위해 우리 공동체를 준비시키십시오.",
     "menuItems": {
         "adventistGiving": "재림교 기부",
         "calendar": "달력",
         "calendarURL": "calendar.html",
-        "college": "대학",
-        "collegeURL": "college.html",
+        "childrenMinistries": "어린이 사역",
+        "childrenMinistriesURL": "children.html",
+        "collegiateMinistry": "대학",
+        "collegiateMinistryURL": "college.html",
         "connectionCard": "연결 카드",
         "connectionCardURL": "connection.html",
         "epochURL": "epoch.html",
         "home": "집",
         "homeURL": "index.html",
-        "musicMinistry": "음악 사역",
-        "musicMinistryURL": "music.html",
+        "ministries": "사역",
+        "musicMinistries": "음악 사역",
+        "musicMinistriesURL": "music.html",
         "pathfinders": "길잡이",
-        "pathfindersURL": "pathfinders.html"
+        "pathfindersURL": "pathfinders.html",
+        "personalMinistries": "개인 사역",
+        "personalMinistriesURL": "personal-ministries.html",
+        "youngAdultMinistry": "청년 사역",
+        "youngAdultMinistryURL": "young-adults.html"
     },
     "pageTitles": {
-        "calendarSubtitle": "교회 달력에 추가되지 않은 행사를 알고 계시다면 자세한 내용과 함께 clerk@cksda.church 로 연락해 주십시오.",
         "calendarTitle": "CKSDA 교회 달력",
-        "collegeTitle": "CKSDA 교회 대학 사역",
-        "epochSubtitle": "연간 시대의 추억",
+        "calendarSubtitle": "교회 달력에 추가되지 않은 행사를 알고 계시다면 자세한 내용과 함께 clerk@cksda.church 로 연락해 주십시오.",
+        "childrenTitle": "CKSDA 교회 어린이 사역",
+        "childrenSubtitle": "",
+        "collegiateTitle": "CKSDA 교회 대학 사역",
+        "collegiateSubtitle": "",
         "epochTitle": "CKSDA 교회 에포크",
-        "musicMinistryTitle": "CKSDA 교회 음악 사역",
-        "pathfindersTitle": "선구자 패스파인더 클럽"
+        "epochSubtitle": "연간 시대의 추억",
+        "musicMinistriesTitle": "CKSDA 교회 음악 사역",
+        "musicMinistriesSubtitle": "",
+        "pathfindersTitle": "선구자 패스파인더 클럽",
+        "pathfindersSubtitle": "",
+        "personalMinistriesTitle": "CKSDA 교회 개인 사역",
+        "personalMinistriesSubtitle": "",
+        "youngAdultMinistryTitle": "CKSDA 교회 청년 사역",
+        "youngAdultMinistrySubtitle": ""
     },
     "indexPage": {
         "browserTitle": "칼리지데일 한인제칠일안식일예수재림교회",
+        "missionParagraph" : "우리의 사명은 요한계시록 14:6-12의 세 천사의 기별의 맥락에서 모든 사람들에게 영원한 복음을 선포하는 것입니다.",
         "titheTitle": "십일조와 헌금",
         "titheParagraph1": "처음 익은 열매를 받자마자 주님께 돌려드리고 싶다면 <a href=\"https://adventistgiving.org/#/org/ANTFHH/envelope/start\" target=\"_blank\">AdventistGiving</a>를 통해 즉시 할 수 있습니다.</p>",
-        "titheParagraph2": "AdventistGiving을 사용하면 인터넷 연결이 있는 모든 곳에서 온라인으로 십일조를 돌려주고 헌금을 드릴 수 있습니다.",
-        "missionParagraph" : "우리의 사명은 요한계시록 14:6-12의 세 천사의 기별의 맥락에서 모든 사람들에게 영원한 복음을 선포하는 것입니다."
+        "titheParagraph2": "AdventistGiving을 사용하면 인터넷 연결이 있는 모든 곳에서 온라인으로 십일조를 돌려주고 헌금을 드릴 수 있습니다."
     },
     "calendarPage": {
         "browserTitle": "CKSDA 교회: 달력",
         "calFSMsg": "<a href=\"https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York\">캘린더를 전체 화면으로 보려면 여기를 클릭하세요.</a>"
     },
-    "collegePage": {
+    "childrenPage": {
+        "browserTitle": "CKSDA 교회: 어린이 사역"
+    },
+    "collegiatePage": {
         "browserTitle": "CKSDA 교회: 대학",
         "importantLinksTitle": "중요한 링크",
         "link1": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSf3oeg4BY8MOzHEq1ppLYK7x8YEwT59FUPZ7ligOqFo0pv_-Q/viewform\" target=\"_blank\">이메일 목록에 가입하십시오!</a>",
@@ -53,11 +72,12 @@
     "epochPage": {
         "browserTitle": "CKSDA 교회: 에포크"
     },
-    "musicPage": {
+    "musicMinistriesPage": {
         "browserTitle": "CKSDA 교회: 음악 사역",
         "socialMediaTitle": "소셜 미디어"
     },
     "pathfindersPage": {
+        "browserTitle": "CKSDA 교회: 길잡이",
         "getReadyTitle": "멋진 2022-2023년을 준비하세요",
         "whoTitle": "누구",
         "whatTitle": "뭐",
@@ -66,12 +86,18 @@
         "contactUsTitle": "문의하기",
         "socialMediaTitle": "소셜 미디어"
     },
+    "personalMinistriesPage": {
+        "browserTitle": "CKSDA 교회: 개인 사역"
+    },
+    "youngAdultMinistryPage": {
+        "browserTitle": "CKSDA 교회: 청년 사역"
+    },
     "footer": {
         "pastorsTitle": "목사들",
         "headPastor": "양강원",
         "headPastorTitle": "담임목사",
-        "assistantPastor": "토니 데니스",
-        "assistantPastorTitle": "부목사",
+        "associatePastor": "전성혁",
+        "associatePastorTitle": "부목사",
         "worshipServicesTitle": "예배 서비스",
         "korean": "한국인",
         "english": "영어",
