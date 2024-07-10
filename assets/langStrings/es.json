@@ -1,6 +1,6 @@
 {
     "_title": "Iglesia Adventista Coreana de Collegedale",
-    "_subtitle": "Compartir el evangelio eterno mientras proporcionamos un ambiente donde todos podamos crecer juntos en la Gracia de Dios; al hacerlo, preparar a nuestra comunidad para el eminente regreso de nuestro Señor y Salvador Jesucristo",
+    "_subtitle": "Compartir el evangelio eterno mientras proporcionamos un ambiente donde todos podamos crecer juntos en la Gracia de Dios; al hacerlo, preparar a nuestra comunidad para el inminente regreso de nuestro Señor y Salvador Jesucristo",
     "menuItems": {
         "adventistGiving": "AdventistGiving",
         "calendar": "Calendario",
@@ -12,6 +12,7 @@
         "epochURL": "epoch.html",
         "home": "Casa",
         "homeURL": "index.html",
+        "ministries": "Ministerios",
         "musicMinistry": "ministerio de música",
         "musicMinistryURL": "music.html",
         "pathfinders": "Conquistadores",
@@ -69,10 +70,10 @@
     },
     "footer": {
         "pastorsTitle": "pastores",
-        "headPastor": "Kang Won Yang",
+        "headPastor": "Kangwon Yang",
         "headPastorTitle": "pastor principal",
-        "assistantPastor": "tony dennis",
-        "assistantPastorTitle": "pastor asistente",
+        "associatePastor": "Daniel Jeon",
+        "associatePastorTitle": "pastor asistente",
         "worshipServicesTitle": "Servicios de Adoración",
         "korean": "coreano",
         "english": "inglés",
