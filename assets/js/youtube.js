@@ -3,7 +3,7 @@
 	cksda.church/
 */
 
-//// *********** Livestream Youtube *********** ////
+//// *********** Livestream YouTube *********** ////
 var month = new Date().getUTCMonth();
 var daylightSaving;
 if (month >= 1 && month <= 9) { // March 1st to November 1st
@@ -39,13 +39,13 @@ else if (lang == "ko" && ((hour >= 19 && hour <= 20 && day == 5) || (hour >= 9 &
 else if (lang == "ko") {
     document.getElementById("youtubeLive").innerHTML = `<h3>Watch CKSDA Church</h3>
         <iframe style="width: 100%; height: 22em;" title="YouTube video player" allowfullscreen frameborder="0"
-        src="https://www.youtube.com/embed/videoseries?index=0&list=PLIkL0-bPEL8qxyr_fpD0-8ke5zosKG-cF"
+        src="https://www.youtube.com/embed/videoseries?index=1&list=PLIkL0-bPEL8qxyr_fpD0-8ke5zosKG-cF"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
 } 
 // Last Week (EM)
 else {
     document.getElementById("youtubeLive").innerHTML = `<h3>Watch Previous Service</h3>
         <iframe style="width: 100%; height: 22em;" title="YouTube video player" allowfullscreen frameborder="0"
-        src="https://www.youtube.com/embed/videoseries?index=0&list=PLIkL0-bPEL8qQUoX4JIONp-RCjgwKQFgx"
+        src="https://www.youtube.com/embed/videoseries?index=1&list=PLIkL0-bPEL8qQUoX4JIONp-RCjgwKQFgx"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
 }

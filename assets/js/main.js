@@ -51,19 +51,29 @@ const getJson = async () => {
 	var subtitle = json._subtitle;
 
 	var calendarUrl = json.menuItems.calendarURL;
-	var collegeUrl = json.menuItems.collegeURL;
+	var childrenUrl = json.menuItems.childrenMinistriesURL;
+	var collegiateUrl = json.menuItems.collegiateMinistryURL;
 	var connectionCardUrl = json.menuItems.connectionCardURL;
-	var homeUrl = json.menuItems.homeURL;
 	var epochUrl = json.menuItems.epochURL;
-	var musicUrl = json.menuItems.musicMinistryURL;
+	var homeUrl = json.menuItems.homeURL;
+	var musicUrl = json.menuItems.musicMinistriesURL;
 	var pathfindersUrl = json.menuItems.pathfindersURL;
+	var personalMinistriesUrl = json.menuItems.personalMinistriesURL;
+	var youngAdultsUrl = json.menuItems.youngAdultMinistryURL;
+
+	var ministryPages  =`<span class="ministryPages">
+<a href="`+ childrenUrl + `">` + json.menuItems.childrenMinistries + `</a>
+<a href="`+ collegiateUrl + `">` + json.menuItems.collegiateMinistry + `</a>
+<a href="`+ musicUrl + `">` + json.menuItems.musicMinistries + `</a>
+<a href="`+ pathfindersUrl + `">` + json.menuItems.pathfinders + `</a>
+<a href="`+ personalMinistriesUrl + `">` + json.menuItems.personalMinistries + `</a>
+<a href="`+ youngAdultsUrl + `">` + json.menuItems.youngAdultMinistry + `</a>
+</span>`;
 
 	var urlList = `<a href="` + homeUrl + `">` + json.menuItems.home + `</a> |
 <a href="`+ connectionCardUrl + `">` + json.menuItems.connectionCard + `</a> |
 <a href="`+ calendarUrl + `">` + json.menuItems.calendar + `</a> |
-<a href="`+ collegeUrl + `">` + json.menuItems.college + `</a> |
-<a href="`+ musicUrl + `">` + json.menuItems.musicMinistry + `</a> |
-<a href="`+ pathfindersUrl + `">` + json.menuItems.pathfinders + `</a> |
+<span id="ministries">` + json.menuItems.ministries + ministryPages + `</span> |
 <a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">`+ json.menuItems.adventistGiving + `</a>`
 
 	var url = window.location.href
@@ -71,44 +81,51 @@ const getJson = async () => {
 	if (url.endsWith(calendarUrl) || url.endsWith(calendarUrl.substring(0, (calendarUrl.length - 5)))) {
 		title = json.pageTitles.calendarTitle;
 		subtitle = json.pageTitles.calendarSubtitle;
-		urlList = urlList.replace(`<a href="` + calendarUrl + `">` + json.menuItems.calendar + `</a> |`, "");
 
 		document.getElementById("browserTitle").innerHTML = json.calendarPage.browserTitle;
 		document.getElementById("calFSMsg").innerHTML = json.calendarPage.calFSMsg;
 	}
-	//// COLLEGE PAGE ////
-	else if (url.endsWith(collegeUrl) || url.endsWith(collegeUrl.substring(0, (collegeUrl.length - 5)))) {
-		title = json.pageTitles.collegeTitle;
-		subtitle = "";
-		urlList = urlList.replace(`<a href="` + collegeUrl + `">` + json.menuItems.college + `</a> |`, "");
+	//// CHILDREN's MINISTRIES PAGE ////
+	else if (url.endsWith(childrenUrl) || url.endsWith(childrenUrl.substring(0, (childrenUrl.length - 5)))) {
+		title = json.pageTitles.childrenTitle;
+		subtitle = json.pageTitles.childrenSubtitle;
 
-		document.getElementById("browserTitle").innerHTML = json.collegePage.browserTitle;
-		document.getElementById("importantLinksTitle").innerHTML = json.collegePage.importantLinksTitle;
-		document.getElementById("link1").innerHTML = json.collegePage.link1;
-		document.getElementById("link2").innerHTML = json.collegePage.link2;
-		document.getElementById("eventsTitle").innerHTML = json.collegePage.eventsTitle;
-		document.getElementById("event1").innerHTML = json.collegePage.event1;
-		document.getElementById("event2").innerHTML = json.collegePage.event2;
-		document.getElementById("socialMediaTitle").innerHTML = json.collegePage.socialMediaTitle;
+		document.getElementById("browserTitle").innerHTML = json.childrenPage.browserTitle;
+	}
+	//// COLLEGIATE PAGE ////
+	else if (url.endsWith(collegiateUrl) || url.endsWith(collegiateUrl.substring(0, (collegiateUrl.length - 5)))) {
+		title = json.pageTitles.collegiateTitle;
+		subtitle = json.pageTitles.collegiateSubtitle;
+
+		document.getElementById("browserTitle").innerHTML = json.collegiatePage.browserTitle;
+		document.getElementById("eventsTitle").innerHTML = json.collegiatePage.eventsTitle;
+		document.getElementById("event1").innerHTML = json.collegiatePage.event1;
+		document.getElementById("event2").innerHTML = json.collegiatePage.event2;
+		document.getElementById("socialMediaTitle").innerHTML = json.collegiatePage.socialMediaTitle;
 	}
 	//// CONNECTION PAGE ////
 	else if (url.endsWith(connectionCardUrl) || url.endsWith(connectionCardUrl.substring(0, (connectionCardUrl.length - 5)))) {
 		document.getElementById("browserTitle").innerHTML = json.connectionPage.browserTitle;
 	}
+	//// EPOCH PAGE ////
+	else if (url.endsWith(epochUrl) || url.endsWith(epochUrl.substring(0, (epochUrl.length - 5)))) {
+		title = json.pageTitles.epochTitle;
+		subtitle = json.pageTitles.epochSubtitle;
+		
+		document.getElementById("browserTitle").innerHTML = json.epochPage.browserTitle;
+	}
 	//// MUSIC PAGE ////
 	else if (url.endsWith(musicUrl) || url.endsWith(musicUrl.substring(0, (musicUrl.length - 5)))) {
-		title = json.pageTitles.musicMinistryTitle;
-		subtitle = "";
-		urlList = urlList.replace(`<a href="` + musicUrl + `">` + json.menuItems.musicMinistry + `</a> |`, "");
+		title = json.pageTitles.musicMinistriesTitle;
+		subtitle = json.pageTitles.musicMinistriesSubtitle;
 
-		document.getElementById("browserTitle").innerHTML = json.musicPage.browserTitle;
-		document.getElementById("socialMediaTitle").innerHTML = json.musicPage.socialMediaTitle;
+		document.getElementById("browserTitle").innerHTML = json.musicMinistriesPage.browserTitle;
+		document.getElementById("socialMediaTitle").innerHTML = json.musicMinistriesPage.socialMediaTitle;
 	}
 	//// PATHFINDERS PAGE ////
 	else if (url.endsWith(pathfindersUrl) || url.endsWith(pathfindersUrl.substring(0, (pathfindersUrl.length - 5)))) {
 		title = json.pageTitles.pathfindersTitle;
-		subtitle = "";
-		urlList = urlList.replace(`<a href="` + pathfindersUrl + `">` + json.menuItems.pathfinders + `</a> |`, "");
+		subtitle = json.pageTitles.pathfindersSubtitle;
 
 		document.getElementById("browserTitle").innerHTML = json.pathfindersPage.browserTitle;
 		document.getElementById("getReadyTitle").innerHTML = json.pathfindersPage.getReadyTitle;
@@ -119,12 +136,19 @@ const getJson = async () => {
 		document.getElementById("contactUsTitle").innerHTML = json.pathfindersPage.contactUsTitle;
 		document.getElementById("socialMediaTitle").innerHTML = json.pathfindersPage.socialMediaTitle;
 	}
-	//// EPOCH PAGE ////
-	else if (url.endsWith(epochUrl) || url.endsWith(epochUrl.substring(0, (epochUrl.length - 5)))) {
-		title = json.pageTitles.epochTitle;
-		subtitle = json.pageTitles.epochSubtitle;
+	//// PERSONAL MINISTRIES PAGE ////
+	else if (url.endsWith(personalMinistriesUrl) || url.endsWith(personalMinistriesUrl.substring(0, (personalMinistriesUrl.length - 5)))) {
+		title = json.pageTitles.personalMinistriesTitle;
+		subtitle = json.pageTitles.personalMinistriesSubtitle;
 
-		document.getElementById("browserTitle").innerHTML = json.epochPage.browserTitle;
+		document.getElementById("browserTitle").innerHTML = json.personalMinistriesPage.browserTitle;
+	}
+	//// YOUNG ADULTS PAGE ////
+	else if (url.endsWith(youngAdultsUrl) || url.endsWith(youngAdultsUrl.substring(0, (youngAdultsUrl.length - 5)))) {
+		title = json.pageTitles.youngAdultMinistryTitle;
+		subtitle = json.pageTitles.youngAdultMinistrySubtitle;
+
+		document.getElementById("browserTitle").innerHTML = json.youngAdultMinistryPage.browserTitle;
 	}
 	//// INDEX PAGE ////
 	else {
@@ -149,8 +173,8 @@ const getJson = async () => {
 	var pastorsTitle = json.footer.pastorsTitle;
 	var headPastor = json.footer.headPastor;
 	var headPastorTitle = json.footer.headPastorTitle;
-	var assistantPastor = json.footer.assistantPastor;
-	var assistantPastorTitle = json.footer.assistantPastorTitle;
+	var associatePastor = json.footer.associatePastor;
+	var associatePastorTitle = json.footer.associatePastorTitle;
 	var worshipServicesTitle = json.footer.worshipServicesTitle;
 	var korean = json.footer.korean;
 	var english = json.footer.english;
@@ -172,8 +196,8 @@ const getJson = async () => {
 	<header class="major last"><h2>`+ pastorsTitle + `</h2></header>
 	
 	<p><strong>`+ headPastorTitle + `</strong>:<br />` + headPastor + `</p>
-	<p><strong>`+ assistantPastorTitle + `</strong>:<br />` + assistantPastor + `</p>
-	
+	<p><strong>`+ associatePastorTitle + `</strong>:<br />` + associatePastor + `</p>
+
 	<header class="major last"><h2>`+ worshipServicesTitle + `</h2></header>
 	<div class="WorshipServices">
 		<div class="WorshipChild">
@@ -194,10 +218,11 @@ const getJson = async () => {
 	<strong>`+ websiteTitle + `</strong>: <a href="https://cksda.church">cksda.church</a></p>
 	
 	<ul class="icons">
+	<li><a href="https://x.com/CKSDAChurch" class="icon brands fa-x-twitter" target="_blank"><span class="label">𝕏</span></a></li>
 	<li><a href="https://youtube.com/@CKSDAChurch" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
 	<li><a href="https://instagram.com/CKSDAChurch" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-	<li><a href="https://twitter.com/CKSDAChurch" class="icon brands fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
-	<li><a href="https://fb.com/CKSDAChurch" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
+	<li><a href="https://fb.com/CKSDAChurch1990" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
+	<li><a href="https://linkedin.com/company/cksdachurch" class="icon brands fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
 	</ul>
 	
 	<ul class="copyright">
