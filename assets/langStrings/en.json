@@ -1,30 +1,46 @@
 {
     "_title": "Collegedale Korean SDA Church",
-    "_subtitle": "To share the everlasting gospel while providing an environment were we can all grow together in the Grace of God; in doing so prepare our community for the eminent return of our Lord and Savior Jesus Christ.",
+    "_subtitle": "To share the everlasting gospel while providing an environment where we can all grow together in the Grace of God; in doing so prepare our community for the imminent return of our Lord and Savior Jesus Christ.",
     "menuItems": {
         "adventistGiving": "AdventistGiving",
         "calendar": "Calendar",
         "calendarURL": "calendar.html",
-        "college": "College",
-        "collegeURL": "college.html",
+        "childrenMinistries": "Children's Ministries",
+        "childrenMinistriesURL": "children.html",
+        "collegiateMinistry": "Collegiate",
+        "collegiateMinistryURL": "college.html",
         "connectionCard": "Connection Card",
         "connectionCardURL": "connection.html",
         "epochURL": "epoch.html",
         "home": "Home",
         "homeURL": "index.html",
-        "musicMinistry": "Music Ministry",
-        "musicMinistryURL": "music.html",
+        "ministries": "Ministries",
+        "musicMinistries": "Music Ministries",
+        "musicMinistriesURL": "music.html",
         "pathfinders": "Pathfinders",
-        "pathfindersURL": "pathfinders.html"
+        "pathfindersURL": "pathfinders.html",
+        "personalMinistries": "Personal Ministries",
+        "personalMinistriesURL": "personal-ministries.html",
+        "youngAdultMinistry": "Young Adults",
+        "youngAdultMinistryURL": "young-adults.html"
     },
     "pageTitles": {
-        "calendarSubtitle": "If you know of an event that hasn't been added to the church calendar, please contact clerk@cksda.church with the details.",
         "calendarTitle": "CKSDA Church Calendar",
-        "collegeTitle": "CKSDA Church Collegiate Ministry",
-        "epochSubtitle": "Some memories from our yearly epoch",
+        "calendarSubtitle": "If you know of an event that hasn't been added to the church calendar, please contact clerk@cksda.church with the details.",
+        "childrenTitle": "CKSDA Church Children's Ministries",
+        "childrenSubtitle": "",
+        "collegiateTitle": "CKSDA Church Collegiate Ministry",
+        "collegiateSubtitle": "",
         "epochTitle": "CKSDA Church Epoch",
-        "musicMinistryTitle": "CKSDA Church Music Ministry",
-        "pathfindersTitle": "Pioneers Pathfinders Club"
+        "epochSubtitle": "Some memories from our yearly epoch",
+        "musicMinistriesTitle": "CKSDA Church Music Ministry",
+        "musicMinistriesSubtitle": "",
+        "pathfindersTitle": "Pioneers Pathfinders Club",
+        "pathfindersSubtitle": "",
+        "personalMinistriesTitle": "CKSDA Church Personal Ministries",
+        "personalMinistriesSubtitle": "",
+        "youngAdultMinistryTitle": "CKSDA Church Young Adults",
+        "youngAdultMinistrySubtitle": ""
     },
     "indexPage": {
         "browserTitle": "Collegedale Korean Seventh-Day Adventist Church",
@@ -37,7 +53,10 @@
         "browserTitle": "CKSDA Church: Calendar",
         "calFSMsg": "<a href=\"https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York\">Click Here To View Calendar Fullscreen</a>"
     },
-    "collegePage": {
+    "childrenPage": {
+        "browserTitle": "CKSDA Church: Children's Ministries"
+    },
+    "collegiatePage": {
         "browserTitle": "CKSDA Church: Collegiate",
         "importantLinksTitle": "Important Links",
         "link1": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSf3oeg4BY8MOzHEq1ppLYK7x8YEwT59FUPZ7ligOqFo0pv_-Q/viewform\" target=\"_blank\">Join our email list!</a>",
@@ -53,7 +72,7 @@
     "epochPage": {
         "browserTitle": "CKSDA Church: Epoch"
     },
-    "musicPage": {
+    "musicMinistriesPage": {
         "browserTitle": "CKSDA Church: Music Ministry",
         "socialMediaTitle": "Social Media"
     },
@@ -67,12 +86,18 @@
         "contactUsTitle": "Contact Us",
         "socialMediaTitle": "Social Media"
     },
+    "personalMinistriesPage": {
+        "browserTitle": "CKSDA Church: Personal Ministries"
+    },
+    "youngAdultMinistryPage": {
+        "browserTitle": "CKSDA Church: Young Adults"
+    },
     "footer": {
         "pastorsTitle": "Pastors",
         "headPastor": "Kangwon Yang",
         "headPastorTitle": "Head Pastor",
-        "assistantPastor": "Tony Dennis",
-        "assistantPastorTitle": "Assistant Pastor",
+        "associatePastor": "Daniel Jeon",
+        "associatePastorTitle": "Associate Pastor",
         "worshipServicesTitle": "Worship Services",
         "korean": "Korean",
         "english": "English",

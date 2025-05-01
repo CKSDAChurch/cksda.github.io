@@ -1,0 +1,36 @@
+#ministries {
+  position: relative;
+  display: inline-block;
+}
+
+#ministries:hover {
+  color: #48727A;
+}
+
+#ministries:hover .ministryPages {
+  display: block;
+}
+
+.ministryPages {
+  display: none;
+  position: absolute;
+  background-color: #042D2D;
+  min-width: 190px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.ministryPages a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.ministryPages a:hover {
+  background-color: #e1f2de
+}
+
+.ministryPage {
+  background-color: yellow;
+}
