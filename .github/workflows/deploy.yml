@@ -1,0 +1,71 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare site with API key
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          python3 - <<'PY'
+          import os, re, pathlib, sys, shutil
+          
+          key = os.environ.get('YOUTUBE_API_KEY', '')
+          if not key:
+              print('Error: YOUTUBE_API_KEY secret is not set.')
+              sys.exit(1)
+          
+          # Create build directory
+          build_dir = pathlib.Path('build')
+          if build_dir.exists():
+              shutil.rmtree(build_dir)
+          build_dir.mkdir()
+          
+          # Copy everything except .git and .github
+          root = pathlib.Path('.')
+          excludes = {'.git', '.github', 'build'}
+          for item in root.iterdir():
+              if item.name in excludes:
+                  continue
+              dest = build_dir / item.name
+              if item.is_dir():
+                  shutil.copytree(item, dest)
+              else:
+                  shutil.copy2(item, dest)
+          
+          # Inject API key into the build copy only
+          js_file = build_dir / 'assets/js/youtube.js'
+          text = js_file.read_text()
+          new_text = re.sub(
+              r"const YOUTUBE_API_KEY = 'REPLACE_WITH_YOUR_API_KEY';",
+              f"const YOUTUBE_API_KEY = '{key}';",
+              text,
+          )
+          js_file.write_text(new_text)
+          print('API key injected into build directory.')
+          PY
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
