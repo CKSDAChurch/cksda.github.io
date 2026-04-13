@@ -3,12 +3,8 @@
 	cksda.church/
 */
 
+// Responsive breakpoints
 (function ($) {
-
-	var $window = $(window),
-		$body = $('body');
-
-	// Breakpoints.
 	breakpoints({
 		wide: ['1281px', '1680px'],
 		normal: ['981px', '1280px'],
@@ -18,218 +14,279 @@
 		mobilep: [null, '480px']
 	});
 
-	// Play initial animations on page load.
-	$window.on('load', function () {
-		window.setTimeout(function () {
-			$body.removeClass('is-preload');
-		}, 100);
+	// Animate on load
+	$(window).on('load', () => {
+		setTimeout(() => $('body').removeClass('is-preload'), 100);
 	});
-
 })(jQuery);
 
-//// LANGUAGE SPECIFIC INFO ////
-let json;
-let lang = navigator.language;
-if (lang.startsWith("ko")) lang = "ko";
-else if (lang.startsWith("es")) lang = "es";
-else lang = "en";
-let langJson = "./assets/langStrings/" + lang + ".json";
+// ============ LANGUAGE & UTILITY ============
+const LANG = (() => {
+	const lang = navigator.language;
+	if (lang.startsWith("ko")) return "ko";
+	if (lang.startsWith("es")) return "es";
+	return "en";
+})();
 
-const getJson = async () => {
-	const response = await fetch(langJson);
-	const data = await response.json();
-	json = data;
-	return data;
+// Global lang variable for use by other scripts (e.g., youtube.js)
+window.lang = LANG;
+
+const CURRENT_PAGE = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+
+const LANG_PATH = `./assets/langStrings/${LANG}.json`;
+
+// Cache for DOM elements
+const domCache = new Map();
+
+const el = (id) => {
+	if (!domCache.has(id)) domCache.set(id, document.getElementById(id));
+	return domCache.get(id);
 };
 
-(async () => {
-	await getJson();
+const setHtml = (id, html) => {
+	const element = el(id);
+	if (element) element.innerHTML = html;
+};
 
-	//// ADDING HEADER ////
-	var logo = "<img src=\"./images/logo-light.png\"/>";
-	var title = json._title;
-	var subtitle = json._subtitle;
+const pageMatches = (url) => {
+	let normalized = url.toLowerCase().replace(/\.html$/, '');
+	// Handle root path
+	if (normalized === '/') normalized = 'index';
+	return CURRENT_PAGE === normalized || CURRENT_PAGE === `${normalized}.html`;
+};
 
-	var calendarUrl = json.menuItems.calendarURL;
-	var childrenUrl = json.menuItems.childrenMinistriesURL;
-	var collegiateUrl = json.menuItems.collegiateMinistryURL;
-	var connectionCardUrl = json.menuItems.connectionCardURL;
-	var epochUrl = json.menuItems.epochURL;
-	var homeUrl = json.menuItems.homeURL;
-	var musicUrl = json.menuItems.musicMinistriesURL;
-	var pathfindersUrl = json.menuItems.pathfindersURL;
-	var personalMinistriesUrl = json.menuItems.personalMinistriesURL;
-	var youngAdultsUrl = json.menuItems.youngAdultMinistryURL;
+const loadLanguageFile = async () => {
+	const response = await fetch(LANG_PATH);
+	if (!response.ok) throw new Error(`Failed to load ${LANG_PATH}`);
+	return response.json();
+};
 
-	var ministryPages  =`<span class="ministryPages">
-<a href="`+ childrenUrl + `">` + json.menuItems.childrenMinistries + `</a>
-<a href="`+ collegiateUrl + `">` + json.menuItems.collegiateMinistry + `</a>
-<a href="`+ musicUrl + `">` + json.menuItems.musicMinistries + `</a>
-<a href="`+ pathfindersUrl + `">` + json.menuItems.pathfinders + `</a>
-<a href="`+ personalMinistriesUrl + `">` + json.menuItems.personalMinistries + `</a>
-<a href="`+ youngAdultsUrl + `">` + json.menuItems.youngAdultMinistry + `</a>
-</span>`;
-
-	var urlList = `<a href="` + homeUrl + `">` + json.menuItems.home + `</a> |
-<a href="`+ connectionCardUrl + `">` + json.menuItems.connectionCard + `</a> |
-<a href="`+ calendarUrl + `">` + json.menuItems.calendar + `</a> |
-<span id="ministries">` + json.menuItems.ministries + ministryPages + `</span> |
-<a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">`+ json.menuItems.adventistGiving + `</a>`
-
-	var url = window.location.href
-	//// CALENDER PAGE ////
-	if (url.endsWith(calendarUrl) || url.endsWith(calendarUrl.substring(0, (calendarUrl.length - 5)))) {
-		title = json.pageTitles.calendarTitle;
-		subtitle = json.pageTitles.calendarSubtitle;
-
-		document.getElementById("browserTitle").innerHTML = json.calendarPage.browserTitle;
-		document.getElementById("calFSMsg").innerHTML = json.calendarPage.calFSMsg;
+// ============ PAGE CONFIGURATION ============
+const PAGE_CONFIG = {
+	calendar: {
+		match: (urls) => pageMatches(urls.calendarURL),
+		title: (json) => json.pageTitles.calendarTitle,
+		subtitle: (json) => json.pageTitles.calendarSubtitle,
+		init: (json) => ({
+			browserTitle: json.calendarPage.browserTitle,
+			calFSMsg: json.calendarPage.calFSMsg
+		})
+	},
+	children: {
+		match: (urls) => pageMatches(urls.childrenMinistriesURL),
+		title: (json) => json.pageTitles.childrenTitle,
+		subtitle: (json) => json.pageTitles.childrenSubtitle,
+		init: (json) => ({
+			browserTitle: json.childrenPage.browserTitle
+		})
+	},
+	collegiate: {
+		match: (urls) => pageMatches(urls.collegiateMinistryURL),
+		title: (json) => json.pageTitles.collegiateTitle,
+		subtitle: (json) => json.pageTitles.collegiateSubtitle,
+		init: (json) => ({
+			browserTitle: json.collegiatePage.browserTitle,
+			importantLinksTitle: json.collegiatePage.importantLinksTitle,
+			link1: json.collegiatePage.link1,
+			link2: json.collegiatePage.link2,
+			eventsTitle: json.collegiatePage.eventsTitle,
+			event1: json.collegiatePage.event1,
+			event2: json.collegiatePage.event2,
+			socialMediaTitle: json.collegiatePage.socialMediaTitle
+		})
+	},
+	connection: {
+		match: (urls) => pageMatches(urls.connectionCardURL),
+		title: () => undefined,
+		subtitle: () => undefined,
+		init: (json) => ({
+			browserTitle: json.connectionPage.browserTitle
+		})
+	},
+	epoch: {
+		match: (urls) => pageMatches(urls.epochURL),
+		title: (json) => json.pageTitles.epochTitle,
+		subtitle: (json) => json.pageTitles.epochSubtitle,
+		init: (json) => ({
+			browserTitle: json.epochPage.browserTitle
+		})
+	},
+	music: {
+		match: (urls) => pageMatches(urls.musicMinistriesURL),
+		title: (json) => json.pageTitles.musicMinistriesTitle,
+		subtitle: (json) => json.pageTitles.musicMinistriesSubtitle,
+		init: (json) => ({
+			browserTitle: json.musicMinistriesPage.browserTitle,
+			socialMediaTitle: json.musicMinistriesPage.socialMediaTitle
+		})
+	},
+	pathfinders: {
+		match: (urls) => pageMatches(urls.pathfindersURL),
+		title: (json) => json.pageTitles.pathfindersTitle,
+		subtitle: (json) => json.pageTitles.pathfindersSubtitle,
+		init: (json) => ({
+			browserTitle: json.pathfindersPage.browserTitle,
+			getReadyTitle: json.pathfindersPage.getReadyTitle,
+			whoTitle: json.pathfindersPage.whoTitle,
+			whatTitle: json.pathfindersPage.whatTitle,
+			registrationTitle: json.pathfindersPage.registrationTitle,
+			openingTitle: json.pathfindersPage.openingTitle,
+			contactUsTitle: json.pathfindersPage.contactUsTitle,
+			socialMediaTitle: json.pathfindersPage.socialMediaTitle
+		})
+	},
+	personalMinistries: {
+		match: (urls) => pageMatches(urls.personalMinistriesURL),
+		title: (json) => json.pageTitles.personalMinistriesTitle,
+		subtitle: (json) => json.pageTitles.personalMinistriesSubtitle,
+		init: (json) => ({
+			browserTitle: json.personalMinistriesPage.browserTitle
+		})
+	},
+	youngAdults: {
+		match: (urls) => pageMatches(urls.youngAdultMinistryURL),
+		title: (json) => json.pageTitles.youngAdultMinistryTitle,
+		subtitle: (json) => json.pageTitles.youngAdultMinistrySubtitle,
+		init: (json) => ({
+			browserTitle: json.youngAdultMinistryPage.browserTitle
+		})
+	},
+	index: {
+		match: () => true,
+		title: (json) => json._title,
+		subtitle: (json) => json._subtitle,
+		init: (json) => ({
+			browserTitle: json.indexPage.browserTitle,
+			missionParagraph: json.indexPage.missionParagraph,
+			titheTitle: json.indexPage.titheTitle,
+			titheParagraph1: json.indexPage.titheParagraph1,
+			titheParagraph2: json.indexPage.titheParagraph2
+		})
 	}
-	//// CHILDREN's MINISTRIES PAGE ////
-	else if (url.endsWith(childrenUrl) || url.endsWith(childrenUrl.substring(0, (childrenUrl.length - 5)))) {
-		title = json.pageTitles.childrenTitle;
-		subtitle = json.pageTitles.childrenSubtitle;
+};
 
-		document.getElementById("browserTitle").innerHTML = json.childrenPage.browserTitle;
+const findPageConfig = (urls) => {
+	for (const [, config] of Object.entries(PAGE_CONFIG)) {
+		if (config.match(urls)) return config;
 	}
-	//// COLLEGIATE PAGE ////
-	else if (url.endsWith(collegiateUrl) || url.endsWith(collegiateUrl.substring(0, (collegiateUrl.length - 5)))) {
-		title = json.pageTitles.collegiateTitle;
-		subtitle = json.pageTitles.collegiateSubtitle;
+	return PAGE_CONFIG.index;
+};
+// ============ HEADER/FOOTER BUILDERS ============
+const buildHeader = (json, title, subtitle) => {
+	const { menuItems } = json;
+	const { 
+		calendarURL: cal, 
+		childrenMinistriesURL: children, 
+		collegiateMinistryURL: collegiate,
+		connectionCardURL: connection, 
+		epochURL: epoch, 
+		homeURL: home, 
+		musicMinistriesURL: music, 
+		pathfindersURL: pathfinders, 
+		personalMinistriesURL: personal, 
+		youngAdultMinistryURL: young 
+	} = menuItems;
 
-		document.getElementById("browserTitle").innerHTML = json.collegiatePage.browserTitle;
-		document.getElementById("eventsTitle").innerHTML = json.collegiatePage.eventsTitle;
-		document.getElementById("event1").innerHTML = json.collegiatePage.event1;
-		document.getElementById("event2").innerHTML = json.collegiatePage.event2;
-		document.getElementById("socialMediaTitle").innerHTML = json.collegiatePage.socialMediaTitle;
-	}
-	//// CONNECTION PAGE ////
-	else if (url.endsWith(connectionCardUrl) || url.endsWith(connectionCardUrl.substring(0, (connectionCardUrl.length - 5)))) {
-		document.getElementById("browserTitle").innerHTML = json.connectionPage.browserTitle;
-	}
-	//// EPOCH PAGE ////
-	else if (url.endsWith(epochUrl) || url.endsWith(epochUrl.substring(0, (epochUrl.length - 5)))) {
-		title = json.pageTitles.epochTitle;
-		subtitle = json.pageTitles.epochSubtitle;
-		
-		document.getElementById("browserTitle").innerHTML = json.epochPage.browserTitle;
-	}
-	//// MUSIC PAGE ////
-	else if (url.endsWith(musicUrl) || url.endsWith(musicUrl.substring(0, (musicUrl.length - 5)))) {
-		title = json.pageTitles.musicMinistriesTitle;
-		subtitle = json.pageTitles.musicMinistriesSubtitle;
+	const ministryPages = [
+		{ url: children, label: menuItems.childrenMinistries, external: false },
+		{ url: collegiate, label: menuItems.collegiateMinistry, external: true },
+		{ url: music, label: menuItems.musicMinistries, external: false },
+		{ url: pathfinders, label: menuItems.pathfinders, external: false },
+		{ url: personal, label: menuItems.personalMinistries, external: false },
+		{ url: young, label: menuItems.youngAdultMinistry, external: false }
+	].filter(item => !pageMatches(item.url))
+	 .map(item => `<div class="ministryPage"><a href="${item.url}"${item.external ? ' target="_blank"' : ''}>${item.label}</a></div>`)
+	 .join('\n	');
 
-		document.getElementById("browserTitle").innerHTML = json.musicMinistriesPage.browserTitle;
-		document.getElementById("socialMediaTitle").innerHTML = json.musicMinistriesPage.socialMediaTitle;
-	}
-	//// PATHFINDERS PAGE ////
-	else if (url.endsWith(pathfindersUrl) || url.endsWith(pathfindersUrl.substring(0, (pathfindersUrl.length - 5)))) {
-		title = json.pageTitles.pathfindersTitle;
-		subtitle = json.pageTitles.pathfindersSubtitle;
+	const homeLink = pageMatches(home) ? '' : `<a href="${home}">${menuItems.home}</a> |`;
+	const connectionLink = pageMatches(connection) ? '' : `<a href="${connection}" target="_blank">${menuItems.connectionCard}</a> |`;
+	const calendarLink = pageMatches(cal) ? '' : `<a href="${cal}">${menuItems.calendar}</a> |`;
+	const ministriesDiv = ministryPages ? `<div id="ministries">${menuItems.ministries}<div class="ministryPages">${ministryPages}</div></div>` : '';
 
-		document.getElementById("browserTitle").innerHTML = json.pathfindersPage.browserTitle;
-		document.getElementById("getReadyTitle").innerHTML = json.pathfindersPage.getReadyTitle;
-		document.getElementById("whoTitle").innerHTML = json.pathfindersPage.whoTitle;
-		document.getElementById("whatTitle").innerHTML = json.pathfindersPage.whatTitle;
-		document.getElementById("registrationTitle").innerHTML = json.pathfindersPage.registrationTitle;
-		document.getElementById("openingTitle").innerHTML = json.pathfindersPage.openingTitle;
-		document.getElementById("contactUsTitle").innerHTML = json.pathfindersPage.contactUsTitle;
-		document.getElementById("socialMediaTitle").innerHTML = json.pathfindersPage.socialMediaTitle;
-	}
-	//// PERSONAL MINISTRIES PAGE ////
-	else if (url.endsWith(personalMinistriesUrl) || url.endsWith(personalMinistriesUrl.substring(0, (personalMinistriesUrl.length - 5)))) {
-		title = json.pageTitles.personalMinistriesTitle;
-		subtitle = json.pageTitles.personalMinistriesSubtitle;
+	let urlList = `${homeLink}
+	${connectionLink}
+	${calendarLink}
+	${ministriesDiv} |
+	<a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">${menuItems.adventistGiving}</a>`;
 
-		document.getElementById("browserTitle").innerHTML = json.personalMinistriesPage.browserTitle;
-	}
-	//// YOUNG ADULTS PAGE ////
-	else if (url.endsWith(youngAdultsUrl) || url.endsWith(youngAdultsUrl.substring(0, (youngAdultsUrl.length - 5)))) {
-		title = json.pageTitles.youngAdultMinistryTitle;
-		subtitle = json.pageTitles.youngAdultMinistrySubtitle;
+	// Clean up extra pipes
+	urlList = urlList.replace(/\s*\|\s*\|/g, ' |').replace(/^\s*\|\s*/, '').replace(/\s*\|\s*$/, '');
 
-		document.getElementById("browserTitle").innerHTML = json.youngAdultMinistryPage.browserTitle;
-	}
-	//// INDEX PAGE ////
-	else {
-		urlList = urlList.replace(`<a href="` + homeUrl + `">` + json.menuItems.home + `</a> |`, "");
+	return `<span class="logo icon"><img src="./images/logo-light.png"/></span>
+	<div class="url-list">${urlList}</div>
+	<h1>${title}</h1>
+	<p>${subtitle}</p>`;
+};
 
-		document.getElementById("browserTitle").innerHTML = json.indexPage.browserTitle;
-		document.getElementById("missionParagraph").innerHTML = json.indexPage.missionParagraph;
-		document.getElementById("titheTitle").innerHTML = json.indexPage.titheTitle;
-		document.getElementById("titheParagraph1").innerHTML = json.indexPage.titheParagraph1;
-		document.getElementById("titheParagraph2").innerHTML = json.indexPage.titheParagraph2;
-	}
+const buildFooter = (json) => {
+	const { footer, menuItems } = json;
+	const socialLinks = [
+		{ href: "https://x.com/CKSDAChurch", icon: "fa-x-twitter", label: "𝕏" },
+		{ href: "https://youtube.com/@CKSDAChurch", icon: "fa-youtube", label: "YouTube" },
+		{ href: "https://instagram.com/CKSDAChurch", icon: "fa-instagram", label: "Instagram" },
+		{ href: "https://fb.com/CKSDAChurch1990", icon: "fa-facebook-f", label: "Facebook" },
+		{ href: "https://linkedin.com/company/cksdachurch", icon: "fa-linkedin", label: "LinkedIn" }
+	];
 
-	var header = `<span class="logo icon">` + logo + `</span>
-	<p>`+ urlList + `</p>
-	<h1>`+ title + `</h1>
-	<p>` + subtitle + `</p>`;
+	const socials = socialLinks.map(link => 
+		`<li><a href="${link.href}" class="icon brands ${link.icon}" target="_blank"><span class="label">${link.label}</span></a></li>`
+	).join('\n	');
 
-	document.getElementById("header").innerHTML = header;
-
-
-	//// ADDING FOOTER ////
-	var pastorsTitle = json.footer.pastorsTitle;
-	var headPastor = json.footer.headPastor;
-	var headPastorTitle = json.footer.headPastorTitle;
-	var associatePastor = json.footer.associatePastor;
-	var associatePastorTitle = json.footer.associatePastorTitle;
-	var worshipServicesTitle = json.footer.worshipServicesTitle;
-	var korean = json.footer.korean;
-	var english = json.footer.english;
-	var ssTitle = json.footer.ssTitle;
-	var wsTitle = json.footer.wsTitle;
-	var enSStime = json.footer.enSStime;
-	var enWStime = json.footer.enWStime;
-	var koSStime = json.footer.koSStime;
-	var koWStime = json.footer.koWStime;
-	var mailingAddressTitle = json.footer.mailingAddressTitle;
-	var mailingAddress = json.footer.mailingAddress;
-	var phoneTitle = json.footer.phoneTitle;
-	var phone = json.footer.phone;
-	var websiteTitle = json.footer.websiteTitle;
-	var copyright = json.footer.copyright;
-	var advWebsiteTitle = json.footer.advWebsiteTitle;
-
-	var footer = `<div class="container medium">
-	<header class="major last"><h2>`+ pastorsTitle + `</h2></header>
+	return `<div class="container medium">
+	<header class="major last"><h2>${footer.pastorsTitle}</h2></header>
 	
-	<p><strong>`+ headPastorTitle + `</strong>:<br />` + headPastor + `</p>
-	<p><strong>`+ associatePastorTitle + `</strong>:<br />` + associatePastor + `</p>
+	<p><strong>${footer.headPastorTitle}</strong>:<br />${footer.headPastor}</p>
+	<p><strong>${footer.associatePastorTitle}</strong>:<br />${footer.associatePastor}</p>
 
-	<header class="major last"><h2>`+ worshipServicesTitle + `</h2></header>
+	<header class="major last"><h2>${footer.worshipServicesTitle}</h2></header>
 	<div class="WorshipServices">
 		<div class="WorshipChild">
-			<h4>`+ korean + `</h4>
-			<p><strong>`+ ssTitle + `</strong><br />` + koSStime + `<br />
-			<strong>`+ wsTitle + `</strong><br />` + koWStime + `</p>
+			<h4>${footer.korean}</h4>
+			<p><strong>${footer.ssTitle}</strong><br />${footer.koSStime}<br />
+			<strong>${footer.wsTitle}</strong><br />${footer.koWStime}</p>
 		</div>
 		<div class="WorshipChild">
-			<h4>`+ english + `</h4>
-			<p><strong>`+ ssTitle + `</strong><br />` + enSStime + `<br />
-			<strong>`+ wsTitle + `</strong><br />` + enWStime + `</p>
+			<h4>${footer.english}</h4>
+			<p><strong>${footer.ssTitle}</strong><br />${footer.enSStime}<br />
+			<strong>${footer.wsTitle}</strong><br />${footer.enWStime}</p>
 		</div>
 	</div>
 
-	<header class="major last"><h2>`+ mailingAddressTitle + `</h2></header>
-	<p>`+ mailingAddress + `<br />
-	<strong>`+ phoneTitle + `</strong>: ` + phone + `<br />
-	<strong>`+ websiteTitle + `</strong>: <a href="https://cksda.church">cksda.church</a></p>
+	<header class="major last"><h2>${footer.mailingAddressTitle}</h2></header>
+	<p>${footer.mailingAddress}<br />
+	<strong>${footer.phoneTitle}</strong>: ${footer.phone}<br />
+	<strong>${footer.websiteTitle}</strong>: <a href="https://cksda.church">cksda.church</a></p>
 	
 	<ul class="icons">
-	<li><a href="https://x.com/CKSDAChurch" class="icon brands fa-x-twitter" target="_blank"><span class="label">𝕏</span></a></li>
-	<li><a href="https://youtube.com/@CKSDAChurch" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-	<li><a href="https://instagram.com/CKSDAChurch" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-	<li><a href="https://fb.com/CKSDAChurch1990" class="icon brands fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
-	<li><a href="https://linkedin.com/company/cksdachurch" class="icon brands fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+	${socials}
 	</ul>
 	
 	<ul class="copyright">
-	<li>`+ copyright + `</li>
-	<li><a href="http://adventist.org">`+ advWebsiteTitle + `</a></li>
+	<li>${footer.copyright}</li>
+	<li><a href="http://adventist.org">${footer.advWebsiteTitle}</a></li>
 	</ul>
 	</div>`;
+};
 
-	document.getElementById("footer").innerHTML = footer;
+// ============ INITIALIZATION ============
+(async () => {
+	try {
+		const json = await loadLanguageFile();
+		const urls = json.menuItems;
+
+		// Find and execute page-specific config
+		const pageConfig = findPageConfig(urls);
+		const pageData = pageConfig.init(json);
+		Object.entries(pageData).forEach(([id, html]) => setHtml(id, html));
+
+		// Get page title/subtitle
+		const title = pageConfig.title(json) || json._title;
+		const subtitle = pageConfig.subtitle(json) || json._subtitle;
+
+		// Render header and footer
+		setHtml("header", buildHeader(json, title, subtitle));
+		setHtml("footer", buildFooter(json));
+	} catch (err) {
+		console.error("Failed to initialize page:", err);
+	}
 })();

@@ -13,7 +13,7 @@
         "connectionCardURL": "connection.html",
         "epochURL": "epoch.html",
         "home": "Home",
-        "homeURL": "index.html",
+        "homeURL": "/",
         "ministries": "Ministries",
         "musicMinistries": "Music Ministries",
         "musicMinistriesURL": "music.html",
@@ -43,10 +43,10 @@
         "youngAdultMinistrySubtitle": ""
     },
     "indexPage": {
-        "browserTitle": "Collegedale Korean Seventh-Day Adventist Church",
+        "browserTitle": "Collegedale Korean Seventh-day Adventist Church",
         "missionParagraph" : "Our mission is to proclaim to all people the everlasting gospel in the context of the Three Angels' messages of Revelation 14:6-12.",
         "titheTitle": "Tithe and Offering",
-        "titheParagraph1": "If you desire to give back to the Lord all of your firstfruits as soon as you have them, you can do it immediately through <a href=\"https://adventistgiving.org/#/org/ANTFHH/envelope/start\" target=\"_blank\">AdventistGiving</a>.</p>",
+        "titheParagraph1": "If you desire to give back to the Lord all of your firstfruits as soon as you have them, you can do it immediately through <a href=\"https://adventistgiving.org/#/org/ANTFHH/envelope/start\" target=\"_blank\">AdventistGiving</a>.",
         "titheParagraph2": "AdventistGiving allows you to return your tithe and give your offerings online from anywhere you have an internet connection."
     },
     "calendarPage": {
@@ -104,15 +104,15 @@
         "ssTitle": "Sabbath School",
         "wsTitle": "Worship Service",
         "enSStime": "10:00AM - 11:00AM",
-        "enWStime": "11:25AM - 12:45PM",
+        "enWStime": "11:20AM - 12:45PM",
         "koSStime": "09:30AM - 10:30AM",
-        "koWStime": "10:30AM - 11:15PM",
+        "koWStime": "10:30AM - 11:10AM",
         "mailingAddressTitle": "Mailing Address",
         "mailingAddress": "4717 Ooltewah Ringgold Road<br />Ooltewah, TN 37363",
         "phoneTitle": "Phone",
         "phone": "+1 (423) 453-3004",
         "websiteTitle": "Website",
-        "copyright": "&copy; Collegedale Korean Seventh-Day Adventist Church",
-        "advWebsiteTitle": "Seventh-Day Adventist Church Official Website"
+        "copyright": "&copy; Collegedale Korean Seventh-day Adventist Church",
+        "advWebsiteTitle": "Seventh-day Adventist Church Official Website"
     }
 }
