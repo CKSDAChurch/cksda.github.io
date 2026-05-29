@@ -104,6 +104,97 @@ async function getLatestVideoFromPlaylist(playlistId) {
     return null;
 }
 
+//// *********** Helper function to get next UPCOMING/SCHEDULED video from playlist *********** ////
+async function getNextScheduledVideoFromPlaylist(playlistId, targetDate = null) {
+    try {
+        // Test the API key first with a simple call
+        const testResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/channels?part=id&id=UCwWsr1Z3S9SY-DfkIwUMSYQ&key=${YOUTUBE_API_KEY}`
+        );
+        const testData = await testResponse.json();
+
+        if (testData.error) {
+            console.error('YouTube API key test failed:', testData.error);
+            return null;
+        }
+
+        // Fetch recent playlist items (includes scheduled future items)
+        const playlistResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&key=${YOUTUBE_API_KEY}&maxResults=50`
+        );
+        const playlistData = await playlistResponse.json();
+
+        if (playlistData.error) {
+            console.error('YouTube API Error fetching playlist:', playlistData.error);
+            return null;
+        }
+
+        if (!playlistData.items || playlistData.items.length === 0) {
+            console.warn('No items in playlist');
+            return null;
+        }
+
+        // Extract video IDs and fetch their detailed status
+        const videoIds = playlistData.items.map(item => item.snippet.resourceId.videoId).join(',');
+
+        const detailsResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/videos?part=status,liveStreamingDetails,snippet&id=${videoIds}&key=${YOUTUBE_API_KEY}`
+        );
+        const detailsData = await detailsResponse.json();
+
+        if (detailsData.error) {
+            console.error('YouTube API Error fetching video details:', detailsData.error);
+            return null;
+        }
+
+        if (!detailsData.items) {
+            console.warn('No video details found');
+            return null;
+        }
+
+        // Filter for videos that are currently live OR scheduled/upcoming on the target date
+        const upcomingVideos = detailsData.items.filter(video => {
+            const broadcastContent = video.snippet.liveBroadcastContent;
+            const liveDetails = video.liveStreamingDetails;
+            // Currently airing live — always include
+            if (broadcastContent === 'live') return true;
+            // Scheduled future broadcast or premiere (not yet started)
+            if (broadcastContent === 'upcoming' && liveDetails && liveDetails.scheduledStartTime && !liveDetails.actualStartTime) {
+                // When a target date (YYYY-MM-DD) is provided, only match videos scheduled on that date.
+                // YouTube returns scheduledStartTime as a UTC ISO string; mid-day services are UTC same-day.
+                if (targetDate && !liveDetails.scheduledStartTime.startsWith(targetDate)) return false;
+                return true;
+            }
+            return false;
+        });
+
+        console.log(`YouTube: Found ${upcomingVideos.length} upcoming/live videos from ${detailsData.items.length} total`);
+
+        if (upcomingVideos.length === 0) {
+            console.warn('YouTube: No upcoming scheduled videos found in playlist');
+            return null;
+        }
+
+        // Live now takes priority; among scheduled, return the soonest
+        upcomingVideos.sort((a, b) => {
+            const aLive = a.snippet.liveBroadcastContent === 'live';
+            const bLive = b.snippet.liveBroadcastContent === 'live';
+            if (aLive && !bLive) return -1;
+            if (!aLive && bLive) return 1;
+            const aTime = new Date(a.liveStreamingDetails?.scheduledStartTime || 0);
+            const bTime = new Date(b.liveStreamingDetails?.scheduledStartTime || 0);
+            return aTime - bTime;
+        });
+
+        console.log('YouTube: Returning next upcoming video:', upcomingVideos[0].id);
+        return upcomingVideos[0].id;
+
+    } catch (error) {
+        console.error('YouTube: Failed to fetch next scheduled video from playlist:', error);
+    }
+    return null;
+}
+
 //// *********** Livestream YouTube *********** ////
 var now = new Date();
 var hour = now.getHours();

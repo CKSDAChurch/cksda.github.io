@@ -195,11 +195,11 @@ const buildHeader = (json, title, subtitle) => {
 		{ url: personal, label: menuItems.personalMinistries, external: false },
 		{ url: young, label: menuItems.youngAdultMinistry, external: false }
 	].filter(item => !pageMatches(item.url))
-	 .map(item => `<div class="ministryPage"><a href="${item.url}"${item.external ? ' target="_blank"' : ''}>${item.label}</a></div>`)
+	 .map(item => `<div class="ministryPage"><a href="${item.url}"${item.external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${item.label}</a></div>`)
 	 .join('\n	');
 
 	const homeLink = pageMatches(home) ? '' : `<a href="${home}">${menuItems.home}</a> |`;
-	const connectionLink = pageMatches(connection) ? '' : `<a href="${connection}" target="_blank">${menuItems.connectionCard}</a> |`;
+	const connectionLink = pageMatches(connection) ? '' : `<a href="${connection}" target="_blank" rel="noopener noreferrer">${menuItems.connectionCard}</a> |`;
 	const calendarLink = pageMatches(cal) ? '' : `<a href="${cal}">${menuItems.calendar}</a> |`;
 	const ministriesDiv = ministryPages ? `<div id="ministries">${menuItems.ministries}<div class="ministryPages">${ministryPages}</div></div>` : '';
 
@@ -207,7 +207,7 @@ const buildHeader = (json, title, subtitle) => {
 	${connectionLink}
 	${calendarLink}
 	${ministriesDiv} |
-	<a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank">${menuItems.adventistGiving}</a>`;
+	<a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank" rel="noopener">${menuItems.adventistGiving}</a>`;
 
 	// Clean up extra pipes
 	urlList = urlList.replace(/\s*\|\s*\|/g, ' |').replace(/^\s*\|\s*/, '').replace(/\s*\|\s*$/, '');
@@ -219,7 +219,7 @@ const buildHeader = (json, title, subtitle) => {
 };
 
 const buildFooter = (json) => {
-	const { footer, menuItems } = json;
+	const { footer } = json;
 	const socialLinks = [
 		{ href: "https://x.com/CKSDAChurch", icon: "fa-x-twitter", label: "𝕏" },
 		{ href: "https://youtube.com/@CKSDAChurch", icon: "fa-youtube", label: "YouTube" },
@@ -229,7 +229,7 @@ const buildFooter = (json) => {
 	];
 
 	const socials = socialLinks.map(link => 
-		`<li><a href="${link.href}" class="icon brands ${link.icon}" target="_blank"><span class="label">${link.label}</span></a></li>`
+		`<li><a href="${link.href}" class="icon brands ${link.icon}" target="_blank" rel="noopener noreferrer"><span class="label">${link.label}</span></a></li>`
 	).join('\n	');
 
 	return `<div class="container medium">
@@ -269,6 +269,7 @@ const buildFooter = (json) => {
 };
 
 // ============ INITIALIZATION ============
+
 (async () => {
 	try {
 		const json = await loadLanguageFile();

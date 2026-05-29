@@ -1,0 +1,460 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+:root {
+    --teal: #3e8391;
+    --teal-deep: #2c545e;
+    --gray: #9b9b9b;
+    --gray-line: #888;
+    --ink: #2b2b2b;
+    --link: #1a5ad4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    background-color: #ffffff;
+    color: var(--ink);
+    font-family: 'Lora', Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: var(--link);
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #0f3f99;
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid #0f3f99;
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 8px;
+    z-index: 1000;
+    background: #ffffff;
+    color: #0f3f99;
+    border: 2px solid #0f3f99;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: 'Mulish', Arial, sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    left: 8px;
+}
+
+.newsletter-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: #ffffff;
+}
+
+/* Header */
+.newsletter-header {
+    background-color: var(--teal);
+    color: #ffffff;
+    padding: 52px 40px 56px;
+    text-align: center;
+}
+
+.newsletter-header h1 {
+    font-family: 'Mulish', 'Arial Black', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 6vw, 5.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+}
+
+.newsletter-header .title-line {
+    display: block;
+    white-space: nowrap;
+}
+
+.newsletter-header .date-chips {
+    margin-top: 22px;
+    justify-content: center;
+}
+
+/* Date / Sunset chips */
+
+.date-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.date-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 22px;
+    border-radius: 999px;
+    font-family: 'Mulish', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.date-chip--sabbath {
+    background-color: rgba(255,255,255,0.22);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.date-chip--sunset {
+    background-color: rgba(255,255,255,0.22);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+    font-weight: 600;
+}
+
+/* Announcement (warm linen box) */
+.announcement {
+    margin: 0 60px 14px;
+    padding: 36px 30px;
+    background-color: #f5f0e8;
+    border: 1px solid #d9cfc0;
+    text-align: center;
+    font-family: 'Mulish', Arial, sans-serif;
+}
+
+.announcement p {
+    margin: 6px 0;
+}
+
+.verse-of-day {
+    padding: 28px 26px;
+}
+
+.verse-kicker {
+    font-family: 'Mulish', Arial, sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+#verse-text {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1.18rem;
+    line-height: 1.5;
+    margin-top: 10px;
+    margin-bottom: 14px;
+}
+
+.verse-reference {
+    font-family: 'Mulish', Arial, sans-serif;
+    font-size: 1.02rem;
+    font-weight: 700;
+}
+
+.verse-devotional {
+    margin-top: 10px;
+    font-family: 'Mulish', Arial, sans-serif;
+    font-size: 0.95rem;
+}
+
+/* Service info (white bordered box, joins under announcement) */
+.service-info {
+    margin: 0 60px 14px;
+}
+
+.service-info .info-box {
+    border: 1px solid var(--gray-line);
+    border-top: none;
+    padding: 40px 24px 48px;
+    text-align: center;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.75;
+    background: #fff;
+}
+
+.service-info .info-box p {
+    margin: 12px 0;
+}
+
+.service-info .info-box strong {
+    font-family: 'Mulish', Arial, sans-serif;
+    font-weight: 700;
+    color: var(--teal-deep);
+}
+
+.service-info .info-box a.link {
+    font-style: italic;
+}
+
+/* Church-wide note */
+.church-notice {
+    margin: 0 60px 14px;
+}
+
+.church-notice-box {
+    border: 1px solid var(--gray-line);
+    padding: 18px 24px;
+    background: #fff;
+    font-family: 'Mulish', Arial, sans-serif;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.church-notice-box strong {
+    color: var(--teal-deep);
+}
+
+.notice-cta-title {
+    margin-bottom: 6px;
+}
+
+.notice-cta-message {
+    margin: 0 0 10px;
+    font-size: 1.02rem;
+}
+
+.notice-cta-sub {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    color: #5d5d5d;
+}
+
+.notice-cta-link .link {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--teal);
+    border-radius: 999px;
+    background: #eef7f8;
+    color: var(--teal-deep);
+    text-decoration: none;
+    font-family: 'Mulish', Arial, sans-serif;
+    font-weight: 700;
+}
+
+.notice-cta-link .link:hover {
+    background: #e2f2f4;
+    border-color: var(--teal-deep);
+}
+
+.notice-cta-link .link:focus-visible,
+.lesson-tile:focus-visible {
+    outline: 3px solid #0f3f99;
+    outline-offset: 2px;
+}
+
+.duty-schedule {
+    list-style: none;
+    padding: 0;
+    margin: 8px auto 10px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.duty-row {
+    display: flex;
+    gap: 14px;
+    padding: 5px 20px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    text-align: left;
+}
+
+.duty-week {
+    color: var(--teal-deep);
+    font-weight: 600;
+    min-width: 64px;
+}
+
+.duty-row--active {
+    background: #fffbcc;
+    font-weight: 700;
+}
+
+.duty-thanks {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Sabbath School Lessons grid */
+.lessons-section {
+    margin: 0 60px 30px;
+}
+
+.lessons-heading {
+    background-color: var(--teal);
+    color: #fff;
+    text-align: center;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 14px 20px;
+    margin: 0 0 8px;
+}
+
+.lessons-note {
+    text-align: center;
+    font-family: 'Mulish', Arial, sans-serif;
+    font-size: 0.82rem;
+    color: var(--ink);
+    margin: 0 0 12px;
+    opacity: 0.75;
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.lesson-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 8px;
+    background: #fff;
+    border: 1px solid var(--gray-line);
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.lesson-tile:hover {
+    background: #f0f9f9;
+    border-color: var(--teal);
+}
+
+.lesson-group {
+    font-family: 'Mulish', Arial, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.lesson-lang {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.85rem;
+    color: var(--link);
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .date-info,
+    .announcement,
+    .service-info,
+    #rides-section,
+    .church-notice,
+    .lessons-section {
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+
+    .date-chip {
+        font-size: 0.78rem;
+        padding: 7px 16px;
+    }
+
+    .announcement {
+        padding: 28px 20px;
+    }
+
+    #verse-text {
+        font-size: 1.05rem;
+    }
+
+    .service-info .info-box {
+        padding: 28px 22px;
+    }
+
+    .church-notice-box {
+        padding: 16px 18px;
+    }
+
+    .lessons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .newsletter-header {
+        padding: 34px 16px 36px;
+    }
+
+    .newsletter-header h1 {
+        font-size: clamp(1.62rem, 7.1vw, 1.9rem);
+        line-height: 1.08;
+    }
+
+    .date-chip {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+    }
+
+    .announcement,
+    .service-info,
+    #rides-section,
+    .church-notice,
+    .lessons-section {
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+
+    .announcement {
+        padding: 22px 14px;
+    }
+
+    .verse-kicker {
+        font-size: 0.95rem;
+    }
+
+    #verse-text {
+        font-size: 0.98rem;
+        margin-top: 8px;
+        margin-bottom: 10px;
+    }
+
+    .verse-reference {
+        font-size: 0.9rem;
+    }
+
+    .verse-devotional {
+        font-size: 0.84rem;
+    }
+
+    .church-notice-box {
+        font-size: 0.92rem;
+    }
+
+    .lessons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lesson-group {
+        font-size: 0.68rem;
+    }
+}
