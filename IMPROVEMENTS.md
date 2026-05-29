@@ -8,15 +8,15 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 ## 1. Analytics & Privacy
 
-- [ ] **Publish a privacy policy and cookie policy** — Disclose what GA4 and Clarity collect, retention periods, and how to opt out.
-- [ ] **Cookie consent banner** — Both GA4 and Clarity set cookies; EU/UK and California users should be given an opt-in/opt-out.
-- [ ] **Adopt Google Consent Mode v2** — Even without a full CMP, this lets you respect consent signals.
+- [x] **Publish a privacy policy and cookie policy** — Disclose what GA4 and Clarity collect, retention periods, and how to opt out.
+- [x] **Cookie consent banner** — Both GA4 and Clarity set cookies; EU/UK and California users should be given an opt-in/opt-out.
+- [x] **Adopt Google Consent Mode v2** — Even without a full CMP, this lets you respect consent signals.
 
 ---
 
 ## 2. UX / Content
 
-- [ ] **Add a privacy policy** — Required given GA + Clarity tracking. Create `/privacy.html` and link from the footer.
+- [x] **Add a privacy policy** — Required given GA + Clarity tracking. Create `/privacy.html` and link from the footer.
 - [ ] **Clean up placeholder Epoch content** — [epoch.html](epoch.html#L41), [epoch.html](epoch.html#L44), [epoch.html](epoch.html#L59) show "Video information is currently unavailable" for past years. Update or hide.
 - [ ] **Rethink redirect pages** — [college.html](college.html), [connection.html](connection.html), [directory.html](directory.html) silently meta-refresh. Either remove (and update links) or show a brief loading state.
 - [ ] **Fix mislabeled IDs in [music.html](music.html)** — [music.html](music.html#L20) and [music.html](music.html#L22) use `id="personalMinistriesTitle"` / `id="personalMinistriesBlurb"` for music content; rename to match.

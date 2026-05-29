@@ -264,6 +264,7 @@ const buildFooter = (json) => {
 	<ul class="copyright">
 	<li>${footer.copyright}</li>
 	<li><a href="http://adventist.org">${footer.advWebsiteTitle}</a></li>
+	<li><a href="/privacy.html">Privacy Policy</a></li>
 	</ul>
 	</div>`;
 };

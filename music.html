@@ -17,23 +17,24 @@
     <meta name="twitter:image" content="https://cksda.church/images/logo-light.png">	<link rel="stylesheet" href="assets/css/main.css" />
 	<link rel="icon" href="./images/favicon.png" />
 
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK9DNYP0NB"></script>
+	<!-- Google Consent Mode v2 — set defaults before gtag.js loads -->
 	<script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag() { dataLayer.push(arguments); }
-		gtag('js', new Date());
-
-		gtag('config', 'G-LK9DNYP0NB');
+		gtag('consent', 'default', {
+			'analytics_storage': 'denied',
+			'ad_storage': 'denied',
+			'ad_user_data': 'denied',
+			'ad_personalization': 'denied',
+			'wait_for_update': 500
+		});
 	</script>
 
-	<!-- Microsoft Clarity -->
-	<script type="text/javascript">
-		(function (c, l, a, r, i, t, y) {
-			c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-			t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-			y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-		})(window, document, "clarity", "script", "hik5wt3z51");
+	<!-- Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK9DNYP0NB"></script>
+	<script>
+		gtag('js', new Date());
+		gtag('config', 'G-LK9DNYP0NB');
 	</script>
 </head>
 
@@ -101,6 +102,7 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script src="assets/js/consent.js"></script>
 
 </body>
 
