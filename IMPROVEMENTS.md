@@ -74,10 +74,10 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 ## 7. Responsive Design / Mobile
 
-- [ ] **Audit fixed-size iframe embeds** — [calendar.html](calendar.html#L38) uses fixed `height="650px"`; consider a responsive wrapper with aspect-ratio.
-- [ ] **Move inline `style` to CSS** — e.g., [epoch.html](epoch.html#L46) hardcodes `max-width: 1280px` inline; using a class lets media queries adjust on small screens.
-- [ ] **Touch-target sizing** — Verify nav and footer links meet ~44×44 px touch targets on mobile.
-- [ ] **Document mobile testing** — Add a manual checklist (or Playwright snapshot test) for the most-visited pages on phone viewports.
+- [x] **Audit fixed-size iframe embeds** — [calendar.html](calendar.html#L38) uses fixed `height="650px"`; consider a responsive wrapper with aspect-ratio.
+- [x] **Move inline `style` to CSS** — e.g., [epoch.html](epoch.html#L46) hardcodes `max-width: 1280px` inline; using a class lets media queries adjust on small screens.
+- [x] **Touch-target sizing** — Verify nav and footer links meet ~44×44 px touch targets on mobile.
+- [x] **Document mobile testing** — Add a manual checklist (or Playwright snapshot test) for the most-visited pages on phone viewports.
 
 ---
 
