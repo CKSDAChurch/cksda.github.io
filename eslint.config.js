@@ -3,7 +3,7 @@ const globals = require('globals');
 
 module.exports = [
 	{
-		files: ['eslint.config.js', 'playwright.config.js'],
+			files: ['eslint.config.js', 'playwright.config.js', 'scripts/**/*.js'],
 		languageOptions: {
 			ecmaVersion: 2022,
 			sourceType: 'commonjs',
@@ -33,7 +33,8 @@ module.exports = [
 				breakpoints: 'readonly',
 				gtag: 'readonly',
 				YT: 'readonly',
-				lang: 'readonly'
+				lang: 'readonly',
+				__YOUTUBE_API_KEY__: 'readonly'
 			}
 		},
 		rules: {

@@ -105,12 +105,11 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 ## 10. Build / Tooling / DX
 
-- [ ] **Add local dev instructions** — A `package.json` with `npm start` running a simple static server would lower contributor friction.
-- [ ] **Expand GitHub Actions workflow** — [.github/workflows/deploy.yml](.github/workflows/deploy.yml) should also run a linter and a link checker (e.g., `lychee-action`).
-- [ ] **Add a link checker to CI** — External links to Google Forms, YouTube, SharePoint break silently otherwise.
-- [ ] **Reconsider API-key injection approach** — The Python regex replace is brittle; a small build step (Node/esbuild) reading from `process.env` would be cleaner.
+- [x] **Add local dev instructions** — README now includes `npm install`, `npm start`, and maintenance commands; `package.json` exposes `npm start` via `http-server`.
+- [x] **Expand GitHub Actions workflow** — [.github/workflows/deploy.yml](.github/workflows/deploy.yml) now runs linting and link checks before deployment.
+- [x] **Add a link checker to CI** — Deploy workflow now uses `lycheeverse/lychee-action` against HTML/XML/Markdown files.
+- [x] **Harden API-key injection** — Replaced Python regex patching with esbuild `define`; `__YOUTUBE_API_KEY__` is substituted before minification in `scripts/build.js`, and the deploy workflow now runs `npm run build` instead of patching built files.
 - [x] **Add a CSS/JS minification step** — Done via `esbuild` in Section 6.
-- [ ] **Add `.editorconfig` and `.prettierrc`** — As noted under Code Quality.
 
 ---
 

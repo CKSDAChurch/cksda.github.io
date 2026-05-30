@@ -3,9 +3,9 @@
 	cksda.church/
 */
 
-// YouTube Data API Key - DO NOT commit an actual key to version control.
-// Replace this placeholder with a restricted API key during deployment.
-const YOUTUBE_API_KEY = 'REPLACE_WITH_YOUR_API_KEY';
+// YouTube Data API Key — injected at build time by scripts/build.js via esbuild `define`.
+// __YOUTUBE_API_KEY__ is replaced with the real key before minification; never commit a real key here.
+const YOUTUBE_API_KEY = __YOUTUBE_API_KEY__;
 
 //// *********** Helper function to get latest PUBLISHED video from playlist (excluding scheduled) *********** ////
 async function getLatestVideoFromPlaylist(playlistId) {
