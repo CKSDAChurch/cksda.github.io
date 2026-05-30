@@ -1,0 +1,34 @@
+{
+	"extends": "stylelint-config-standard",
+	"ignoreFiles": [
+		"assets/css/*.min.css"
+	],
+	"rules": {
+		"selector-class-pattern": null,
+		"no-descending-specificity": null,
+		"rule-empty-line-before": null,
+		"media-feature-range-notation": null,
+		"number-max-precision": null,
+		"length-zero-no-unit": null,
+		"no-duplicate-selectors": null,
+		"comment-whitespace-inside": null,
+		"comment-empty-line-before": null,
+		"property-no-vendor-prefix": null,
+		"selector-no-vendor-prefix": null,
+		"selector-pseudo-element-colon-notation": null,
+		"color-function-alias-notation": null,
+		"color-hex-length": null,
+		"import-notation": null,
+		"declaration-block-no-shorthand-property-overrides": null,
+		"shorthand-property-no-redundant-values": null,
+		"font-family-no-missing-generic-family-keyword": null,
+		"declaration-property-value-no-unknown": null,
+		"value-no-vendor-prefix": null,
+		"declaration-empty-line-before": null,
+		"at-rule-empty-line-before": null,
+		"value-keyword-case": null,
+		"font-family-name-quotes": null,
+		"color-function-notation": "legacy",
+		"alpha-value-notation": "number"
+	}
+}

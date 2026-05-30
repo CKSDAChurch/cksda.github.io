@@ -93,13 +93,13 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 ## 9. Code Quality & Maintainability
 
-- [ ] **Centralize header/footer/analytics** — The GA snippet, Clarity snippet, and `<div id="header">`/`<div id="footer">` are duplicated in every HTML file. Consider a static site generator (11ty, Hugo, Astro) or at minimum a small build script to inject shared partials.
-- [ ] **Centralize analytics IDs** — `G-LK9DNYP0NB` and `hik5wt3z51` are hardcoded in every page; move to a shared partial once partials exist.
-- [ ] **Extract page config from `main.js`** — The large `PAGE_CONFIG` block in [assets/js/main.js](assets/js/main.js) is hard to scan; move it to its own module or a JSON file.
-- [ ] **Replace jQuery DOM calls with vanilla** — Most uses are simple selectors that don't need jQuery.
-- [ ] **Add `.editorconfig` + Prettier** — Indentation and quote style are inconsistent across files. A formatter + editorconfig keeps things tidy.
-- [ ] **Add ESLint + Stylelint** — Catch unused vars, undefined globals, and CSS mistakes before deploy.
-- [ ] **Standardize modern JS** — Mix of older patterns and ES6; pick a baseline (ES2020+) and apply consistently.
+- [x] **Centralize header/footer/analytics** — Header/footer are injected from `main.js`; analytics now load from shared `assets/js/analytics.js` and consent logic stays in `assets/js/consent.js`.
+- [x] **Centralize analytics IDs** — Analytics IDs now live in shared JS (`assets/js/analytics.js` / `assets/js/consent.js`) instead of repeated page markup.
+- [x] **Extract page config from `main.js`** — Moved page mapping to `assets/js/page-config.js` and load it before `main.js` on content pages.
+- [x] **Replace jQuery DOM calls with vanilla** — Completed earlier when `jquery.min.js` and the remaining jQuery selectors were removed.
+- [x] **Add `.editorconfig` + Prettier** — `.editorconfig` and `.prettierrc.json` are present in the repo.
+- [x] **Add ESLint + Stylelint** — Added `eslint.config.js` + `.stylelintrc.json` with `npm run lint` (`lint:js`, `lint:css`) to catch issues before deploy.
+- [x] **Standardize modern JS** — Set ES2022 baseline in ESLint, extracted `PAGE_CONFIG` to a dedicated module, and removed redundant in-file config duplication.
 
 ---
 

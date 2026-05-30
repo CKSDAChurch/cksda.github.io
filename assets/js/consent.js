@@ -2,7 +2,8 @@
 	'use strict';
 
 	var CONSENT_KEY = 'cksdaConsent';
-	var CLARITY_ID = 'hik5wt3z51';
+	var analyticsConfig = window.CKSDA_ANALYTICS || {};
+	var CLARITY_ID = analyticsConfig.clarityId || 'hik5wt3z51';
 
 	function loadClarity() {
 		(function (c, l, a, r, i, t, y) {

@@ -221,6 +221,20 @@
 			}
 		}
 
+		// If the target Sabbath is TODAY and no upcoming/live video was found (service already ended),
+		// fall back to the most recently published video from the playlist — that's today's service.
+		// This keeps the speaker name correct on Sabbath afternoon without waiting for midnight.
+		if (!videoId && typeof getLatestVideoFromPlaylist === 'function') {
+			const nowParts = zonedParts(new Date(), TIME_ZONE);
+			const todayStr = `${nowParts.year}-${pad2(nowParts.month)}-${pad2(nowParts.day)}`;
+			if (targetDateStr === todayStr) {
+				videoId = await getLatestVideoFromPlaylist(EM_PLAYLIST).catch(() => null);
+				if (videoId) {
+					els.livestreamLink.href = `https://www.youtube.com/watch?v=${videoId}`;
+				}
+			}
+		}
+
 		// Fall back to the ID in the hardcoded link
 		if (!videoId) videoId = getYoutubeVideoId(els.livestreamLink.href);
 		if (!videoId) return;
