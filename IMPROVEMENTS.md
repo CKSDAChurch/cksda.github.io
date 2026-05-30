@@ -83,11 +83,11 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 ## 8. Internationalization (i18n)
 
-- [ ] **Fill in missing keys in `es.json` and `ko.json`** — Compare to [assets/langStrings/en.json](assets/langStrings/en.json) and add any missing translations; consider a small script to detect drift.
-- [ ] **Move HTML out of translation strings** — As noted under Security; also makes translator work easier.
-- [ ] **Make non-English `<html lang>` dynamic** — When the language switches, update the `<html lang>` attribute (currently always `en` even after switch).
-- [ ] **Localize date/time formatting** — Service/newsletter times appear in English format only; use `Intl.DateTimeFormat` keyed to the active language.
-- [ ] **Add a fallback warning for unsupported languages** — [assets/js/main.js](assets/js/main.js) silently falls back to English; consider logging or a visible notice for debugging.
+- [x] **Fill in missing keys in `es.json` and `ko.json`** — Restructured `es.json` to align key names with `en.json` (`collegiatePage`, `musicMinistriesPage`, correct `menuItems` keys); added missing page sections (`childrenPage`, `personalMinistriesPage`, `youngAdultMinistryPage`) and missing `pageTitles` entries in both files.
+- [x] **Move HTML out of translation strings** — Already completed in Section 3; confirmed no HTML markup remains in any JSON file.
+- [x] **Make non-English `<html lang>` dynamic** — `document.documentElement.lang` is now set to the detected `LANG` code (`en`/`es`/`ko`) at runtime in `main.js`.
+- [x] **Localize date/time formatting** — Service/newsletter times stored as `HH:MM-HH:MM` in JSON; `formatTimeRange()` in `main.js` uses `Intl.DateTimeFormat` keyed to the active `LANG` to render locale-appropriate time strings.
+- [x] **Add a fallback warning for unsupported languages** — `main.js` now logs a `console.warn` when the browser language has no matching translation and falls back to English.
 
 ---
 
