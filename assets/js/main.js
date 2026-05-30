@@ -215,7 +215,8 @@ const buildHeader = (json, title, subtitle) => {
 	// Clean up extra pipes
 	urlList = urlList.replace(/\s*\|\s*\|/g, ' |').replace(/^\s*\|\s*/, '').replace(/\s*\|\s*$/, '');
 
-	return `<span class="logo icon"><img src="./images/logo-light.png"/></span>
+	return `<a class="skip-to-content" href="#main">Skip to main content</a>
+	<span class="logo icon"><img src="./images/logo-light.png" alt="Collegedale Korean SDA Church logo"/></span>
 	<div class="url-list">${urlList}</div>
 	<h1>${title}</h1>
 	<p>${subtitle}</p>`;
@@ -232,7 +233,7 @@ const buildFooter = (json) => {
 	];
 
 	const socials = socialLinks.map(link => 
-		`<li><a href="${link.href}" class="icon brands ${link.icon}" target="_blank" rel="noopener noreferrer"><span class="label">${link.label}</span></a></li>`
+		`<li><a href="${link.href}" class="icon brands ${link.icon}" target="_blank" rel="noopener noreferrer" aria-label="${link.label} (opens in new tab)"><span class="label" aria-hidden="true">${link.label}</span></a></li>`
 	).join('\n	');
 
 	return `<div class="container medium">

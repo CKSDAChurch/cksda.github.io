@@ -337,7 +337,6 @@
 		}
 
 		if (els.devotionalLink) {
-			els.devotionalLink.textContent = devotionalText;
 			els.devotionalLink.href = devotionalUrl;
 		}
 

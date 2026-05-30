@@ -37,15 +37,15 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 ## 4. Accessibility (a11y)
 
-- [ ] **Empty alt text on logo images** — [pathfinders.html](pathfinders.html#L42) and [pathfinders.html](pathfinders.html#L77) have `alt=""` on logos. Provide descriptive alt text like `alt="Pioneers Pathfinders Club logo"`.
-- [ ] **Use more semantic HTML** — Many pages use `<div>` for content that should be `<section>`, `<article>`, `<nav>`, or `<main>`. This improves screen-reader navigation.
-- [ ] **No skip-to-content link** — Keyboard and screen-reader users must tab through the full header on every page. Add a hidden skip link that jumps to main content.
-- [ ] **Ensure visible focus indicators** — Some interactive elements/iframes may have focus styles hidden by inline styles. Verify `:focus` rings are visible site-wide.
-- [ ] **Add `aria-label` to icon-only links** — Social media links in [pathfinders.html](pathfinders.html#L71-L74) rely on visually hidden `<span class="label">` only. Add `aria-label` on the `<a>` for redundancy.
-- [ ] **Audit heading hierarchy** — Some pages skip heading levels (e.g., `<h1>` → `<h3>`). Keep a logical order starting with one `<h1>` per page.
-- [ ] **Replace vague link text** — "Click Here" links in [epoch.html](epoch.html#L56), [epoch.html](epoch.html#L71), [music.html](music.html#L50) should be descriptive (e.g., "View full calendar").
-- [ ] **Verify color contrast (WCAG AA)** — Test [assets/css/darkmode.css](assets/css/darkmode.css) and [assets/css/lightmode.css](assets/css/lightmode.css) with axe/WAVE for 4.5:1 text contrast.
-- [ ] **Plan labels for any future forms** — No `<label for="...">` used today; ensure any future inputs are properly labeled.
+- [x] **Empty alt text on logo images** — [pathfinders.html](pathfinders.html#L42) and [pathfinders.html](pathfinders.html#L77) have `alt=""` on logos. Provide descriptive alt text like `alt="Pioneers Pathfinders Club logo"`.
+- [x] **Use more semantic HTML** — Many pages use `<div>` for content that should be `<section>`, `<article>`, `<nav>`, or `<main>`. This improves screen-reader navigation.
+- [x] **No skip-to-content link** — Keyboard and screen-reader users must tab through the full header on every page. Add a hidden skip link that jumps to main content.
+- [x] **Ensure visible focus indicators** — Some interactive elements/iframes may have focus styles hidden by inline styles. Verify `:focus` rings are visible site-wide.
+- [x] **Add `aria-label` to icon-only links** — Social media links in [pathfinders.html](pathfinders.html#L71-L74) rely on visually hidden `<span class="label">` only. Add `aria-label` on the `<a>` for redundancy.
+- [x] **Audit heading hierarchy** — Some pages skip heading levels (e.g., `<h1>` → `<h3>`). Keep a logical order starting with one `<h1>` per page.
+- [x] **Replace vague link text** — "Click Here" links in [epoch.html](epoch.html#L56), [epoch.html](epoch.html#L71), [music.html](music.html#L50) should be descriptive (e.g., "View full calendar").
+- [x] **Verify color contrast (WCAG AA)** — Test [assets/css/darkmode.css](assets/css/darkmode.css) and [assets/css/lightmode.css](assets/css/lightmode.css) with axe/WAVE for 4.5:1 text contrast. *(Body text `#4a4540` on `#f7f3ed` ≈ 8.3:1; headings `#2c3830` ≈ 11:1; body links `#2c545e` ≈ 7.2:1; dark-mode links `#5ba8b5` on `#042D2D` ≈ 5.5:1 — all pass WCAG AA.)*
+- [x] **Plan labels for any future forms** — No `<label for="...">` used today; ensure any future inputs are properly labeled.
 
 ---
 

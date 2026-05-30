@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://i.ytimg.com; connect-src 'self' https://labs.bible.org https://www.youtube.com https://api.sunrise-sunset.org https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms; base-uri 'self'; form-action 'self';" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://i.ytimg.com; connect-src 'self' https://labs.bible.org https://www.youtube.com https://api.sunrise-sunset.org https://www.googleapis.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms; base-uri 'self'; form-action 'self';" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CKSDA Church Newsletter</title>
     <meta name="description" content="Weekly Newsletter of the Collegedale Korean Seventh-day Adventist Church.">
@@ -56,7 +57,7 @@
 	</script>
 </head>
 <body>
-        <a class="skip-link" href="#main-content">Skip to main content</a>
+        <a class="skip-to-content" href="#main-content">Skip to main content</a>
     <header class="newsletter-header">
         <h1><span class="title-line">Collegedale Korean SDA</span><span class="title-line">Church Newsletter</span></h1>
         <div class="date-chips">
@@ -72,16 +73,18 @@
 
         <!-- Verse of the Day -->
         <section class="announcement verse-of-day">
-            <p class="verse-kicker"><strong>Verse of the Day</strong></p>
-            <p id="verse-text">"Return to the stronghold, you prisoners of hope. Even today I declare that I will restore double to you."</p>
-            <p class="verse-reference"><a id="verse-link" class="link" href="https://www.biblegateway.com/passage/?search=Zechariah+9%3A12&version=NKJV" target="_blank" rel="noopener noreferrer">Zechariah 9:12</a></p>
-            <p class="verse-devotional"><a id="devotional-link" class="link" href="https://whiteestate.org/devotional/ohc/" target="_blank" rel="noopener noreferrer">Read today's Our High Calling devotional</a></p>
+            <h2 class="section-heading">Daily Devotional</h2>
+            <p id="verse-text">“Return to the stronghold, you prisoners of hope. Even today I declare that I will restore double to you.”</p>
+            <div class="verse-footer">
+            <p class="verse-reference">— <a id="verse-link" class="link" href="https://www.biblegateway.com/passage/?search=Zechariah+9%3A12&version=NKJV" target="_blank" rel="noopener noreferrer">Zechariah 9:12</a></p>
+            <p class="verse-devotional"><a id="devotional-link" class="devotional-btn" href="https://whiteestate.org/devotional/ohc/" target="_blank" rel="noopener noreferrer">Our High Calling →</a></p>
+            </div>
         </section>
 
         <!-- Sermon + Livestream Section -->
         <section class="church-notice">
+            <h2 class="section-heading">This Week's Sermon</h2>
             <div class="church-notice-box">
-                <p class="notice-cta-title"><strong>This Week's Sermon</strong></p>
                 <p id="sermon-line" class="notice-cta-message"><span id="sermon-speaker">Someone Special</span> will be sharing a message with us starting at <strong>11:20am</strong>.</p>
                 <p class="notice-cta-sub">Join us live or catch the replay:</p>
                 <p class="notice-cta-link"><a id="livestream-link" href="https://www.youtube.com/playlist?list=PLIkL0-bPEL8qQUoX4JIONp-RCjgwKQFgx" class="link">Watch EM Service on YouTube</a></p>
@@ -89,16 +92,16 @@
         </section>
 
         <section class="church-notice">
+            <h2 class="section-heading">Tithes &amp; Offerings</h2>
             <div class="church-notice-box">
-                <p class="notice-cta-title"><strong>Tithes &amp; Offerings</strong></p>
                 <p class="notice-cta-message">Return your tithe and offerings securely online using the link below:</p>
                 <p class="notice-cta-link"><a id="giving-link" href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" class="link" target="_blank" rel="noopener">Give with AdventistGiving</a></p>
             </div>
         </section>
 
         <section id="rides-section" class="church-notice">
+            <h2 class="section-heading">🚕 Free Rides to Church 🚕</h2>
             <div class="church-notice-box">
-                <p>🚕 <strong>Free Rides to Church</strong> 🚕</p>
                 <p>⛪ Need a ride to Sabbath School (10am)?</p>
                 <p>📱 Text <a href="sms:+14232252468" class="link"><strong>(423) 225-2468</strong></a> by <strong>10pm Friday</strong></p>
                 <p>⏰ Pick up at <strong>9:45am Saturday</strong> at Wright Hall</p>
@@ -106,8 +109,8 @@
         </section>
 
         <section class="church-notice">
+            <h2 class="section-heading" id="duty-title">Food Service / Dishwashing Duty</h2>
             <div class="church-notice-box">
-                <p><strong id="duty-title">Food Service / Dishwashing Duty</strong></p>
                 <ul class="duty-schedule" id="duty-schedule">
                     <li class="duty-row"><span class="duty-week">Week 1</span><span class="duty-group">Freshmen</span></li>
                     <li class="duty-row"><span class="duty-week">Week 2</span><span class="duty-group">Sophomores</span></li>
@@ -121,7 +124,7 @@
 
         <!-- Sabbath School Lessons -->
         <section class="lessons-section">
-            <h2 class="lessons-heading">Sabbath School Lessons</h2>
+            <h2 class="section-heading">Sabbath School Lessons</h2>
             <p class="lessons-note">Sabbath School begins at 10am. Please bring your Bible and offering.</p>
             <div class="lessons-grid">
                 <a href="https://sabbath-school.adventech.io/en?group=standard-adult" class="lesson-tile" target="_blank" rel="noopener noreferrer">
