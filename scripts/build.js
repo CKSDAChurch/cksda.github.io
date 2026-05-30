@@ -12,6 +12,7 @@
  */
 
 const esbuild = require('esbuild');
+const sharp = require('sharp');
 
 const apiKey = process.env.YOUTUBE_API_KEY || '';
 
@@ -27,7 +28,38 @@ if (!apiKey) {
 const cssFiles = ['main', 'lightmode', 'darkmode', 'menu', 'newsletter', 'pathfinders'];
 const jsFiles  = ['page-config', 'main', 'analytics', 'consent', 'newsletter'];
 
+/**
+ * Generate a PWA icon with a solid background colour and the white logo
+ * composited on top with maskable-safe padding (15 % each side → 70 % logo).
+ *
+ * Light icon: newsletter teal   #3e8391 background + white logo
+ * Dark  icon: newsletter dark   #042D2D background + white logo
+ */
+async function generateIcon(bgHex, logoFile, size, outFile) {
+    const pad   = Math.round(size * 0.15);
+    const inner = size - pad * 2;
+
+    // Parse hex colour → RGBA object for sharp
+    const r = parseInt(bgHex.slice(1, 3), 16);
+    const g = parseInt(bgHex.slice(3, 5), 16);
+    const b = parseInt(bgHex.slice(5, 7), 16);
+
+    const bg   = await sharp({ create: { width: size, height: size, channels: 4, background: { r, g, b, alpha: 1 } } }).png().toBuffer();
+    const logo = await sharp(logoFile).resize(inner, inner, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
+
+    await sharp(bg).composite([{ input: logo, gravity: 'centre' }]).png().toFile(outFile);
+}
+
 async function build() {
+    // Generate adaptive PWA icons — light and dark variants, 192 and 512 px.
+    await Promise.all([
+        generateIcon('#3e8391', 'images/logo-light.png', 192, 'images/icon-light-192.png'),
+        generateIcon('#3e8391', 'images/logo-light.png', 512, 'images/icon-light-512.png'),
+        generateIcon('#042D2D', 'images/logo-light.png', 192, 'images/icon-dark-192.png'),
+        generateIcon('#042D2D', 'images/logo-light.png', 512, 'images/icon-dark-512.png'),
+    ]);
+    console.log('PWA icons generated.');
+
     const tasks = [
         ...cssFiles.map(name => esbuild.build({
             entryPoints: [`assets/css/${name}.css`],

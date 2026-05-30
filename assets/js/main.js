@@ -207,3 +207,12 @@ const buildFooter = (json) => {
 		console.error("Failed to initialize page:", err);
 	}
 })();
+
+// ============ SERVICE WORKER ============
+if ('serviceWorker' in navigator) {
+	window.addEventListener('load', () => {
+		navigator.serviceWorker.register('/sw.js').catch(err =>
+			console.warn('Service worker registration failed:', err)
+		);
+	});
+}

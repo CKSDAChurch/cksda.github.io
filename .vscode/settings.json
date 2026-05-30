@@ -6,5 +6,8 @@
         "Dishwashing",
         "Ooltewah"
     ],
-    "cSpell.language": "en,es-ES"
+    "cSpell.language": "en,es-ES",
+    "chat.tools.terminal.autoApprove": {
+        "npx playwright": true
+    }
 }

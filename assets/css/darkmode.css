@@ -326,7 +326,13 @@
   
   /* Header */
     #header {
-      background-image: url("images/top-3200-dark.svg"), url("images/overlay.png"), url("../../images/header.jpg");
+      background-image:
+        url("images/top-3200-dark.svg"),
+        url("images/overlay.png"),
+        radial-gradient(ellipse 160% 100% at -20% -5%, rgba(245,230,200,0.95) 0%, rgba(220,200,170,0.5) 35%, transparent 60%),
+        radial-gradient(ellipse 160% 100% at 120% -5%, rgba(255,245,215,0.95) 0%, rgba(240,220,180,0.6) 35%, transparent 60%),
+        radial-gradient(ellipse 130% 80% at 50% 120%, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 35%, transparent 70%),
+        linear-gradient(180deg, #5a7882 0%, #3a5860 30%, #1a3038 65%, #050d12 100%);
       color: rgba(225, 242, 222, 0.8);
     }
   
@@ -454,7 +460,13 @@
   
       /* Header */
       #header {
-        background-image: url("images/top-1600-dark.svg"), url("images/overlay.png"), url("../../images/header.jpg");
+        background-image:
+          url("images/top-1600-dark.svg"),
+          url("images/overlay.png"),
+          radial-gradient(ellipse 120% 80% at -20% -5%, rgba(245,230,200,0.95) 0%, rgba(220,200,170,0.5) 35%, transparent 60%),
+          radial-gradient(ellipse 120% 80% at 120% -5%, rgba(255,245,215,0.95) 0%, rgba(240,220,180,0.6) 35%, transparent 60%),
+          radial-gradient(ellipse 130% 80% at 50% 120%, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 35%, transparent 70%),
+          linear-gradient(180deg, #5a7882 0%, #3a5860 30%, #1a3038 65%, #050d12 100%);
       }
   
       /* Footer */
@@ -477,7 +489,13 @@
   
       /* Header */
       #header {
-        background-image: url("images/top-1280-dark.svg"), url("images/overlay.png"), url("../../images/header.jpg");
+        background-image:
+          url("images/top-1280-dark.svg"),
+          url("images/overlay.png"),
+          radial-gradient(ellipse 80% 60% at -20% -5%, rgba(245,230,200,0.95) 0%, rgba(220,200,170,0.5) 35%, transparent 60%),
+          radial-gradient(ellipse 80% 60% at 120% -5%, rgba(255,245,215,0.95) 0%, rgba(240,220,180,0.6) 35%, transparent 60%),
+          radial-gradient(ellipse 130% 80% at 50% 120%, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 35%, transparent 70%),
+          linear-gradient(180deg, #5a7882 0%, #3a5860 30%, #1a3038 65%, #050d12 100%);
       }
   
       /* Footer */

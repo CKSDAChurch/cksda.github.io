@@ -404,6 +404,40 @@
 		}
 	};
 
+	// Returns a Date for the last Saturday of a given month/year (at noon UTC).
+	// This is used to find the transition Sabbath between Sabbath School quarters:
+	//   Q1 starts last Saturday of December (previous year)
+	//   Q2 starts last Saturday of March
+	//   Q3 starts last Saturday of June
+	//   Q4 starts last Saturday of September
+	const getLastSaturdayOf = (year, month) => {
+		const lastDay = new Date(Date.UTC(year, month, 0, 12));
+		const weekdayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+		const lastDayOfWeek = weekdayMap[zonedParts(lastDay, TIME_ZONE).weekday] ?? 0;
+		const daysBack = (lastDayOfWeek - 6 + 7) % 7;
+		return new Date(lastDay.getTime() - daysBack * 24 * 60 * 60 * 1000);
+	};
+
+	// Returns the Adventech quarterly code (e.g. "2026-03") for the given Sabbath date.
+	const getSabbathSchoolQuarterCode = (sabbathDate) => {
+		const parts = zonedParts(sabbathDate, TIME_ZONE);
+		const year = Number(parts.year);
+		const t = sabbathDate.getTime();
+		if (t >= getLastSaturdayOf(year, 12).getTime()) return `${year + 1}-01`;
+		if (t >= getLastSaturdayOf(year, 9).getTime())  return `${year}-04`;
+		if (t >= getLastSaturdayOf(year, 6).getTime())  return `${year}-03`;
+		if (t >= getLastSaturdayOf(year, 3).getTime())  return `${year}-02`;
+		return `${year}-01`;
+	};
+
+	// Rewrites every lesson-tile href so the YYYY-QQ segment matches the current quarter.
+	const updateLessonLinks = (sabbathDate) => {
+		const quarterCode = getSabbathSchoolQuarterCode(sabbathDate);
+		document.querySelectorAll('.lessons-grid a[href]').forEach((link) => {
+			link.href = link.href.replace(/\d{4}-0[1-4]/g, quarterCode);
+		});
+	};
+
 	const updateKitchenDuty = (sabbathDate) => {
 		const titleEl = document.getElementById('duty-title');
 		const scheduleEl = document.getElementById('duty-schedule');
@@ -461,8 +495,7 @@
 			applyStaticFallbacks();
 		}
 
-		updateKitchenDuty(sabbathDate || new Date());
-		await updateVerseOfDay();
+		updateKitchenDuty(sabbathDate || new Date());	updateLessonLinks(sabbathDate || new Date());		await updateVerseOfDay();
 		await updateSermonSpeakerFromYoutube();
 		attachAnalyticsEvents();
 	};

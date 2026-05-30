@@ -23,7 +23,7 @@ Then start the local server from the repository root:
 npm start
 ```
 
-The site will be available at <http://localhost:8000>.
+The site will be available at `http://localhost:8000`.
 
 Useful maintenance commands:
 

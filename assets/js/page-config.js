@@ -99,7 +99,34 @@ const buildPageConfig = (helpers) => {
 					'AdventistGiving',
 					'<a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank" rel="noopener">AdventistGiving</a>'
 				),
-				titheParagraph2: json.indexPage.titheParagraph2
+				titheParagraph2: json.indexPage.titheParagraph2,
+				serviceTimes: (() => {
+					const f = json.footer;
+					const fmt = new Intl.DateTimeFormat(json._lang || 'en', { hour: 'numeric', minute: '2-digit' });
+					const fmtRange = (range) => {
+						const [start, end] = range.split('-').map(p => {
+							const [h, m] = p.trim().split(':').map(Number);
+							return fmt.format(new Date(2000, 0, 1, h, m));
+						});
+						return `${start} \u2013 ${end}`;
+					};
+					return `
+						<h2 class="service-times__heading">${f.worshipServicesTitle}</h2>
+						<div class="service-times__grid">
+							<div class="service-times__card">
+								<h3>${f.korean}</h3>
+								<p><strong>${f.ssTitle}</strong><br>${fmtRange(f.koSStime)}</p>
+								<p><strong>${f.wsTitle}</strong><br>${fmtRange(f.koWStime)}</p>
+							</div>
+							<div class="service-times__card">
+								<h3>${f.english}</h3>
+								<p><strong>${f.ssTitle}</strong><br>${fmtRange(f.enSStime)}</p>
+								<p><strong>${f.wsTitle}</strong><br>${fmtRange(f.enWStime)}</p>
+							</div>
+						</div>
+						<p class="service-times__note"><a href="calendar.html">${json.calendarPage ? json.calendarPage.browserTitle.split('|')[0].trim() : 'View full calendar'} &rarr;</a></p>
+					`;
+				})()
 			})
 		}
 	};
