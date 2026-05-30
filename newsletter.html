@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://i.ytimg.com; connect-src 'self' https://labs.bible.org https://www.youtube.com https://api.sunrise-sunset.org https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms; base-uri 'self'; form-action 'self';" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CKSDA Church Newsletter</title>
     <meta name="description" content="Weekly Newsletter of the Collegedale Korean Seventh-day Adventist Church.">
@@ -33,6 +34,26 @@
         }
         </script>
     <link rel="stylesheet" href="assets/css/newsletter.css">
+
+	<!-- Google Consent Mode v2 — set defaults before gtag.js loads -->
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('consent', 'default', {
+			'analytics_storage': 'denied',
+			'ad_storage': 'denied',
+			'ad_user_data': 'denied',
+			'ad_personalization': 'denied',
+			'wait_for_update': 500
+		});
+	</script>
+
+	<!-- Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK9DNYP0NB"></script>
+	<script>
+		gtag('js', new Date());
+		gtag('config', 'G-LK9DNYP0NB');
+	</script>
 </head>
 <body>
         <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -141,6 +162,7 @@
 
     <script src="assets/js/youtube.js"></script>
     <script src="assets/js/newsletter.js"></script>
+    <script src="assets/js/consent.js"></script>
 </body>
 </html>
 

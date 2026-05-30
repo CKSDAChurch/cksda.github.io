@@ -28,10 +28,10 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 ## 3. Security
 
-- [ ] **Move HTML out of translation JSON** — [assets/langStrings/en.json](assets/langStrings/en.json#L46) embeds `<a>` and `<br />` in strings. This is fragile and a latent XSS vector if `innerHTML` is ever used with untrusted data. Keep markup in templates, text in JSON.
-- [ ] **Add a Content Security Policy** — Add a `<meta http-equiv="Content-Security-Policy" ...>` (or a server header if you proxy) limiting script sources to `self`, `googletagmanager.com`, `clarity.ms`, etc.
-- [ ] **Enforce HTTPS on GitHub Pages** — Confirm the repo setting "Enforce HTTPS" is enabled for `cksda.church`.
-- [ ] **Audit embedded iframes** — Sources like SharePoint embeds in [epoch.html](epoch.html#L47) should be reviewed periodically; consider `sandbox` attributes where feasible.
+- [x] **Move HTML out of translation JSON** — [assets/langStrings/en.json](assets/langStrings/en.json#L46) embeds `<a>` and `<br />` in strings. This is fragile and a latent XSS vector if `innerHTML` is ever used with untrusted data. Keep markup in templates, text in JSON.
+- [x] **Add a Content Security Policy** — Add a `<meta http-equiv="Content-Security-Policy" ...>` (or a server header if you proxy) limiting script sources to `self`, `googletagmanager.com`, `clarity.ms`, etc.
+- [x] **Enforce HTTPS on GitHub Pages** — Confirm the repo setting "Enforce HTTPS" is enabled for `cksda.church`.
+- [x] **Audit embedded iframes** — Sources like SharePoint embeds in [epoch.html](epoch.html#L47) should be reviewed periodically; consider `sandbox` attributes where feasible.
 
 ---
 

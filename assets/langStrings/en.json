@@ -46,12 +46,12 @@
         "browserTitle": "Collegedale Korean Seventh-day Adventist Church",
         "missionParagraph" : "Our mission is to proclaim to all people the everlasting gospel in the context of the Three Angels' messages of Revelation 14:6-12.",
         "titheTitle": "Tithe and Offering",
-        "titheParagraph1": "If you desire to give back to the Lord all of your firstfruits as soon as you have them, you can do it immediately through <a href=\"https://adventistgiving.org/#/org/ANTFHH/envelope/start\" target=\"_blank\">AdventistGiving</a>.",
+        "titheParagraph1": "If you desire to give back to the Lord all of your firstfruits as soon as you have them, you can do it immediately through AdventistGiving.",
         "titheParagraph2": "AdventistGiving allows you to return your tithe and give your offerings online from anywhere you have an internet connection."
     },
     "calendarPage": {
         "browserTitle": "CKSDA Church: Calendar",
-        "calFSMsg": "<a href=\"https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York\">Click Here To View Calendar Fullscreen</a>"
+        "calFSMsg": "Click Here To View Calendar Fullscreen"
     },
     "childrenPage": {
         "browserTitle": "CKSDA Church: Children's Ministries"
@@ -59,11 +59,14 @@
     "collegiatePage": {
         "browserTitle": "CKSDA Church: Collegiate",
         "importantLinksTitle": "Important Links",
-        "link1": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSf3oeg4BY8MOzHEq1ppLYK7x8YEwT59FUPZ7ligOqFo0pv_-Q/viewform\" target=\"_blank\">Join our email list!</a>",
-        "link2": "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfH58WJ83pvQEUOvDc_eW3_ySRQxFt0EJuqnu5fc4izqS6AVg/viewform\" target=\"_blank\">LifeGroups Signup</a>",
+        "link1": "Join our email list!",
+        "link1URL": "https://docs.google.com/forms/d/e/1FAIpQLSf3oeg4BY8MOzHEq1ppLYK7x8YEwT59FUPZ7ligOqFo0pv_-Q/viewform",
+        "link2": "LifeGroups Signup",
+        "link2URL": "https://docs.google.com/forms/d/e/1FAIpQLSfH58WJ83pvQEUOvDc_eW3_ySRQxFt0EJuqnu5fc4izqS6AVg/viewform",
         "eventsTitle": "Events",
         "event1": "Prayer Meeting at CKSDA Church (Wednesdays 6:30 P.M.)",
-        "event2": "<a href=\"https://calendar.google.com/calendar/embed?src=c_63i8klbtoarrh3hjkhsij432r0%40group.calendar.google.com&ctz=America%2FNew_York\" target=\"_blank\">See all upcoming events</a>",
+        "event2": "See all upcoming events",
+        "event2URL": "https://calendar.google.com/calendar/embed?src=c_63i8klbtoarrh3hjkhsij432r0%40group.calendar.google.com&ctz=America%2FNew_York",
         "socialMediaTitle": "Social Media"
     },
     "connectionPage": {
@@ -108,11 +111,12 @@
         "koSStime": "09:30AM - 10:30AM",
         "koWStime": "10:30AM - 11:10AM",
         "mailingAddressTitle": "Mailing Address",
-        "mailingAddress": "4717 Ooltewah Ringgold Road<br />Ooltewah, TN 37363",
+        "mailingAddressLine1": "4717 Ooltewah Ringgold Road",
+        "mailingAddressLine2": "Ooltewah, TN 37363",
         "phoneTitle": "Phone",
         "phone": "+1 (423) 453-3004",
         "websiteTitle": "Website",
-        "copyright": "&copy; Collegedale Korean Seventh-day Adventist Church",
+        "copyright": "© Collegedale Korean Seventh-day Adventist Church",
         "advWebsiteTitle": "Seventh-day Adventist Church Official Website"
     }
 }
