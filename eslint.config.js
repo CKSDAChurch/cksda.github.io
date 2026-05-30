@@ -23,7 +23,7 @@ module.exports = [
 	},
 	js.configs.recommended,
 	{
-		files: ['assets/js/**/*.js', 'tests/**/*.js'],
+			files: ['assets/js/**/*.js', 'tests/**/*.js', 'sw.js'],
 		languageOptions: {
 			ecmaVersion: 2022,
 			sourceType: 'script',
