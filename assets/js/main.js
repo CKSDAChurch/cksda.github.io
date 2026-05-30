@@ -69,7 +69,7 @@ const PAGE_CONFIG = {
 		subtitle: (json) => json.pageTitles.calendarSubtitle,
 		init: (json) => ({
 			browserTitle: json.calendarPage.browserTitle,
-			calFSMsg: json.calendarPage.calFSMsg
+			calFSMsg: `<a href="https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York">${json.calendarPage.calFSMsg}</a>`
 		})
 	},
 	children: {
@@ -87,11 +87,11 @@ const PAGE_CONFIG = {
 		init: (json) => ({
 			browserTitle: json.collegiatePage.browserTitle,
 			importantLinksTitle: json.collegiatePage.importantLinksTitle,
-			link1: json.collegiatePage.link1,
-			link2: json.collegiatePage.link2,
+			link1: `<a href="${json.collegiatePage.link1URL}" target="_blank" rel="noopener noreferrer">${json.collegiatePage.link1}</a>`,
+			link2: `<a href="${json.collegiatePage.link2URL}" target="_blank" rel="noopener noreferrer">${json.collegiatePage.link2}</a>`,
 			eventsTitle: json.collegiatePage.eventsTitle,
 			event1: json.collegiatePage.event1,
-			event2: json.collegiatePage.event2,
+			event2: `<a href="${json.collegiatePage.event2URL}" target="_blank" rel="noopener noreferrer">${json.collegiatePage.event2}</a>`,
 			socialMediaTitle: json.collegiatePage.socialMediaTitle
 		})
 	},
@@ -159,7 +159,10 @@ const PAGE_CONFIG = {
 			browserTitle: json.indexPage.browserTitle,
 			missionParagraph: json.indexPage.missionParagraph,
 			titheTitle: json.indexPage.titheTitle,
-			titheParagraph1: json.indexPage.titheParagraph1,
+			titheParagraph1: json.indexPage.titheParagraph1.replace(
+				'AdventistGiving',
+				'<a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank" rel="noopener">AdventistGiving</a>'
+			),
 			titheParagraph2: json.indexPage.titheParagraph2
 		})
 	}
@@ -253,7 +256,7 @@ const buildFooter = (json) => {
 	</div>
 
 	<header class="major last"><h2>${footer.mailingAddressTitle}</h2></header>
-	<p>${footer.mailingAddress}<br />
+	<p>${footer.mailingAddressLine1}<br />${footer.mailingAddressLine2}<br />
 	<strong>${footer.phoneTitle}</strong>: ${footer.phone}<br />
 	<strong>${footer.websiteTitle}</strong>: <a href="https://cksda.church">cksda.church</a></p>
 	
