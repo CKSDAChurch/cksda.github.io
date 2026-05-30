@@ -17,12 +17,12 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 ## 2. UX / Content
 
 - [x] **Add a privacy policy** — Required given GA + Clarity tracking. Create `/privacy.html` and link from the footer.
-- [ ] **Clean up placeholder Epoch content** — [epoch.html](epoch.html#L41), [epoch.html](epoch.html#L44), [epoch.html](epoch.html#L59) show "Video information is currently unavailable" for past years. Update or hide.
-- [ ] **Rethink redirect pages** — [college.html](college.html), [connection.html](connection.html), [directory.html](directory.html) silently meta-refresh. Either remove (and update links) or show a brief loading state.
-- [ ] **Fix mislabeled IDs in [music.html](music.html)** — [music.html](music.html#L20) and [music.html](music.html#L22) use `id="personalMinistriesTitle"` / `id="personalMinistriesBlurb"` for music content; rename to match.
-- [ ] **Expand thin ministry pages** — [young-adults.html](young-adults.html), [personal-ministries.html](personal-ministries.html), [children.html](children.html) have very little content. Add descriptions, meeting times, and photos.
-- [ ] **Add clearer calls-to-action** — Visible buttons for "Join us", "Subscribe to newsletter", "Give online", etc.
-- [ ] **Consolidate social links** — Currently scattered across a few pages; standardize in the footer.
+- [x] **Clean up placeholder Epoch content** — [epoch.html](epoch.html#L41), [epoch.html](epoch.html#L44), [epoch.html](epoch.html#L59) show "Video information is currently unavailable" for past years. Update or hide.
+- [x] **Rethink redirect pages** — [college.html](college.html), [connection.html](connection.html), [directory.html](directory.html) silently meta-refresh. Either remove (and update links) or show a brief loading state.
+- [x] **Fix mislabeled IDs in [music.html](music.html)** — [music.html](music.html#L20) and [music.html](music.html#L22) use `id="personalMinistriesTitle"` / `id="personalMinistriesBlurb"` for music content; rename to match.
+- [x] **Expand thin ministry pages** — [young-adults.html](young-adults.html), [personal-ministries.html](personal-ministries.html), [children.html](children.html) have very little content. Add descriptions, meeting times, and photos.
+- [x] **Add clearer calls-to-action** — Visible buttons for "Join us", "Subscribe to newsletter", "Give online", etc.
+- [x] **Consolidate social links** — Currently scattered across a few pages; standardize in the footer.
 
 ---
 
