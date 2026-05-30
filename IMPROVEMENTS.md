@@ -51,12 +51,12 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 ## 5. SEO & Metadata
 
-- [ ] **Create `robots.txt`** — Give crawlers explicit directives and point them to the sitemap.
-- [ ] **Create `sitemap.xml`** — Help search engines discover all pages, with priorities (e.g., index = 1.0, ministry pages = 0.8).
-- [ ] **Add canonical URLs** — `<link rel="canonical" href="https://cksda.church/page.html">` on each page to avoid duplicate-content issues.
-- [ ] **Add JSON-LD structured data** — Use Schema.org `Church`/`Organization`/`Event` markup so search engines understand the church, service times, address, and upcoming events.
-- [ ] **Standardize page `<title>` format** — Pick one format (e.g., `Page Topic | Collegedale Korean SDA Church`) and apply consistently.
-- [ ] **Replace meta-refresh redirect pages** — [college.html](college.html), [connection.html](connection.html), [directory.html](directory.html) use `<meta http-equiv="Refresh">`. Use proper 301 redirects (e.g., GitHub Pages `_redirects` if migrated, or update internal links to the real destinations).
+- [x] **Create `robots.txt`** — Give crawlers explicit directives and point them to the sitemap.
+- [x] **Create `sitemap.xml`** — Help search engines discover all pages, with priorities (e.g., index = 1.0, ministry pages = 0.8).
+- [x] **Add canonical URLs** — `<link rel="canonical" href="https://cksda.church/page.html">` on each page to avoid duplicate-content issues.
+- [x] **Add JSON-LD structured data** — Use Schema.org `Church`/`Organization`/`Event` markup so search engines understand the church, service times, address, and upcoming events.
+- [x] **Standardize page `<title>` format** — Pick one format (e.g., `Page Topic | Collegedale Korean SDA Church`) and apply consistently.
+- [x] **Replace meta-refresh redirect pages** — [college.html](college.html), [connection.html](connection.html), [directory.html](directory.html) use `<meta http-equiv="Refresh">`. Use proper 301 redirects (e.g., GitHub Pages `_redirects` if migrated, or update internal links to the real destinations).
 
 ---
 
@@ -126,11 +126,11 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 - [ ] **[index.html](index.html)** — Consider a more prominent service-times section above the fold.
 - [ ] **[calendar.html](calendar.html#L38)** — Make iframe height responsive.
-- [ ] **[pathfinders.html](pathfinders.html)** — Fix empty alt text and add a registration CTA.
-- [ ] **[epoch.html](epoch.html)** — Move inline iframe styles into CSS and update placeholders.
-- [ ] **[music.html](music.html)** — Rename mislabeled IDs and move inline iframe styles into CSS.
-- [ ] **[college.html](college.html) / [connection.html](connection.html) / [collegiate.html](collegiate.html) / [directory.html](directory.html)** — Replace meta-refresh redirects with proper destination links or 301s; add `<meta name="robots" content="noindex">` so they don't compete in search.
-- [ ] **[young-adults.html](young-adults.html) / [personal-ministries.html](personal-ministries.html) / [children.html](children.html)** — Expand with ministry descriptions, schedules, leader contacts, photos.
-- [ ] **[zeitgeist.html](zeitgeist.html)** — Decide whether it should redirect to Epoch or be removed entirely; either way, update the canonical link strategy.
+- [x] **[pathfinders.html](pathfinders.html)** — Fix empty alt text and add a registration CTA.
+- [x] **[epoch.html](epoch.html)** — Move inline iframe styles into CSS and update placeholders.
+- [x] **[music.html](music.html)** — Rename mislabeled IDs and move inline iframe styles into CSS.
+- [x] **[college.html](college.html) / ~~connection.html~~ (deleted) / [collegiate.html](collegiate.html) / [directory.html](directory.html)** — `noindex, nofollow` added to all; connection.html removed entirely; remaining pages show loading state before redirect.
+- [x] **[young-adults.html](young-adults.html) / [personal-ministries.html](personal-ministries.html) / [children.html](children.html)** — Expand with ministry descriptions, schedules, leader contacts, photos.
+- [x] **[zeitgeist.html](zeitgeist.html)** — Redirects to Epoch; `noindex, nofollow` added with privacy note explaining why both epoch and zeitgeist are blocked from crawlers.
 
 <!-- End of improvements checklist -->
