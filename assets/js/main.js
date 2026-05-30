@@ -23,11 +23,15 @@ const LANG = (() => {
 	const lang = navigator.language;
 	if (lang.startsWith("ko")) return "ko";
 	if (lang.startsWith("es")) return "es";
+	if (!lang.startsWith("en")) console.warn(`[i18n] No translation available for "${lang}"; falling back to English.`);
 	return "en";
 })();
 
 // Global lang variable for use by other scripts (e.g., youtube.js)
 window.lang = LANG;
+
+// Update <html lang> to match detected language
+document.documentElement.lang = LANG;
 
 const CURRENT_PAGE = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
 
@@ -51,6 +55,21 @@ const pageMatches = (url) => {
 	// Handle root path
 	if (normalized === '/') normalized = 'index';
 	return CURRENT_PAGE === normalized || CURRENT_PAGE === `${normalized}.html`;
+};
+
+/**
+ * Format a "HH:MM-HH:MM" time range string using Intl.DateTimeFormat for the active locale.
+ * @param {string} range - e.g. "10:00-11:00"
+ * @returns {string} - locale-formatted range, e.g. "10:00 AM – 11:00 AM" or "10:00 – 11:00"
+ */
+const formatTimeRange = (range) => {
+	const fmt = new Intl.DateTimeFormat(LANG, { hour: 'numeric', minute: '2-digit' });
+	const [start, end] = range.split('-').map(part => {
+		const [h, m] = part.trim().split(':').map(Number);
+		const d = new Date(2000, 0, 1, h, m);
+		return fmt.format(d);
+	});
+	return `${start} – ${end}`;
 };
 
 const loadLanguageFile = async () => {
@@ -233,13 +252,13 @@ const buildFooter = (json) => {
 	<div class="WorshipServices">
 		<div class="WorshipChild">
 			<h4>${footer.korean}</h4>
-			<p><strong>${footer.ssTitle}</strong><br />${footer.koSStime}<br />
-			<strong>${footer.wsTitle}</strong><br />${footer.koWStime}</p>
+			<p><strong>${footer.ssTitle}</strong><br />${formatTimeRange(footer.koSStime)}<br />
+			<strong>${footer.wsTitle}</strong><br />${formatTimeRange(footer.koWStime)}</p>
 		</div>
 		<div class="WorshipChild">
 			<h4>${footer.english}</h4>
-			<p><strong>${footer.ssTitle}</strong><br />${footer.enSStime}<br />
-			<strong>${footer.wsTitle}</strong><br />${footer.enWStime}</p>
+			<p><strong>${footer.ssTitle}</strong><br />${formatTimeRange(footer.enSStime)}<br />
+			<strong>${footer.wsTitle}</strong><br />${formatTimeRange(footer.enWStime)}</p>
 		</div>
 	</div>
 
