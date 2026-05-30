@@ -1,9 +1,12 @@
 {
   "scripts": {
+    "test": "playwright test",
     "build": "esbuild assets/css/main.css --minify --outfile=assets/css/main.min.css && esbuild assets/css/lightmode.css --minify --outfile=assets/css/lightmode.min.css && esbuild assets/css/darkmode.css --minify --outfile=assets/css/darkmode.min.css && esbuild assets/css/menu.css --minify --outfile=assets/css/menu.min.css && esbuild assets/css/newsletter.css --minify --outfile=assets/css/newsletter.min.css && esbuild assets/css/pathfinders.css --minify --outfile=assets/css/pathfinders.min.css && esbuild assets/js/main.js --minify --outfile=assets/js/main.min.js && esbuild assets/js/consent.js --minify --outfile=assets/js/consent.min.js && esbuild assets/js/newsletter.js --minify --outfile=assets/js/newsletter.min.js && esbuild assets/js/youtube.js --minify --outfile=assets/js/youtube.min.js"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "esbuild": "^0.28.0",
+    "http-server": "^14.1.1",
     "sharp": "^0.34.5"
   }
 }
