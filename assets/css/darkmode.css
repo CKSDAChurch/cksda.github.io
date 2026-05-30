@@ -58,7 +58,7 @@
       -ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
       transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
       border-bottom: dotted 1px;
-      color: #ffa07a;
+      color: #5ba8b5;
       text-decoration: none;
     }
   
@@ -321,7 +321,7 @@
   
   /* Feature */
       .feature:before {
-        background: blue;
+        background: #5ba8b5;
       }
   
   /* Header */
@@ -343,7 +343,11 @@
           border-bottom-color: transparent;
           color: #48727A;
         }
-  
+
+      #header p {
+        color: rgba(225, 242, 222, 0.8);
+      }
+
       #header strong, #header b {
         color: #e1f2de;
       }
@@ -482,3 +486,12 @@
       }
     }
   }
+
+/* Accessibility: Skip-to-content colors (dark mode) */
+@media (prefers-color-scheme: dark) {
+  .skip-to-content {
+    background: #042D2D;
+    color: #e1f2de;
+    border: 2px solid #e1f2de;
+  }
+}
