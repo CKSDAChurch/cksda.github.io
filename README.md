@@ -11,15 +11,32 @@ Static website for Collegedale Korean Seventh-day Adventist Church.
 
 ## Local Development
 
-Use any static file server from the repository root.
+Install dependencies first:
+
+```bash
+npm install
+```
+
+Then start the local server from the repository root:
+
+```bash
+npm start
+```
+
+The site will be available at <http://localhost:8000>.
+
+Useful maintenance commands:
+
+```bash
+npm run lint
+npm run build
+```
 
 ### Option 1: Python
 
 ```bash
 python -m http.server 8000
 ```
-
-Then open <http://localhost:8000>.
 
 ### Option 2: VS Code Live Server
 
@@ -35,6 +52,12 @@ This site is published from the GitHub repository and served via GitHub Pages.
 4. Merge after review; GitHub Pages publishes the update.
 
 If a workflow is configured in .github/workflows/deploy.yml, it will run as part of the deploy pipeline.
+
+Current CI checks in deploy.yml:
+
+- `npm run lint`
+- repository link checking via Lychee
+- site deployment to GitHub Pages
 
 ## Translation Workflow
 

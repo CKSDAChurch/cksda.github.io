@@ -6,8 +6,41 @@ on:
       - main
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linters
+        run: npm run lint
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          fail: true
+          args: >-
+            --no-progress
+            --verbose
+            --accept 200,206,429
+            --exclude-mail
+            --include-fragments
+            --base .
+            ./**/*.html ./**/*.xml ./**/*.md
+
   deploy:
     runs-on: ubuntu-latest
+    needs: verify
     permissions:
       pages: write
       id-token: write
@@ -16,56 +49,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Prepare site with API key
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build assets with API key
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: |
-          python3 - <<'PY'
-          import os, re, pathlib, sys, shutil
-          
-          key = os.environ.get('YOUTUBE_API_KEY', '')
-          if not key:
-              print('Error: YOUTUBE_API_KEY secret is not set.')
-              sys.exit(1)
-          
-          # Create build directory
-          build_dir = pathlib.Path('build')
-          if build_dir.exists():
-              shutil.rmtree(build_dir)
-          build_dir.mkdir()
-          
-          # Copy everything except .git and .github
-          root = pathlib.Path('.')
-          excludes = {'.git', '.github', 'build'}
-          for item in root.iterdir():
-              if item.name in excludes:
-                  continue
-              dest = build_dir / item.name
-              if item.is_dir():
-                  shutil.copytree(item, dest)
-              else:
-                  shutil.copy2(item, dest)
-          
-          # Inject API key into both the source and minified files in the build copy.
-          # The HTML pages load youtube.min.js, so the minified file MUST get the key —
-          # the unminified file is patched too for parity in case anything ever loads it.
-          targets = [
-              (build_dir / 'assets/js/youtube.js',
-               r"const YOUTUBE_API_KEY = 'REPLACE_WITH_YOUR_API_KEY';",
-               f"const YOUTUBE_API_KEY = '{key}';"),
-              (build_dir / 'assets/js/youtube.min.js',
-               r'const YOUTUBE_API_KEY="REPLACE_WITH_YOUR_API_KEY";',
-               f'const YOUTUBE_API_KEY="{key}";'),
-          ]
-          for path, pattern, replacement in targets:
-              text = path.read_text()
-              new_text, n = re.subn(pattern, replacement, text)
-              if n == 0:
-                  print(f'Error: placeholder not found in {path}.')
-                  sys.exit(1)
-              path.write_text(new_text)
-              print(f'API key injected into {path}.')
-          PY
+        run: npm run build
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v4
@@ -73,7 +69,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build
+          path: .
 
       - name: Deploy to GitHub Pages
         id: deployment
