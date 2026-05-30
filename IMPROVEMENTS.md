@@ -62,13 +62,13 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 
 ## 6. Performance
 
-- [ ] **Add `defer` to scripts** — [assets/js/browser.min.js](assets/js/browser.min.js), [assets/js/breakpoints.min.js](assets/js/breakpoints.min.js), [assets/js/util.js](assets/js/util.js), [assets/js/main.js](assets/js/main.js) should use `defer` to avoid blocking parsing.
-- [ ] **Stop `@import` for Google Fonts** — [assets/css/main.css](assets/css/main.css#L5) uses `@import url("https://fonts.googleapis.com/...")` which is render-blocking. Use `<link rel="preconnect">` + `<link rel="stylesheet">` (or self-host).
-- [ ] **Defer Microsoft Clarity** — The inline Clarity loader runs immediately on every page; consider deferring until after page load.
-- [ ] **Optimize images** — Provide WebP/AVIF versions of `images/pic01.jpg`, `images/pic02.jpg`, `images/header.jpg`, etc., and use `<picture>` / `srcset` for responsive sizes.
-- [ ] **Reduce or remove jQuery** — [assets/js/jquery.min.js](assets/js/jquery.min.js) is loaded on every page but used lightly. Replacing `$('#x')` with `document.getElementById('x')` lets you drop ~30KB.
-- [ ] **Minify CSS/JS** — Files like [assets/css/newsletter.css](assets/css/newsletter.css) are unminified. A build step (esbuild/cssnano) could shrink them ~30%.
-- [ ] **Verify gzip/brotli on GitHub Pages** — Confirm `Content-Encoding` headers are present in production responses.
+- [x] **Add `defer` to scripts** — [assets/js/browser.min.js](assets/js/browser.min.js), [assets/js/breakpoints.min.js](assets/js/breakpoints.min.js), [assets/js/util.js](assets/js/util.js), [assets/js/main.js](assets/js/main.js) should use `defer` to avoid blocking parsing.
+- [x] **Stop `@import` for Google Fonts** — [assets/css/main.css](assets/css/main.css#L5) uses `@import url("https://fonts.googleapis.com/...")` which is render-blocking. Use `<link rel="preconnect">` + `<link rel="stylesheet">` (or self-host).
+- [x] **Defer Microsoft Clarity** — The inline Clarity loader runs immediately on every page; consider deferring until after page load.
+- [x] **Optimize images** — Deleted unused `header.jpg`, `pic01.jpg`, `pic02.jpg`, `pic03.jpg`, `logo-dark.png`; replaced `header.jpg` hero with CSS gradient; converted Pioneers logos + site logos to WebP (`sharp`); `pathfinders.html` uses `<picture>` with WebP/PNG fallback. CSS `content:` logo references stay as PNG (WebP unsupported there).
+- [x] **Reduce or remove jQuery** — Removed `jquery.min.js` (87KB) and `util.js` from all 8 HTML pages and deleted the files; replaced the 2 jQuery calls in `main.js` with vanilla JS.
+- [x] **Minify CSS/JS** — Installed `esbuild` as dev dependency; `npm run build` minifies all CSS/JS in-place. CSS: 87KB → 57.9KB (−34%); JS: 45.3KB → 26.1KB (−42%). `calendar.js` was 100% comments and deleted. Build script in `package.json`.
+- [x] **Verify gzip/brotli on GitHub Pages** — Confirmed `Content-Encoding: gzip` present on live `cksda.church` responses. Brotli not offered by GitHub Pages CDN but gzip is active.
 
 ---
 
@@ -109,7 +109,7 @@ A comprehensive, categorized list of suggested improvements for the CKSDA websit
 - [ ] **Expand GitHub Actions workflow** — [.github/workflows/deploy.yml](.github/workflows/deploy.yml) should also run a linter and a link checker (e.g., `lychee-action`).
 - [ ] **Add a link checker to CI** — External links to Google Forms, YouTube, SharePoint break silently otherwise.
 - [ ] **Reconsider API-key injection approach** — The Python regex replace is brittle; a small build step (Node/esbuild) reading from `process.env` would be cleaner.
-- [ ] **Add a CSS/JS minification step** — Pairs naturally with adding a build tool.
+- [x] **Add a CSS/JS minification step** — Done via `esbuild` in Section 6.
 - [ ] **Add `.editorconfig` and `.prettierrc`** — As noted under Code Quality.
 
 ---

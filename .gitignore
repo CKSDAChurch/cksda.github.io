@@ -1,0 +1,6 @@
+# Local dev dependencies (sharp used for image conversion)
+node_modules/
+package-lock.json
+
+# VS Code workspace settings
+.vscode/

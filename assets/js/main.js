@@ -4,21 +4,19 @@
 */
 
 // Responsive breakpoints
-(function ($) {
-	breakpoints({
-		wide: ['1281px', '1680px'],
-		normal: ['981px', '1280px'],
-		narrow: ['841px', '980px'],
-		narrower: ['737px', '840px'],
-		mobile: ['481px', '736px'],
-		mobilep: [null, '480px']
-	});
+breakpoints({
+	wide: ['1281px', '1680px'],
+	normal: ['981px', '1280px'],
+	narrow: ['841px', '980px'],
+	narrower: ['737px', '840px'],
+	mobile: ['481px', '736px'],
+	mobilep: [null, '480px']
+});
 
-	// Animate on load
-	$(window).on('load', () => {
-		setTimeout(() => $('body').removeClass('is-preload'), 100);
-	});
-})(jQuery);
+// Animate on load
+window.addEventListener('load', () => {
+	setTimeout(() => document.body.classList.remove('is-preload'), 100);
+});
 
 // ============ LANGUAGE & UTILITY ============
 const LANG = (() => {
