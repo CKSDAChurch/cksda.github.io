@@ -36,25 +36,8 @@
 	}
 	</script>
 
-	<!-- Google Consent Mode v2 — set defaults before gtag.js loads -->
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() { dataLayer.push(arguments); }
-		gtag('consent', 'default', {
-			'analytics_storage': 'denied',
-			'ad_storage': 'denied',
-			'ad_user_data': 'denied',
-			'ad_personalization': 'denied',
-			'wait_for_update': 500
-		});
-	</script>
-
-	<!-- Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK9DNYP0NB"></script>
-	<script>
-		gtag('js', new Date());
-		gtag('config', 'G-LK9DNYP0NB');
-	</script>
+	<!-- Analytics -->
+	<script src="assets/js/analytics.min.js"></script>
 </head>
 
 <body class="is-preload">
@@ -98,6 +81,7 @@
 	<!-- Scripts -->
 	<script defer src="assets/js/browser.min.js"></script>
 	<script defer src="assets/js/breakpoints.min.js"></script>
+	<script defer src="assets/js/page-config.min.js"></script>
 	<script defer src="assets/js/main.min.js"></script>
 	<script defer src="assets/js/consent.min.js"></script>
 

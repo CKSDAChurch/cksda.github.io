@@ -2,6 +2,13 @@
 
 Static website for Collegedale Korean Seventh-day Adventist Church.
 
+## Repository Layout
+
+- `assets/`: CSS, JS, i18n strings, and program data used by the website.
+- `images/`: Site images and media.
+- `tests/`: Playwright test suite.
+- `docs/`: Project documentation and planning notes.
+
 ## Local Development
 
 Use any static file server from the repository root.
@@ -49,6 +56,6 @@ When updating copy:
 1. Copy an existing page with similar layout (for example children.html).
 2. Update the page content and IDs used for translated text.
 3. Add route and menu keys in language JSON files under menuItems and pageTitles.
-4. Add page mapping logic in assets/js/main.js inside PAGE_CONFIG.
+4. Add page mapping logic in assets/js/page-config.js.
 5. Add navigation links where appropriate.
 6. Test desktop and mobile layouts before merging.

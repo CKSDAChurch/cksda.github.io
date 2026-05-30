@@ -1,10 +1,29 @@
 # Local dev dependencies (sharp used for image conversion)
 node_modules/
 package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # VS Code workspace settings
 .vscode/
+.idea/
 
 # Playwright
 playwright-report/
 test-results/
+
+# OS and local tooling noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Lint/format caches
+.eslintcache
+.stylelintcache
+
+# Temporary/local scripts
+*.tmp
+*.bak
+*.orig

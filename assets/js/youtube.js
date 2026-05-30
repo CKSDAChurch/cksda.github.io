@@ -55,43 +55,44 @@ async function getLatestVideoFromPlaylist(playlistId) {
             return null;
         }
 
-        // Filter for videos that are either:
-        // 1. Currently live, OR
-        // 2. Already published/processed (not scheduled to premiere)
+        // Filter using liveStreamingDetails directly — more reliable than liveBroadcastContent,
+        // which can return 'none' for scheduled streams depending on the broadcast tool used.
+        //
+        // Broadcast video (has liveStreamingDetails):
+        //   - Include if actualStartTime is set (currently live or already completed)
+        //   - Exclude if no actualStartTime (not yet started — future scheduled stream)
+        // Regular video upload (no liveStreamingDetails):
+        //   - Include if processed, public, and not future-scheduled via publishAt
         const now = new Date();
-        
+
         const publishedVideos = detailsData.items.filter(video => {
             const status = video.status;
             const liveDetails = video.liveStreamingDetails;
             const publishedAt = new Date(video.snippet.publishedAt);
-            const broadcastContent = video.snippet.liveBroadcastContent;
 
-            const isLiveNow = liveDetails && liveDetails.actualStartTime && !liveDetails.actualEndTime;
-            const isScheduled = broadcastContent === 'upcoming' || (liveDetails && liveDetails.scheduledStartTime && !liveDetails.actualStartTime);
-            const isPublishedVideo = status.uploadStatus === 'processed' && publishedAt <= now && broadcastContent !== 'upcoming';
-
-            if (isLiveNow) {
-                return true;
+            if (liveDetails) {
+                // Broadcast video: only include if it has actually started
+                return !!liveDetails.actualStartTime;
+            } else {
+                // Regular upload: must be processed, publicly visible, and not future-scheduled
+                return status.uploadStatus === 'processed'
+                    && publishedAt <= now
+                    && status.privacyStatus === 'public'
+                    && !(status.publishAt && new Date(status.publishAt) > now);
             }
-
-            if (isScheduled) {
-                return false;
-            }
-
-            if (isPublishedVideo) {
-                return true;
-            }
-
-            return false;
         });
 
         console.log(`YouTube: Found ${publishedVideos.length} published videos from ${detailsData.items.length} total`);
 
-        // Sort by published date (newest first) and return the latest
+        // Sort by the real broadcast start time (or publishedAt for regular uploads), newest first.
+        // Using actualStartTime rather than publishedAt ensures the sort reflects service date,
+        // not upload/creation date (which can differ when streams are created weeks in advance).
         if (publishedVideos.length > 0) {
-            publishedVideos.sort((a, b) => 
-                new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt)
-            );
+            publishedVideos.sort((a, b) => {
+                const aTime = new Date(a.liveStreamingDetails?.actualStartTime || a.snippet.publishedAt);
+                const bTime = new Date(b.liveStreamingDetails?.actualStartTime || b.snippet.publishedAt);
+                return bTime - aTime;
+            });
             console.log('YouTube: Returning latest video:', publishedVideos[0].id);
             return publishedVideos[0].id;
         }
@@ -152,14 +153,16 @@ async function getNextScheduledVideoFromPlaylist(playlistId, targetDate = null) 
             return null;
         }
 
-        // Filter for videos that are currently live OR scheduled/upcoming on the target date
+        // Filter using liveStreamingDetails directly rather than liveBroadcastContent.
+        // Currently live: actualStartTime set, no actualEndTime.
+        // Scheduled (not yet started): scheduledStartTime set, no actualStartTime.
         const upcomingVideos = detailsData.items.filter(video => {
-            const broadcastContent = video.snippet.liveBroadcastContent;
             const liveDetails = video.liveStreamingDetails;
+            if (!liveDetails) return false;
             // Currently airing live — always include
-            if (broadcastContent === 'live') return true;
-            // Scheduled future broadcast or premiere (not yet started)
-            if (broadcastContent === 'upcoming' && liveDetails && liveDetails.scheduledStartTime && !liveDetails.actualStartTime) {
+            if (liveDetails.actualStartTime && !liveDetails.actualEndTime) return true;
+            // Scheduled future broadcast: has a scheduled start but hasn't begun yet
+            if (liveDetails.scheduledStartTime && !liveDetails.actualStartTime) {
                 // When a target date (YYYY-MM-DD) is provided, only match videos scheduled on that date.
                 // YouTube returns scheduledStartTime as a UTC ISO string; mid-day services are UTC same-day.
                 if (targetDate && !liveDetails.scheduledStartTime.startsWith(targetDate)) return false;
@@ -177,8 +180,8 @@ async function getNextScheduledVideoFromPlaylist(playlistId, targetDate = null) 
 
         // Live now takes priority; among scheduled, return the soonest
         upcomingVideos.sort((a, b) => {
-            const aLive = a.snippet.liveBroadcastContent === 'live';
-            const bLive = b.snippet.liveBroadcastContent === 'live';
+            const aLive = !!(a.liveStreamingDetails?.actualStartTime && !a.liveStreamingDetails?.actualEndTime);
+            const bLive = !!(b.liveStreamingDetails?.actualStartTime && !b.liveStreamingDetails?.actualEndTime);
             if (aLive && !bLive) return -1;
             if (!aLive && bLive) return 1;
             const aTime = new Date(a.liveStreamingDetails?.scheduledStartTime || 0);
