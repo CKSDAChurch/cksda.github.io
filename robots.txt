@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+# epoch.html and zeitgeist.html contain videos and media featuring minors (church kids).
+# These pages are intentionally excluded from search indexing to prevent them from
+# surfacing in search results. They remain accessible via direct URL for members.
+Disallow: /connection.html
+Disallow: /epoch.html
+Disallow: /zeitgeist.html
+
+Sitemap: https://cksda.church/sitemap.xml

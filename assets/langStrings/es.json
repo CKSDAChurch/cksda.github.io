@@ -7,8 +7,6 @@
         "calendarURL": "calendar.html",
         "college": "Colega",
         "collegeURL": "college.html",
-        "connectionCard": "tarjeta de conexión",
-        "connectionCardURL": "connection.html",
         "epochURL": "epoch.html",
         "home": "Casa",
         "homeURL": "/",
@@ -50,9 +48,6 @@
         "event2": "Ver todos los próximos eventos",
         "event2URL": "https://calendar.google.com/calendar/embed?src=c_63i8klbtoarrh3hjkhsij432r0%40group.calendar.google.com&ctz=America%2FNew_York",
         "socialMediaTitle": "Redes Sociales"
-    },
-    "connectionPage": {
-        "browserTitle": "Iglesia CKSDA: Tarjeta de Conexión"
     },
     "epochPage": {
         "browserTitle": "Iglesia CKSDA: Época"

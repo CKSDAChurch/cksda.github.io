@@ -95,14 +95,6 @@ const PAGE_CONFIG = {
 			socialMediaTitle: json.collegiatePage.socialMediaTitle
 		})
 	},
-	connection: {
-		match: (urls) => pageMatches(urls.connectionCardURL),
-		title: () => undefined,
-		subtitle: () => undefined,
-		init: (json) => ({
-			browserTitle: json.connectionPage.browserTitle
-		})
-	},
 	epoch: {
 		match: (urls) => pageMatches(urls.epochURL),
 		title: (json) => json.pageTitles.epochTitle,
@@ -181,7 +173,6 @@ const buildHeader = (json, title, subtitle) => {
 		calendarURL: cal, 
 		childrenMinistriesURL: children, 
 		collegiateMinistryURL: collegiate,
-		connectionCardURL: connection, 
 		epochURL: epoch, 
 		homeURL: home, 
 		musicMinistriesURL: music, 
@@ -202,12 +193,10 @@ const buildHeader = (json, title, subtitle) => {
 	 .join('\n	');
 
 	const homeLink = pageMatches(home) ? '' : `<a href="${home}">${menuItems.home}</a> |`;
-	const connectionLink = pageMatches(connection) ? '' : `<a href="${connection}" target="_blank" rel="noopener noreferrer">${menuItems.connectionCard}</a> |`;
 	const calendarLink = pageMatches(cal) ? '' : `<a href="${cal}">${menuItems.calendar}</a> |`;
 	const ministriesDiv = ministryPages ? `<div id="ministries">${menuItems.ministries}<div class="ministryPages">${ministryPages}</div></div>` : '';
 
 	let urlList = `${homeLink}
-	${connectionLink}
 	${calendarLink}
 	${ministriesDiv} |
 	<a href="https://adventistgiving.org/#/org/ANTFHH/envelope/start" target="_blank" rel="noopener">${menuItems.adventistGiving}</a>`;

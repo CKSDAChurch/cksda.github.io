@@ -9,8 +9,6 @@
         "childrenMinistriesURL": "children.html",
         "collegiateMinistry": "대학",
         "collegiateMinistryURL": "college.html",
-        "connectionCard": "연결 카드",
-        "connectionCardURL": "connection.html",
         "epochURL": "epoch.html",
         "home": "집",
         "homeURL": "/",
@@ -68,9 +66,6 @@
         "event2": "예정된 이벤트 모두 보기",
         "event2URL": "https://calendar.google.com/calendar/embed?src=c_63i8klbtoarrh3hjkhsij432r0%40group.calendar.google.com&ctz=America%2FNew_York",
         "socialMediaTitle": "소셜 미디어"
-    },
-    "connectionPage": {
-        "browserTitle": "CKSDA 교회: 연결 카드"
     },
     "epochPage": {
         "browserTitle": "CKSDA 교회: 에포크"
