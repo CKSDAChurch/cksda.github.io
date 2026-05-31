@@ -41,7 +41,7 @@ module.exports = [
 			'no-var': 'off',
 			'prefer-const': 'off',
 			'no-useless-escape': 'off',
-			'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }]
+			'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true, varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }]
 		}
 	},
 	{

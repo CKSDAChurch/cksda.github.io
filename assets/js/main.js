@@ -198,7 +198,7 @@ const buildFooter = (json) => {
 
 		// Get page title/subtitle
 		const title = pageConfig.title(json) || json._title;
-		const subtitle = pageConfig.subtitle(json) || json._subtitle;
+		const subtitle = pageConfig.subtitle(json) ?? json._subtitle;
 
 		// Render header and footer
 		setHtml("header", buildHeader(json, title, subtitle));

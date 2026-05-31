@@ -91,6 +91,36 @@ jobs:
           print(f"Written: {reference} — {verse_text[:60]}...")
           PY
 
+      - name: Validate verse JSON shape
+        run: |
+          python3 - <<'PY'
+          import json, re, sys
+          with open("assets/programs/verse-today.json", encoding="utf-8") as f:
+              data = json.load(f)
+          required = {"date", "reference", "text", "devotionalUrl"}
+          missing = required - set(data.keys())
+          if missing:
+              print(f"verse-today.json is missing required fields: {missing}", file=sys.stderr)
+              sys.exit(1)
+          for field in required:
+              if not data[field] or not isinstance(data[field], str):
+                  print(f"Field '{field}' is empty or not a string: {data[field]!r}", file=sys.stderr)
+                  sys.exit(1)
+          if not re.fullmatch(r"\d{2}_\d{2}", data["date"]):
+              print(f"Field 'date' has unexpected format: {data['date']!r}", file=sys.stderr)
+              sys.exit(1)
+          if not re.search(r"\d+:\d+", data["reference"]):
+              print(f"Field 'reference' does not look like a Bible reference: {data['reference']!r}", file=sys.stderr)
+              sys.exit(1)
+          if not data["text"].startswith('"'):
+              print(f"Field 'text' does not look like a verse quote: {data['text']!r}", file=sys.stderr)
+              sys.exit(1)
+          if not data["devotionalUrl"].startswith("https://whiteestate.org/devotional/ohc/"):
+              print(f"Field 'devotionalUrl' has unexpected origin: {data['devotionalUrl']!r}", file=sys.stderr)
+              sys.exit(1)
+          print(f"verse-today.json validated OK: {data['reference']}")
+          PY
+
       - name: Commit updated verse
         run: |
           git config user.name  "github-actions[bot]"
