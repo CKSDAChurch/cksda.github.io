@@ -65,27 +65,6 @@ test.describe('touch targets', () => {
 	});
 });
 
-// ─── Calendar ──────────────────────────────────────────────────────────────────
-
-test.describe('calendar', () => {
-	test('uses .calendar-wrapper and not a fixed <embed>', async ({ page }) => {
-		await page.goto('/calendar.html');
-		// Old pattern: <embed ...> — should be gone
-		await expect(page.locator('embed')).toHaveCount(0);
-		// New pattern: .calendar-wrapper > iframe
-		await expect(page.locator('.calendar-wrapper')).toHaveCount(1);
-		await expect(page.locator('.calendar-wrapper iframe')).toHaveCount(1);
-	});
-
-	test('calendar wrapper fills viewport width', async ({ page }) => {
-		await page.goto('/calendar.html');
-		const box = await page.locator('.calendar-wrapper').boundingBox();
-		const vw  = page.viewportSize().width;
-		// Allow up to 2 × 1em (≈32 px) of horizontal padding/margin
-		expect(box?.width, 'calendar wrapper width').toBeGreaterThanOrEqual(vw - 32);
-	});
-});
-
 // ─── Epoch ─────────────────────────────────────────────────────────────────────
 
 test.describe('epoch', () => {
