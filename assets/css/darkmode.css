@@ -513,3 +513,131 @@
     border: 2px solid #e1f2de;
   }
 }
+
+/* Event Cards — dark mode */
+@media (prefers-color-scheme: dark) {
+  .events-summary {
+    color: #5ba8b5;
+  }
+
+  .events-gcal-btn {
+    background: #2a6d79;
+    color: #e1f2de;
+  }
+
+  .events-gcal-btn:hover {
+    background: #3e8391;
+    color: #e1f2de;
+  }
+
+  /* View toggle */
+  .events-view-btn {
+    border-color: rgba(91, 168, 181, 0.22);
+    color: #5ba8b5;
+    background: transparent;
+  }
+
+  .events-view-btn.is-active {
+    background: #2a6d79;
+    color: #e1f2de;
+    border-color: #2a6d79;
+  }
+
+  .events-view-btn:not(.is-active):hover {
+    background: rgba(91, 168, 181, 0.1);
+  }
+
+  /* Month grid */
+  .calendar-grid {
+    background: rgba(225, 242, 222, 0.06);
+  }
+
+  .calendar-grid__header {
+    background: #042D2D;
+    color: #5ba8b5;
+  }
+
+  .calendar-grid__cell {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .calendar-grid__cell--other-month {
+    background: transparent;
+  }
+
+  .calendar-grid__cell--today .calendar-grid__day-num {
+    background: #2a6d79;
+    color: #e1f2de;
+  }
+
+  .calendar-nav-btn {
+    color: #5ba8b5;
+  }
+
+  .calendar-month-title {
+    color: #e1f2de;
+  }
+
+  .calendar-grid__pill {
+    background: rgba(91, 168, 181, 0.2);
+    color: #e1f2de;
+  }
+
+  .calendar-grid__overflow {
+    color: #5ba8b5;
+  }
+
+  /* Popup */
+  .event-popup__card {
+    background: #07393a;
+    border: 1px solid rgba(225, 242, 222, 0.1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    color: #e1f2de;
+  }
+
+  .event-popup__date {
+    color: #5ba8b5;
+  }
+
+  .event-popup__title {
+    color: #e1f2de;
+  }
+
+  .event-popup__close {
+    color: #e1f2de;
+  }
+
+  .events-month-heading {
+    color: #5ba8b5;
+  }
+
+  .events-month-heading::before,
+  .events-month-heading::after {
+    background: rgba(91, 168, 181, 0.2);
+  }
+
+  .event-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(225, 242, 222, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  .event-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .event-card__badge {
+    background: #2a6d79;
+    color: #e1f2de;
+  }
+
+  .event-card__link {
+    background: rgba(91, 168, 181, 0.12);
+    color: #5ba8b5;
+  }
+
+  .event-card__link:hover {
+    background: rgba(91, 168, 181, 0.22);
+    border-bottom-color: transparent;
+  }
+}

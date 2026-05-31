@@ -12,8 +12,7 @@ const buildPageConfig = (helpers) => {
 			title: (json) => json.pageTitles.calendarTitle,
 			subtitle: (json) => json.pageTitles.calendarSubtitle,
 			init: (json) => ({
-				browserTitle: json.calendarPage.browserTitle,
-				calFSMsg: `<a href="https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York">${json.calendarPage.calFSMsg}</a>`
+				browserTitle: json.calendarPage.browserTitle
 			})
 		},
 		children: {

@@ -13,8 +13,11 @@
 
 const esbuild = require('esbuild');
 const sharp = require('sharp');
+const fs = require('node:fs/promises');
+const path = require('node:path');
 
 const apiKey = process.env.YOUTUBE_API_KEY || '';
+const calendarApiKey = process.env.CALENDAR_API_KEY || '';
 
 if (!apiKey) {
     if (process.env.CI) {
@@ -22,6 +25,15 @@ if (!apiKey) {
         process.exit(1);
     } else {
         console.warn('Warning: YOUTUBE_API_KEY is not set — YouTube API calls will not work in this build.');
+    }
+}
+
+if (!calendarApiKey) {
+    if (process.env.CI) {
+        console.error('Error: CALENDAR_API_KEY secret is not set.');
+        process.exit(1);
+    } else {
+        console.warn('Warning: CALENDAR_API_KEY is not set — calendar events will not load in this build.');
     }
 }
 
@@ -80,6 +92,15 @@ async function build() {
             outfile: 'assets/js/youtube.min.js',
             define: {
                 __YOUTUBE_API_KEY__: JSON.stringify(apiKey),
+            },
+        }),
+        // calendar-events.js — __CALENDAR_API_KEY__ is injected the same way.
+        esbuild.build({
+            entryPoints: ['assets/js/calendar-events.js'],
+            minify: true,
+            outfile: 'assets/js/calendar-events.min.js',
+            define: {
+                __CALENDAR_API_KEY__: JSON.stringify(calendarApiKey),
             },
         }),
     ];

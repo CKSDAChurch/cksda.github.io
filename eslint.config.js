@@ -34,7 +34,8 @@ module.exports = [
 				gtag: 'readonly',
 				YT: 'readonly',
 				lang: 'readonly',
-				__YOUTUBE_API_KEY__: 'readonly'
+				__YOUTUBE_API_KEY__: 'readonly',
+				__CALENDAR_API_KEY__: 'readonly'
 			}
 		},
 		rules: {

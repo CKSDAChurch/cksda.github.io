@@ -4,9 +4,13 @@
 <head>
 	<title id="browserTitle">Church Calendar | Collegedale Korean SDA Church</title>
 	<meta charset="utf-8" />
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src https://cksdachurch-my.sharepoint.com https://calendar.google.com; object-src https://calendar.google.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://i.ytimg.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms https://www.googleapis.com; worker-src 'self'; base-uri 'self'; form-action 'self';" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="View the Collegedale Korean SDA Church calendar for worship services, ministry schedules, and upcoming church events." />    <meta property="og:title" content="Church Calendar | Collegedale Korean SDA Church">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src https://cksdachurch-my.sharepoint.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://i.ytimg.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms https://www.googleapis.com; worker-src 'self'; base-uri 'self'; form-action 'self';" />
+	
+	<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta name="description" content="View the Collegedale Korean SDA Church calendar for worship services, ministry schedules, and upcoming church events." />    <meta property="og:title" content="Church Calendar | Collegedale Korean SDA Church">
     <meta property="og:type" content="website">
     <meta property="og:description" content="View the Collegedale Korean SDA Church calendar for worship services, ministry schedules, and upcoming church events.">
     <meta property="og:url" content="https://cksda.church/calendar.html">
@@ -19,6 +23,10 @@
 	<link rel="canonical" href="https://cksda.church/calendar.html" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+	<link rel="preconnect" href="https://www.googletagmanager.com">
+	<link rel="dns-prefetch" href="https://www.google-analytics.com">
+	<link rel="preload" as="image" href="./images/logo-light.png">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic,400,400italic,600,600italic,700,700italic">
 	<link rel="stylesheet" href="assets/css/main.min.css" />
 	<link rel="icon" href="./images/favicon.png" />
@@ -36,6 +44,17 @@
 	}
 	</script>
 
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		"itemListElement": [
+			{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cksda.church/"},
+			{"@type": "ListItem", "position": 2, "name": "Calendar", "item": "https://cksda.church/calendar.html"}
+		]
+	}
+	</script>
+
 	<!-- Analytics -->
 	<script src="assets/js/analytics.min.js"></script>
 </head>
@@ -47,13 +66,38 @@
 
 	<!-- Main -->
 	<main id="main">
-		<div class="calendar-wrapper">
-			<iframe src="https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York" title="Collegedale Korean SDA Church Google Calendar"></iframe>
+
+		<!-- Loading state -->
+		<div id="events-loading" class="events-loading container medium" aria-live="polite">
+			<p>Loading upcoming events&hellip;</p>
 		</div>
 
-		<div class="RSVP major container medium">
-			<span id="calFSMsg"><a href="https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&ctz=America%2FNew_York">View Calendar Full Screen</a></span>
+		<!-- Error state (hidden until an error occurs) -->
+		<div id="events-error" class="events-error container medium" role="alert" hidden></div>
+
+		<!-- Summary bar (hidden until loaded) -->
+		<div id="events-summary" class="events-summary container medium" hidden></div>
+
+		<!-- Event cards (hidden until loaded) -->
+		<div id="events-container" class="events-container container medium" hidden></div>
+
+		<!-- Google Calendar CTA -->
+		<div class="events-gcal-cta container medium">
+			<a href="https://calendar.google.com/calendar/embed?src=c_cupfa6741dgvle32pjejeoqog4%40group.calendar.google.com&amp;ctz=America%2FNew_York"
+			   class="events-gcal-btn"
+			   target="_blank"
+			   rel="noopener noreferrer">
+				<span class="icon solid fa-calendar-days" aria-hidden="true"></span>
+				Open in Google Calendar
+			</a>
+			<a href="/cksda.ics"
+			   class="events-gcal-btn"
+			   download>
+				<span class="icon solid fa-download" aria-hidden="true"></span>
+				Download ICS
+			</a>
 		</div>
+
 	</main>
 
 	<!-- Footer -->
@@ -64,6 +108,7 @@
 	<script defer src="assets/js/breakpoints.min.js"></script>
 	<script defer src="assets/js/page-config.min.js"></script>
 	<script defer src="assets/js/main.min.js"></script>
+	<script defer src="assets/js/calendar-events.min.js"></script>
 	<script defer src="assets/js/consent.min.js"></script>
 </body>
 

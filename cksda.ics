@@ -1,0 +1,72 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//CKSDA Church//Church Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:CKSDA Church Calendar
+X-WR-TIMEZONE:America/New_York
+BEGIN:VEVENT
+UID:ko-sabbath-school@cksda.church
+DTSTAMP:20260531T120000Z
+SUMMARY:Korean Sabbath School
+DTSTART;TZID=America/New_York:20260606T093000
+DTEND;TZID=America/New_York:20260606T103000
+RRULE:FREQ=WEEKLY;BYDAY=SA
+LOCATION:Collegedale Korean SDA Church
+DESCRIPTION:Weekly Korean Sabbath School at CKSDA Church.
+URL:https://cksda.church/calendar.html
+END:VEVENT
+BEGIN:VEVENT
+UID:en-sabbath-school@cksda.church
+DTSTAMP:20260531T120000Z
+SUMMARY:English Sabbath School
+DTSTART;TZID=America/New_York:20260606T100000
+DTEND;TZID=America/New_York:20260606T110000
+RRULE:FREQ=WEEKLY;BYDAY=SA
+LOCATION:Collegedale Korean SDA Church
+DESCRIPTION:Weekly English Sabbath School at CKSDA Church.
+URL:https://cksda.church/calendar.html
+END:VEVENT
+BEGIN:VEVENT
+UID:ko-worship@cksda.church
+DTSTAMP:20260531T120000Z
+SUMMARY:Korean Worship Service
+DTSTART;TZID=America/New_York:20260606T103000
+DTEND;TZID=America/New_York:20260606T111000
+RRULE:FREQ=WEEKLY;BYDAY=SA
+LOCATION:Collegedale Korean SDA Church
+DESCRIPTION:Weekly Korean worship service at CKSDA Church.
+URL:https://cksda.church/calendar.html
+END:VEVENT
+BEGIN:VEVENT
+UID:en-worship@cksda.church
+DTSTAMP:20260531T120000Z
+SUMMARY:English Worship Service
+DTSTART;TZID=America/New_York:20260606T112000
+DTEND;TZID=America/New_York:20260606T124500
+RRULE:FREQ=WEEKLY;BYDAY=SA
+LOCATION:Collegedale Korean SDA Church
+DESCRIPTION:Weekly English worship service at CKSDA Church.
+URL:https://cksda.church/calendar.html
+END:VEVENT
+BEGIN:VEVENT
+UID:pathfinders-registration-2026@cksda.church
+DTSTAMP:20260531T120000Z
+SUMMARY:Pioneers Pathfinders Registration Day
+DTSTART;TZID=America/New_York:20260628T090000
+DTEND;TZID=America/New_York:20260628T110000
+LOCATION:Collegedale Korean SDA Church
+DESCRIPTION:Registration day for the 2026-2027 Pioneers Pathfinders club year.
+URL:https://cksda.church/pathfinders.html
+END:VEVENT
+BEGIN:VEVENT
+UID:pathfinders-opening-2026@cksda.church
+DTSTAMP:20260531T120000Z
+SUMMARY:Pioneers Pathfinders Opening Day
+DTSTART;VALUE=DATE:20260712
+DTEND;VALUE=DATE:20260713
+LOCATION:Collegedale Korean SDA Church
+DESCRIPTION:Opening day for the 2026-2027 Pioneers Pathfinders club year.
+URL:https://cksda.church/pathfinders.html
+END:VEVENT
+END:VCALENDAR

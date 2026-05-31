@@ -62,6 +62,7 @@ jobs:
       - name: Build assets with API key
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          CALENDAR_API_KEY: ${{ secrets.CALENDAR_API_KEY }}
         run: npm run build
 
       - name: Configure GitHub Pages
