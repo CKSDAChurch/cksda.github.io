@@ -157,7 +157,7 @@
 			if (url.hostname.includes('youtu.be')) return url.pathname.split('/').filter(Boolean)[0] || null;
 			if (url.pathname.startsWith('/watch')) return url.searchParams.get('v');
 			if (url.pathname.startsWith('/live/')) return url.pathname.split('/')[2] || null;
-		} catch (error) {
+		} catch (_) {
 			return null;
 		}
 
@@ -316,7 +316,6 @@
 	const updateVerseOfDay = async () => {
 		let verseEntry;
 		let devotionalUrl = getWhiteEstateDevotionalUrl();
-		const devotionalText = "Read today's Our High Calling devotional";
 
 		try {
 			// First try the pre-built JSON (works on production — same origin, no CORS)
@@ -430,11 +429,77 @@
 		return `${year}-01`;
 	};
 
-	// Rewrites every lesson-tile href so the YYYY-QQ segment matches the current quarter.
+	// Rewrites every lesson-tile href so the YYYY-QQ, week, and day segments all
+	// reflect the current quarter/week and today's day within the lesson week.
+	//
+	// Adult lessons (EM / Young Adults) number days starting from Sabbath:
+	//   Sat=01  Sun=02  Mon=03  Tue=04  Wed=05  Thu=06  Fri=07
+	//
+	// Children/collegiate lessons number days starting from Sunday:
+	//   Sun=01  Mon=02  Tue=03  Wed=04  Thu=05  Fri=06  Sat=07
+	//
+	// Adult URLs have the quarter code immediately followed by a slash,
+	// e.g. /en/2026-02/10/03 — child URLs append a dash-suffix first,
+	// e.g. /en/2026-02-cc/10 or /resources/en/ss/2026-02-cq/10/02.
+	// Some child lesson types (High School, Earliteen, Juniors) omit the day
+	// segment entirely; those are left as /week only.
 	const updateLessonLinks = (sabbathDate) => {
 		const quarterCode = getSabbathSchoolQuarterCode(sabbathDate);
+
+		// Compute week number within the quarter (1-indexed).
+		const [qyStr, qnStr] = quarterCode.split('-');
+		const qYear = parseInt(qyStr, 10);
+		const qNum  = parseInt(qnStr, 10);
+		const qTransitions = { 1: [qYear - 1, 12], 2: [qYear, 3], 3: [qYear, 6], 4: [qYear, 9] };
+		const [qy, qm] = qTransitions[qNum];
+		const quarterStart = getLastSaturdayOf(qy, qm);
+
+		// Compute day numbers based on today's day of week (not the sabbath).
+		const todayParts = zonedParts(new Date(), TIME_ZONE);
+		const todayDate = makeDateFromZonedParts(todayParts);
+		const adultDayMap = { Sat: 1, Sun: 2, Mon: 3, Tue: 4, Wed: 5, Thu: 6, Fri: 7 };
+		const adultDay = adultDayMap[todayParts.weekday] ?? 1;
+
+		// Adult week number: roll back to the most recent Saturday (adult week start),
+		// then count from quarterStart. On Sunday the upcoming sabbathDate is next week,
+		// so we must NOT use it here.
+		const saturdayOffsets = { Sat: 0, Sun: 1, Mon: 2, Tue: 3, Wed: 4, Thu: 5, Fri: 6 };
+		const daysBackToSaturday = saturdayOffsets[todayParts.weekday] ?? 0;
+		const lastSaturday = new Date(todayDate.getTime() - daysBackToSaturday * 24 * 60 * 60 * 1000);
+		const weekNum = Math.round((lastSaturday.getTime() - quarterStart.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+
+		// Child lessons run Sunday (day 1) → Saturday (day 7).
+		// Saturday is the LAST day of the child week, not the start of the next one.
+		const childDayMap = { Sun: 1, Mon: 2, Tue: 3, Wed: 4, Thu: 5, Fri: 6, Sat: 7 };
+		const childRefParts = todayParts;
+
+		// Week number for child lessons: count how many Sundays since the first
+		// Sunday of the quarter (= quarterStart + 1 day).
+		const firstSunday = new Date(quarterStart.getTime() + 24 * 60 * 60 * 1000);
+		const sundayOffsets = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+		const daysBackToSunday = sundayOffsets[childRefParts.weekday] ?? 0;
+		const childSunday = new Date(todayDate.getTime() - daysBackToSunday * 24 * 60 * 60 * 1000);
+		const childWeekNum = Math.round((childSunday.getTime() - firstSunday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+		const childDay = childDayMap[childRefParts.weekday] ?? 1;
+
 		document.querySelectorAll('.lessons-grid a[href]').forEach((link) => {
-			link.href = link.href.replace(/\d{4}-0[1-4]/g, quarterCode);
+			// Detect adult vs child by whether the quarter code is immediately followed
+			// by a slash (adult) or a dash-suffix (child).
+			const isAdult = /\/\d{4}-0[1-4]\//.test(link.href);
+			const wk     = isAdult ? weekNum : childWeekNum;
+			const dayNum = isAdult ? adultDay : childDay;
+
+			// Update quarter code (handles plain quarter and quarter+suffix alike).
+			let href = link.href.replace(/\d{4}-0[1-4]/g, quarterCode);
+
+			// Replace trailing /week or /week/day with recomputed values.
+			href = href.replace(/\/\d{1,2}(\/\d{1,2})?$/, (_, dayPart) =>
+				dayPart !== undefined
+					? `/${pad2(wk)}/${pad2(dayNum)}`
+					: `/${pad2(wk)}`
+			);
+
+			link.href = href;
 		});
 	};
 
