@@ -7,7 +7,6 @@ yarn-error.log*
 pnpm-debug.log*
 
 # VS Code workspace settings
-.vscode/
 .idea/
 
 # Playwright
