@@ -5,13 +5,14 @@
 	Service Worker
 	Strategies:
 	  Navigation (HTML):  network-first → /offline.html fallback
+	  Daily verse JSON:   network-first → cached JSON fallback
 	  Static assets:      cache-first   → populate cache on first fetch
 	  Cross-origin:       pass through  (not intercepted)
 */
 
 'use strict';
 
-const CACHE_NAME = 'cksda-v1';
+const CACHE_NAME = 'cksda-v2';
 
 // Core assets pre-cached on first install.
 // Keep this list to critical same-origin assets that are always present.
@@ -21,9 +22,6 @@ const PRECACHE_URLS = [
 	'/assets/css/lightmode.min.css',
 	'/assets/css/darkmode.min.css',
 	'/assets/css/menu.min.css',
-	'/assets/js/browser.min.js',
-	'/assets/js/breakpoints.min.js',
-	'/assets/js/page-config.min.js',
 	'/assets/js/main.min.js',
 	'/assets/js/consent.min.js',
 	'/images/logo-light.png',
@@ -59,6 +57,29 @@ self.addEventListener('fetch', event => {
 		// Page navigations: try the network first; serve offline page if network fails.
 		event.respondWith(
 			fetch(request).catch(() => caches.match('/offline.html'))
+		);
+		return;
+	}
+
+	if (url.pathname === '/assets/programs/verse-today.json') {
+		// Always try to refresh the daily verse; fall back to cached JSON when offline.
+		event.respondWith(
+			fetch(request)
+				.then(response => {
+					if (response && response.status === 200 && response.type === 'basic') {
+						const clone = response.clone();
+						caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+					}
+					return response;
+				})
+				.catch(() =>
+					caches.match(request).then(cached =>
+						cached || new Response('{}', {
+							status: 503,
+							headers: { 'Content-Type': 'application/json' },
+						})
+					)
+				)
 		);
 		return;
 	}

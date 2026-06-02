@@ -1,7 +1,6 @@
-(function () {
-	'use strict';
+// @ts-check
 
-	var CONSENT_KEY = 'cksdaConsent';
+var CONSENT_KEY = 'cksdaConsent';
 	var analyticsConfig = window.CKSDA_ANALYTICS || {};
 	var CLARITY_ID = analyticsConfig.clarityId || 'hik5wt3z51';
 
@@ -85,4 +84,3 @@
 		showBanner();
 	}
 	// If stored === 'denied': consent stays denied, no action needed
-}());

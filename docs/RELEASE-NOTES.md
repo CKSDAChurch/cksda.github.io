@@ -3,6 +3,36 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v1.4.0 — June 2, 2026
+
+### Added
+- **ES module architecture** — Core runtime JS migrated to `import`/`export`; HTML pages updated to `<script type="module">` where applicable.
+- **`lang-utils.js`** — Extracted pure `detectLanguage` function for browser-independent use and unit testing.
+- **`verse-utils.js`** — Extracted pure `parseVerseAndReference` and `BIBLE_BOOK_PATTERN` for browser-independent use and unit testing.
+- **Unit tests** — `node --test` suite in `tests/unit/` covering `detectLanguage`, `buildPageConfig`, `parseVerseAndReference`, and `BIBLE_BOOK_PATTERN`; `npm run test:unit` script added to `package.json`.
+- **`"type": "module"` in `package.json`** — Aligns Node.js module resolution with the ES module source base.
+
+### Changed
+- **Build** — `main.js`, `newsletter.js`, `youtube.js`, and `calendar-events.js` now use `bundle: true` + `format: 'esm'` in esbuild; `consent.js` uses `format: 'esm'`; `analytics.js` stays classic (synchronous consent-mode script).
+- **`page-config.min.js` removed** — `page-config.js` is now bundled into `main.min.js`; standalone script tag removed from all 9 HTML pages.
+- **`newsletter.min.js`** — Now bundles `youtube.js` and `verse-utils.js`; `youtube.min.js` tag removed from `newsletter.html`.
+- **AbortController for language fetches** — `loadLanguageFile` in `main.js` aborts any in-flight fetch before starting a new one.
+- **`// @ts-check`** — Added to all JS source files for TypeScript-grade type checking without a compilation step.
+- **`scripts/build.js`** — Converted from CommonJS `require()` to ESM `import` statements.
+- **`sw.js` caching strategy** — Added a dedicated network-first rule for `/assets/programs/verse-today.json` (with cached fallback when offline) so daily devotional updates no longer require manual cache clears.
+- **Service worker cache version** — Bumped from `cksda-v1` to `cksda-v2` to roll out the verse JSON cache-strategy update immediately.
+- **`calendar-events.js` module shape** — Removed top-level IIFE wrapper and aligned with the ESM source pattern.
+- **`eslint.config.js`** — Migrated config file to ESM and split lint targets by actual module type (ESM vs classic script vs CommonJS test/config files).
+
+### Fixed
+- **YouTube iframe API callback in ESM** — `onYouTubeIframeAPIReady` is now attached to `window`, restoring player initialization after the ESM migration.
+- **Lychee CI failures from stale local links** — Updated `docs/2026-05-29-ImprovementSuggestions.md` to remove markdown links pointing to deleted `assets/js/browser.min.js` and `assets/js/breakpoints.min.js`.
+
+### Removed
+- **Stale build artifact** — Deleted `assets/js/page-config.min.js` and removed its pre-cache reference from `sw.js`.
+
+---
+
 ## v1.3.5 — June 1, 2026
 
 ### Added
