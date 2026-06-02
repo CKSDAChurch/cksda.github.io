@@ -56,7 +56,7 @@ The site is currently a brochure. Adding evergreen, repeatable content is what k
 
 - [ ] **"What to expect on your first visit" page** — Dress, parking, kids' programs, language services. Highest-converting page a church website can have.
 - [ ] **Service-times footer enhancement** — Keep service times in the existing footer on every page, but improve readability and visual hierarchy (especially mobile).
-- [ ] **Calendar ICS export** — Publish `/cksda.ics` that mirrors the Google/Outlook calendar so visitors can subscribe without needing a Google account.
+- [x] **Calendar ICS export** — Publish `/cksda.ics` that mirrors the Google/Outlook calendar so visitors can subscribe without needing a Google account.
 - [ ] **Ministry leader bios** — Photo + short bio + contact for each ministry page. Builds trust and gives visitors a real person to reach out to.
 - [ ] **AudioVerse link strategy (optional)** — If sermons are later mirrored to AudioVerse, add a simple outbound link and explanation rather than introducing a separate in-site audio pipeline now.
 - [ ] **Instagram-first photo strategy** — Keep photos on Instagram as the source of truth; if needed, add a lightweight "latest photos" link/embed rather than maintaining a separate gallery page.
@@ -67,11 +67,11 @@ The site is currently a brochure. Adding evergreen, repeatable content is what k
 
 Conversion-oriented features that turn casual visitors into engaged members.
 
-- [ ] **AdventistGiving outbound flow improvements** — Keep giving as an external destination (new tab), and evaluate whether a mobile app deep-link/fallback URL can improve tablet/phone handoff.
+- [x] **AdventistGiving outbound flow improvements** — Evaluated: AdventistGiving does not publish a custom URL scheme and has not configured universal/app links, so there is no way to open the app automatically from a web link. The existing `https://adventistgiving.org` link is kept as-is.
 - [ ] **"Watch live" status indicator** — Small dot in the header that turns green during Sabbath service hours.
 - [ ] **Sabbath countdown only** — Keep a single countdown to next Sabbath service; remove additional per-ministry event countdown complexity.
 - [ ] **Volunteer signup** — `/serve.html` listing ministries with open volunteer roles; clicking opens a contact form.
-- [ ] **Member directory ownership hardening** — Directory already exists at `directory.cksda.church` (Render-hosted). Prioritize moving source/deploy ownership into the church GitHub org (not a personal machine/account), documenting stack/deploy (likely Django), and then reassess auth/privacy improvements.
+- [ ] **Member directory ownership hardening** — Directory already exists at `directory.cksda.church`. Stack confirmed: Gunicorn (Python WSGI) on Render, behind Cloudflare. Framework is Python-based (Django most likely given the auth/directory feature set, but could be Flask). Prioritize moving source/deploy ownership into the church GitHub org (not a personal machine/account) and documenting the Render deploy config, then reassess auth/privacy improvements.
 
 ---
 
@@ -81,7 +81,7 @@ You have GA4 + Clarity for behavior, but no signal when the site itself misbehav
 
 - [ ] **Uptime monitoring** — Free tier of UptimeRobot / BetterStack pinging `cksda.church/` and `cksda.church/newsletter.html` every 5 minutes; alert to email or Discord.
 - [ ] **404 page with analytics** — Custom `/404.html` that logs a GA4 event with the requested path, so broken inbound links surface in reports.
-- [ ] **Synthetic check for verse-of-day API** — The `update-verse.yml` cron silently no-ops if the upstream API changes shape. Add a workflow assertion that the resulting JSON has expected fields and fail loudly.
+- [x] **Synthetic check for verse-of-day API** — The `update-verse.yml` cron silently no-ops if the upstream API changes shape. Add a workflow assertion that the resulting JSON has expected fields and fail loudly.
 - [ ] **Client-side error tracking** — Add Sentry (or Highlight, or a self-hosted GlitchTip) with a low-volume free tier. Capture uncaught errors, unhandled promise rejections, and CSP violations.
 - [ ] **CSP violation reporting** — Add `report-to` / `report-uri` to the CSP header so blocked requests get logged rather than silently failing.
 - [ ] **Web Vitals → GA4** — Send LCP, INP, CLS, TTFB to GA4 via the `web-vitals` library so you can monitor real-user performance per page.
@@ -93,17 +93,17 @@ You have GA4 + Clarity for behavior, but no signal when the site itself misbehav
 
 User-visible quality-of-life improvements that compound.
 
-- [ ] **Dark mode toggle** — Three-state (system / light / dark) `◐` button saved in `localStorage`.
-- [ ] **Language/theme control visibility tuning** — Controls moved to a fixed floating pill (bottom-left), mirroring the back-to-top button.
-- [ ] **Footer address presentation polish** — Mailing address/contact/footer utility layout improved for readability on small screens.
-- [ ] **Search box** — Evaluated and intentionally not added; site owner preference is to keep search off the site.
-- [ ] **Breadcrumbs** — Implemented via `initBreadcrumbs()` on all inner pages.
-- [ ] **Smooth scroll for in-page anchors** — `scroll-behavior: smooth` with `prefers-reduced-motion` guard in CSS.
-- [ ] **Back-to-top button** — Fixed bottom-right button appears after scrolling; reduced-motion safe.
-- [ ] **Page transitions** — `@view-transition` CSS + `initViewTransitions()` JS wired on all page navigations.
-- [ ] **Newsletter link in nav** — Added `newsletter.html` link to main header navigation.
-- [ ] **Fix light-mode mobile app icon contrast** — Update app icon assets so the light-mode icon is distinct (not white-on-white) when saved to Home Screen.
-- [ ] **Fix mobile footer wrapping/crowding** — Resolve cramped copyright/privacy/footer-link layout on mobile widths.
+- [x] **Dark mode toggle** — Three-state (system / light / dark) `◐` button saved in `localStorage`.
+- [x] **Language/theme control visibility tuning** — Controls moved to a fixed floating pill (bottom-left), mirroring the back-to-top button.
+- [x] **Footer address presentation polish** — Mailing address/contact/footer utility layout improved for readability on small screens.
+- [x] **Search box** — Evaluated and intentionally not added; site owner preference is to keep search off the site.
+- [x] **Breadcrumbs** — Implemented via `initBreadcrumbs()` on all inner pages.
+- [x] **Smooth scroll for in-page anchors** — `scroll-behavior: smooth` with `prefers-reduced-motion` guard in CSS.
+- [x] **Back-to-top button** — Fixed bottom-right button appears after scrolling; reduced-motion safe.
+- [x] **Page transitions** — `@view-transition` CSS + `initViewTransitions()` JS wired on all page navigations.
+- [x] **Newsletter link in nav** — Added `newsletter.html` link to main header navigation.
+- [x] **Fix light-mode mobile app icon contrast** — Update app icon assets so the light-mode icon is distinct (not white-on-white) when saved to Home Screen.
+- [x] **Fix mobile footer wrapping/crowding** — Resolve cramped copyright/privacy/footer-link layout on mobile widths.
 
 ---
 
@@ -133,7 +133,7 @@ You've cleared WCAG AA basics; these go further.
 - [ ] **Accessibility statement page** — `/accessibility.html` describing the conformance target (WCAG 2.2 AA), known limitations, and a contact for accessibility issues.
 - [ ] **Automated a11y audit in CI** — Add `@axe-core/playwright` to the Playwright suite; fail the build on new serious/critical violations.
 - [ ] **Keyboard navigation regression test** — Add a Playwright test that tabs through index/newsletter/pathfinders and asserts focus is always visible and order is logical.
-- [ ] **`prefers-contrast: more`** — Provide a higher-contrast color palette for users who request it at the OS level.
+- [x] **`prefers-contrast: more`** — Provide a higher-contrast color palette for users who request it at the OS level.
 
 ---
 
@@ -142,8 +142,8 @@ You've cleared WCAG AA basics; these go further.
 Translation strings exist; the architecture around them can mature.
 
 - [ ] **Translation drift CI check** — A Node script run in CI that diffs key sets between `en.json`, `es.json`, `ko.json` and fails on missing/extra keys.
-- [ ] **Language preference persistence** — Save the chosen language in `localStorage` and honor it on next visit before falling back to browser language.
-- [ ] **`<html lang>` reflects active language across the SPA-style swap** — Verify it changes when the user clicks Korean, not just on initial load.
+- [x] **Language preference persistence** — Save the chosen language in `localStorage` and honor it on next visit before falling back to browser language.
+- [x] **`<html lang>` reflects active language across the SPA-style swap** — Verify it changes when the user clicks Korean, not just on initial load.
 - [ ] **Localized URLs** — `/es/` and `/ko/` path prefixes so search engines index translated content separately and users can share language-specific links. Use `hreflang` to link them.
 - [ ] **Pluralization & ICU MessageFormat** — Adopt `@formatjs/intl-messageformat` (small) so strings like "1 service" / "3 services" work correctly across languages.
 - [ ] **Number / currency formatting** — Use `Intl.NumberFormat` for any monetary amounts (giving, scholarship totals).
@@ -167,7 +167,7 @@ Translation strings exist; the architecture around them can mature.
 Foundational wins are done; these are the next 10–20%.
 
 - [ ] **`fetchpriority="high"` on the LCP image** — Cheap one-attribute hint that meaningfully improves LCP on Chromium.
-- [ ] **Service-worker cache versioning** — Confirm `sw.js` uses a versioned cache name and `skipWaiting` + `clients.claim` so deploys don't strand users on stale assets.
+- [x] **Service-worker cache versioning** — Confirm `sw.js` uses a versioned cache name and `skipWaiting` + `clients.claim` so deploys don't strand users on stale assets.
 - [ ] **Preload the hero font and LCP image** — `<link rel="preload" as="font" crossorigin>` and `<link rel="preload" as="image">` for the largest contentful paint asset on each page.
 - [ ] **Resource hints audit** — `dns-prefetch` and `preconnect` for googletagmanager, clarity, youtube.com domains before the scripts load.
 - [ ] **Self-host Google Fonts** — Even with preconnect, third-party fonts add a DNS hop and a request. Subset the actual glyphs used and serve as WOFF2 from `/assets/webfonts/`.

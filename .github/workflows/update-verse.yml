@@ -2,8 +2,9 @@ name: Update Daily Verse
 
 on:
   schedule:
-    # 05:00 UTC daily = midnight EST (UTC-5) / 1am EDT (UTC-4)
-    - cron: '0 5 * * *'
+    # Run hourly to avoid GitHub schedule jitter around a single midnight trigger.
+    # The commit step is already no-op when verse-today.json is unchanged.
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -20,12 +21,13 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, re, sys, urllib.request
-          from datetime import datetime, timezone, timedelta
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
 
-          # Current date in America/New_York (UTC-4 EDT / UTC-5 EST); use UTC-5 to match cron trigger
-          now_ct = datetime.now(timezone(timedelta(hours=-5)))
-          month = now_ct.strftime('%m')
-          day   = now_ct.strftime('%d')
+          # Current date in America/New_York (DST-aware: EST in winter, EDT in summer)
+          now_et = datetime.now(ZoneInfo('America/New_York'))
+          month = now_et.strftime('%m')
+          day   = now_et.strftime('%d')
           date_key = f"{month}_{day}"
 
           url = f"https://whiteestate.org/devotional/ohc/{date_key}/"
