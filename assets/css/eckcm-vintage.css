@@ -1,0 +1,526 @@
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap');
+
+:root {
+    --paper: #f5ecd7;
+    --paper-shadow: #d4be93;
+    --paper-edge: #a58d65;
+    --ink: #1f1610;
+    --ink-soft: #4c3a28;
+    --rule: #745b37;
+    --alert: #872c20;
+    --panel: #efe0c0;
+    --bg-top: #9e8661;
+    --bg-mid: #c8ae81;
+    --bg-bot: #a88b62;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.eckcm-body {
+    color: var(--ink);
+    background: #d6ccba;
+    min-height: 100vh;
+    font-family: 'Libre Baskerville', Georgia, serif;
+}
+
+.skip-to-content {
+    left: -9999px;
+    position: absolute;
+    top: 0.5rem;
+    z-index: 1000;
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 0.3rem;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    padding: 0.55rem 0.7rem;
+}
+
+.skip-to-content:focus {
+    left: 0.5rem;
+}
+
+.news-cry {
+    background: var(--paper);
+    color: var(--ink-soft);
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    padding: 0.4rem 0.8rem;
+}
+
+.news-cry p {
+    margin: 0;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+}
+
+.gazette-main {
+    background: #d6ccba;
+    padding: 1.4rem 0.75rem 2.4rem;
+}
+
+.gazette-shell {
+    margin: 0 auto;
+    max-width: 1100px;
+}
+
+.gazette-paper {
+    color: var(--ink);
+    background:
+        repeating-linear-gradient(0deg, rgba(31, 22, 16, 0.03), rgba(31, 22, 16, 0.03) 1px, transparent 1px, transparent 3px),
+        var(--paper);
+    border: 2px solid var(--paper-edge);
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.14),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+    padding: clamp(1rem, 4vw, 2.3rem);
+    position: relative;
+}
+
+.gazette-paper::before,
+.gazette-paper::after {
+    content: '';
+    height: 3px;
+    left: 0.8rem;
+    position: absolute;
+    right: 0.8rem;
+    background: linear-gradient(90deg, transparent, var(--rule), transparent 88%);
+}
+
+.gazette-paper::before {
+    top: 0.72rem;
+}
+
+.gazette-paper::after {
+    bottom: 0.72rem;
+}
+
+.gazette-kicker {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.73rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-soft);
+    margin: 0.05rem 0 0.65rem;
+}
+
+.gazette-nameplate {
+    font-family: 'IM Fell English', 'Times New Roman', serif;
+    font-size: clamp(2.35rem, 8.5vw, 5rem);
+    text-align: center;
+    line-height: 0.94;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.gazette-subhead {
+    text-align: center;
+    margin: 0.7rem auto 0;
+    max-width: 56ch;
+    color: var(--ink-soft);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 0.98rem;
+}
+
+.gazette-meta {
+    align-items: center;
+    border-bottom: 2px solid var(--rule);
+    border-top: 2px solid var(--rule);
+    display: grid;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    gap: 0.45rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 1rem 0 1.1rem;
+    padding: 0.54rem 0.2rem;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+}
+
+.gazette-meta span {
+    text-align: center;
+}
+
+.gazette-jump {
+    background: #f3e9d3;
+    border: 1px solid var(--paper-edge);
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+}
+
+.gazette-jump h2 {
+    border-bottom: 1px solid var(--rule);
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.09em;
+    margin: 0 0 0.55rem;
+    padding-bottom: 0.35rem;
+    text-transform: uppercase;
+}
+
+.edition-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.edition-jump-link {
+    background: transparent;
+    border: 1px solid var(--paper-edge);
+    color: var(--ink);
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.73rem;
+    letter-spacing: 0.05em;
+    padding: 0.34rem 0.52rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.edition-jump-link:hover,
+.edition-jump-link:focus-visible {
+    background: rgba(116, 91, 55, 0.08);
+    border-color: var(--rule);
+    outline: 2px solid transparent;
+}
+
+.gazette-update-note {
+    background: #f3e9d3;
+    border: 1px solid var(--paper-edge);
+    margin-bottom: 1.25rem;
+    padding: 0.85rem 0.95rem 0.9rem 1.05rem;
+}
+
+.gazette-update-note h2 {
+    border-bottom: 1px solid var(--rule);
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.79rem;
+    letter-spacing: 0.1em;
+    margin: 0 0 0.52rem;
+    padding-bottom: 0.36rem;
+    text-transform: uppercase;
+}
+
+.gazette-update-note ol {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+}
+
+.edition-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.edition {
+    border-top: 3px double var(--rule);
+    padding-top: 0.95rem;
+}
+
+.edition:first-child {
+    border-top-width: 4px;
+}
+
+.edition-tagline {
+    align-items: center;
+    display: flex;
+    gap: 0.45rem;
+}
+
+.edition-extra {
+    color: var(--alert);
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.73rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.edition-header {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: space-between;
+}
+
+.edition-date {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+}
+
+.edition-theme {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--alert);
+    font-weight: 700;
+    margin: 0;
+}
+
+.edition-title {
+    font-family: 'IM Fell English', 'Times New Roman', serif;
+    font-size: clamp(1.8rem, 4.8vw, 3.05rem);
+    line-height: 0.98;
+    margin: 0.45rem 0 0.34rem;
+    text-transform: uppercase;
+}
+
+.edition-lede {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    color: var(--ink-soft);
+    margin: 0;
+    font-size: 1rem;
+    text-wrap: balance;
+}
+
+.edition-lede::first-letter {
+    font-size: 2.5em;
+    float: left;
+    line-height: 0.77;
+    padding-right: 0.08em;
+    font-family: 'IM Fell English', 'Times New Roman', serif;
+}
+
+.edition-grid {
+    display: grid;
+    gap: 0.95rem;
+    grid-template-columns: 1.1fr 0.9fr;
+    margin-top: 0.76rem;
+}
+
+.edition-grid > .edition-column:first-child {
+    border-right: 1px solid var(--paper-edge);
+    padding-right: 0.8rem;
+}
+
+.edition-column h4 {
+    border-bottom: 2px solid var(--rule);
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    margin: 0 0 0.55rem;
+    padding-bottom: 0.31rem;
+    text-transform: uppercase;
+}
+
+.edition-highlights,
+.edition-schedule {
+    margin: 0;
+    padding-left: 1.06rem;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 0.93rem;
+}
+
+.edition-highlights li,
+.edition-schedule li {
+    margin-bottom: 0.42rem;
+}
+
+.edition-schedule time {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.72rem;
+    margin-right: 0.33rem;
+}
+
+.edition-quote {
+    border-left: 4px double var(--rule);
+    color: var(--ink-soft);
+    font-family: 'IM Fell English', 'Times New Roman', serif;
+    font-size: 1.22rem;
+    font-style: italic;
+    margin: 0.74rem 0 0;
+    padding-left: 0.65rem;
+}
+
+.edition-photos {
+    margin-top: 0.72rem;
+}
+
+.edition-photos-grid {
+    display: grid;
+    gap: 0.62rem;
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+}
+
+.edition-photo {
+    margin: 0;
+    border: 1px solid var(--paper-edge);
+    background: #f4e8cc;
+}
+
+.edition-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    filter: sepia(0.32) contrast(1.02) saturate(0.88);
+}
+
+.edition-photo figcaption {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    padding: 0.43rem 0.47rem 0.5rem;
+}
+
+.edition-empty-photos {
+    border: 2px dashed var(--paper-edge);
+    color: var(--ink-soft);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    padding: 0.65rem;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.gazette-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    margin-top: 0.72rem;
+}
+
+.style-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.22rem;
+}
+
+.style-link {
+    color: rgba(31, 22, 16, 0.75);
+    text-decoration: none;
+    border: 1px solid rgba(31, 22, 16, 0.2);
+    background: transparent;
+    padding: 0.18rem 0.36rem;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    text-transform: uppercase;
+    font-size: 0.54rem;
+    letter-spacing: 0.07em;
+}
+
+.style-link:hover,
+.style-link:focus-visible,
+.style-link--active {
+    color: rgba(31, 22, 16, 0.98);
+    border-color: rgba(31, 22, 16, 0.5);
+    background: rgba(31, 22, 16, 0.07);
+}
+
+.gazette-home-link {
+    color: rgba(31, 22, 16, 0.72);
+    text-decoration: none;
+    background: transparent;
+    border: 1px solid rgba(31, 22, 16, 0.18);
+    padding: 0.22rem 0.42rem;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    text-transform: uppercase;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    opacity: 0.72;
+}
+
+.gazette-home-link:hover,
+.gazette-home-link:focus-visible {
+    color: rgba(31, 22, 16, 0.95);
+    background: rgba(31, 22, 16, 0.06);
+    border-color: rgba(31, 22, 16, 0.3);
+    opacity: 1;
+}
+
+@media (width <= 900px) {
+    .edition-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edition-grid > .edition-column:first-child {
+        border-right: 0;
+        padding-right: 0;
+    }
+}
+
+@media (width <= 700px) {
+    .gazette-main {
+        padding: 0.85rem 0.4rem 1.75rem;
+    }
+
+    .news-cry p {
+        font-size: 0.73rem;
+    }
+
+    .gazette-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        font-size: 0.68rem;
+    }
+
+    .gazette-update-note {
+        padding: 0.78rem;
+    }
+
+    .edition-title {
+        font-size: clamp(1.56rem, 8vw, 2.22rem);
+    }
+
+    .edition-photos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edition-jump-link {
+        flex: 1 1 calc(50% - 0.3rem);
+        text-align: center;
+    }
+
+    .gazette-home-link {
+        font-size: 0.56rem;
+    }
+
+    .gazette-footer {
+        justify-content: space-between;
+    }
+
+    .style-link {
+        font-size: 0.52rem;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .edition {
+        animation: edition-rise 300ms ease-out both;
+    }
+
+    .edition:nth-child(2) {
+        animation-delay: 65ms;
+    }
+
+    .edition:nth-child(3) {
+        animation-delay: 120ms;
+    }
+}
+
+@keyframes edition-rise {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

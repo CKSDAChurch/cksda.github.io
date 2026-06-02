@@ -87,6 +87,14 @@ export const buildPageConfig = (helpers) => {
 				browserTitle: json.youngAdultMinistryPage.browserTitle
 			})
 		},
+		eckcm: {
+			match: (urls) => pageMatches(urls.eckcmURL),
+			title: (json) => json.pageTitles.eckcmTitle,
+			subtitle: (json) => json.pageTitles.eckcmSubtitle,
+			init: (json) => ({
+				browserTitle: json.eckcmPage.browserTitle
+			})
+		},
 		index: {
 			match: () => true,
 			title: (json) => json._title,

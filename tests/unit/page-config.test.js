@@ -16,7 +16,7 @@ function makeHelpers(currentPage) {
 describe('buildPageConfig', () => {
 	it('returns an object with expected page keys', () => {
 		const config = buildPageConfig(makeHelpers('index.html'));
-		const expectedKeys = ['calendar', 'children', 'collegiate', 'epoch', 'music',
+		const expectedKeys = ['calendar', 'children', 'collegiate', 'epoch', 'eckcm', 'music',
 			'pathfinders', 'personalMinistries', 'youngAdults', 'index'];
 		for (const key of expectedKeys) {
 			assert.ok(key in config, `Missing page config key: ${key}`);

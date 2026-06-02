@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms; worker-src 'self'; base-uri 'self'; form-action 'self';" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ECKCM daily recap in a bold 80s and 90s newspaper style with nightly updates and photo highlights." />
+    <meta property="og:title" content="ECKCM Metro Bulletin | 80s and 90s Edition" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Compare the alternate 80s and 90s inspired newspaper style for ECKCM daily updates." />
+    <meta property="og:url" content="https://cksda.church/eckcm-retro.html" />
+    <meta property="og:image" content="https://cksda.church/images/logo-light.png" />
+    <meta property="og:site_name" content="Collegedale Korean SDA Church" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ECKCM Metro Bulletin | 80s and 90s Edition" />
+    <meta name="twitter:description" content="Compare the alternate 80s and 90s inspired newspaper style for ECKCM daily updates." />
+    <meta name="twitter:image" content="https://cksda.church/images/logo-light.png" />
+    <meta name="theme-color" content="#13151b" />
+    <link rel="canonical" href="https://cksda.church/eckcm-retro.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="assets/css/eckcm-retro.min.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="./images/favicon.png" />
+    <title id="browserTitle">ECKCM Metro Bulletin | 80s and 90s Edition</title>
+
+    <script src="assets/js/analytics.min.js"></script>
+</head>
+
+<body class="retro-body">
+    <a class="skip-to-content" href="#retro-main">Skip to main content</a>
+
+    <header class="retro-alert" aria-label="Top ticker">
+        <p>City Desk Late Edition - Camp Meeting Coverage</p>
+    </header>
+
+    <main id="retro-main" class="retro-main">
+        <div class="retro-shell">
+            <section class="retro-paper" aria-labelledby="retro-nameplate">
+                <p class="retro-volume">Vol. 1993 • Special Summer Run</p>
+                <h1 id="retro-nameplate" class="retro-nameplate">ECKCM Metro Bulletin</h1>
+                <p class="retro-subhead">Daily field reports, worship highlights, and photo desk notes from June 21-28, 2026.</p>
+
+                <div class="retro-meta" aria-label="Edition metadata">
+                    <span id="gazette-edition-label">Camp Meeting Special</span>
+                    <span id="gazette-issue-range">June 21-28, 2026</span>
+                    <span id="gazette-location">Eastern Korean Camp Meeting</span>
+                    <span id="gazette-updated">Updated nightly</span>
+                </div>
+
+                <section class="retro-jump" aria-labelledby="retro-jump-title">
+                    <h2 id="retro-jump-title">Jump To Edition</h2>
+                    <nav id="edition-jump" class="edition-jump" aria-label="Jump to day"></nav>
+                </section>
+
+                <section class="retro-update-note" aria-labelledby="retro-update-title">
+                    <h2 id="retro-update-title">Nightly Editor Routine</h2>
+                    <ol>
+                        <li>Open assets/js/eckcm.js and edit the first item in DAILY_ISSUES.</li>
+                        <li>Update headline, highlights, key moments, and photos.</li>
+                        <li>Run npm run build and publish.</li>
+                    </ol>
+                </section>
+
+                <div id="eckcm-edition-list" class="edition-list" aria-live="polite"></div>
+            </section>
+
+            <footer class="retro-footer" aria-label="Page footer">
+                <nav class="retro-style-switcher" aria-label="Newspaper style switcher">
+                    <a class="retro-style-link" href="eckcm-vintage.html">Vintage</a>
+                    <a class="retro-style-link retro-style-link--active" href="eckcm-retro.html" aria-current="page">Retro Metro</a>
+                    <a class="retro-style-link" href="eckcm-modern.html">Modern Print</a>
+                </nav>
+                <a class="retro-home-link" href="/" aria-label="Collegedale Korean SDA Church home">cksda.church</a>
+            </footer>
+        </div>
+    </main>
+
+    <script type="module" src="assets/js/eckcm.min.js"></script>
+    <script type="module" src="assets/js/consent.min.js"></script>
+</body>
+
+</html>

@@ -6,6 +6,8 @@
         "calendar": "Calendario",
         "directory": "Directorio",
         "calendarURL": "calendar.html",
+        "eckcm": "ECKCM Diario",
+        "eckcmURL": "eckcm.html",
         "childrenMinistries": "Ministerios Infantiles",
         "childrenMinistriesURL": "children.html",
         "collegiateMinistry": "Colegiado",
@@ -34,6 +36,8 @@
         "collegiateSubtitle": "",
         "epochTitle": "Época de la Iglesia CKSDA",
         "epochSubtitle": "Algunos recuerdos de nuestra época anual",
+        "eckcmTitle": "Boletín Diario ECKCM",
+        "eckcmSubtitle": "Resumen nocturno con fotos, momentos destacados y noticias de cada día.",
         "musicMinistriesTitle": "Ministerio de Música de la Iglesia CKSDA",
         "musicMinistriesSubtitle": "",
         "pathfindersTitle": "Club de Conquistadores de Pioneros",
@@ -72,6 +76,9 @@
     },
     "epochPage": {
         "browserTitle": "Época | Iglesia Adventista Coreana de Collegedale"
+    },
+    "eckcmPage": {
+        "browserTitle": "Boletín Diario ECKCM | Iglesia Adventista Coreana de Collegedale"
     },
     "musicMinistriesPage": {
         "browserTitle": "Ministerio de Música | Iglesia Adventista Coreana de Collegedale",

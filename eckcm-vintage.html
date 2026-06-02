@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms; worker-src 'self'; base-uri 'self'; form-action 'self';" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ECKCM daily old-newspaper recap with highlights, photos, and nightly updates from June 21 to June 28." />
+    <meta property="og:title" content="ECKCM Daily Dispatch | Camp Meeting Special Edition" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Read all about each day of ECKCM with nightly highlights, key moments, and photos." />
+    <meta property="og:url" content="https://cksda.church/eckcm-vintage.html" />
+    <meta property="og:image" content="https://cksda.church/images/logo-light.png" />
+    <meta property="og:site_name" content="Collegedale Korean SDA Church" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ECKCM Daily Dispatch | Camp Meeting Special Edition" />
+    <meta name="twitter:description" content="Read all about each day of ECKCM with nightly highlights, key moments, and photos." />
+    <meta name="twitter:image" content="https://cksda.church/images/logo-light.png" />
+    <meta name="theme-color" content="#d0bea0" />
+    <link rel="canonical" href="https://cksda.church/eckcm-vintage.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" />
+    <link rel="stylesheet" href="assets/css/eckcm-vintage.min.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="./images/favicon.png" />
+    <title id="browserTitle">ECKCM Daily Dispatch | Camp Meeting Special Edition</title>
+
+    <script src="assets/js/analytics.min.js"></script>
+</head>
+
+<body class="eckcm-body">
+    <a class="skip-to-content" href="#eckcm-main">Skip to main content</a>
+
+    <header class="news-cry" aria-label="Top banner">
+        <p>Extra! Extra! Read all about it!</p>
+    </header>
+
+    <main id="eckcm-main" class="gazette-main">
+        <div class="gazette-shell">
+            <section class="gazette-paper" aria-labelledby="gazette-nameplate">
+                <p class="gazette-kicker">The Camp Meeting Record</p>
+                <h1 id="gazette-nameplate" class="gazette-nameplate">ECKCM Daily Dispatch</h1>
+                <p class="gazette-subhead">Nightly highlights and front-page moments from June 21-28, 2026.</p>
+
+                <div class="gazette-meta" aria-label="Edition metadata">
+                    <span id="gazette-edition-label">Special Edition</span>
+                    <span id="gazette-issue-range">June 21-28, 2026</span>
+                    <span id="gazette-location">Eastern Korean Camp Meeting</span>
+                    <span id="gazette-updated">Updated nightly</span>
+                </div>
+
+                <section class="gazette-jump" aria-labelledby="jump-title">
+                    <h2 id="jump-title">Pick a day</h2>
+                    <nav id="edition-jump" class="edition-jump" aria-label="Jump to day"></nav>
+                </section>
+
+                <section class="gazette-update-note" aria-labelledby="gazette-update-title">
+                    <h2 id="gazette-update-title">Nightly editor checklist</h2>
+                    <ol>
+                        <li>Open assets/js/eckcm.js and go to DAILY_ISSUES.</li>
+                        <li>Duplicate the first object, then edit date, headline, highlights, key moments, quote, and photos.</li>
+                        <li>Run npm run build and refresh this page.</li>
+                    </ol>
+                </section>
+
+                <div id="eckcm-edition-list" class="edition-list" aria-live="polite"></div>
+            </section>
+
+            <footer class="gazette-footer" aria-label="Page footer">
+                <nav class="style-switcher" aria-label="Newspaper style switcher">
+                    <a class="style-link style-link--active" href="eckcm-vintage.html" aria-current="page">Vintage</a>
+                    <a class="style-link" href="eckcm-retro.html">Retro Metro</a>
+                    <a class="style-link" href="eckcm-modern.html">Modern Print</a>
+                </nav>
+                <a class="gazette-home-link" href="/" aria-label="Collegedale Korean SDA Church home">cksda.church</a>
+            </footer>
+        </div>
+    </main>
+
+    <script type="module" src="assets/js/eckcm.min.js"></script>
+    <script type="module" src="assets/js/consent.min.js"></script>
+</body>
+
+</html>

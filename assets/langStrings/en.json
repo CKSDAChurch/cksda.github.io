@@ -6,6 +6,8 @@
         "calendar": "Calendar",
         "directory": "Directory",
         "calendarURL": "calendar.html",
+        "eckcm": "ECKCM Daily",
+        "eckcmURL": "eckcm.html",
         "childrenMinistries": "Children's Ministries",
         "childrenMinistriesURL": "children.html",
         "collegiateMinistry": "Collegiate",
@@ -34,6 +36,8 @@
         "collegiateSubtitle": "",
         "epochTitle": "CKSDA Church Epoch",
         "epochSubtitle": "Some memories from our yearly epoch",
+        "eckcmTitle": "ECKCM Daily Dispatch",
+        "eckcmSubtitle": "Nightly highlights, photos, and updates from each day of camp meeting.",
         "musicMinistriesTitle": "CKSDA Church Music Ministry",
         "musicMinistriesSubtitle": "",
         "pathfindersTitle": "Pioneers Pathfinders Club",
@@ -72,6 +76,9 @@
     },
     "epochPage": {
         "browserTitle": "Epoch | Collegedale Korean SDA Church"
+    },
+    "eckcmPage": {
+        "browserTitle": "ECKCM Daily Dispatch | Collegedale Korean SDA Church"
     },
     "musicMinistriesPage": {
         "browserTitle": "Music Ministry | Collegedale Korean SDA Church",

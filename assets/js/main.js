@@ -181,6 +181,7 @@ const buildHeader = (json, title, subtitle) => {
 		calendarURL: cal, 
 		childrenMinistriesURL: children, 
 		collegiateMinistryURL: collegiate,
+		eckcmURL: eckcm,
 		homeURL: home, 
 		musicMinistriesURL: music, 
 		newsletterURL: newsletter,
@@ -202,11 +203,13 @@ const buildHeader = (json, title, subtitle) => {
 
 	const homeLink = pageMatches(home) ? '' : `<a href="${home}">${menuItems.home}</a> |`;
 	const calendarLink = pageMatches(cal) ? '' : `<a href="${cal}">${menuItems.calendar}</a> |`;
+	const eckcmLink = pageMatches(eckcm) ? '' : `<a href="${eckcm}">${menuItems.eckcm}</a> |`;
 	const newsletterLink = pageMatches(newsletter) ? '' : `<a href="${newsletter}">${menuItems.newsletter}</a> |`;
 	const ministriesDiv = ministryPages ? `<div id="ministries">${menuItems.ministries}<div class="ministryPages">${ministryPages}</div></div>` : '';
 
 	let urlList = `${homeLink}
 	${calendarLink}
+	${eckcmLink}
 	${newsletterLink}
 	${ministriesDiv} |
 	<a href="https://directory.cksda.church" target="_blank" rel="noopener">${menuItems.directory}</a> |

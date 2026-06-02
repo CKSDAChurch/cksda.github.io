@@ -6,6 +6,8 @@
         "calendar": "달력",
         "directory": "교인 명부",
         "calendarURL": "calendar.html",
+        "eckcm": "ECKCM 데일리",
+        "eckcmURL": "eckcm.html",
         "childrenMinistries": "어린이 사역",
         "childrenMinistriesURL": "children.html",
         "collegiateMinistry": "대학",
@@ -34,6 +36,8 @@
         "collegiateSubtitle": "",
         "epochTitle": "CKSDA 교회 에포크",
         "epochSubtitle": "연간 시대의 추억",
+        "eckcmTitle": "ECKCM 데일리 디스패치",
+        "eckcmSubtitle": "매일 밤 사진, 하이라이트, 소식을 정리해 전합니다.",
         "musicMinistriesTitle": "CKSDA 교회 음악 사역",
         "musicMinistriesSubtitle": "",
         "pathfindersTitle": "선구자 패스파인더 클럽",
@@ -72,6 +76,9 @@
     },
     "epochPage": {
         "browserTitle": "CKSDA 교회: 에포크"
+    },
+    "eckcmPage": {
+        "browserTitle": "ECKCM 데일리 디스패치 | 칼리지데일 한인제칠일안식일예수재림교회"
     },
     "musicMinistriesPage": {
         "browserTitle": "CKSDA 교회: 음악 사역",
