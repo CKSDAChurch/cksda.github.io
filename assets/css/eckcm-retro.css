@@ -203,10 +203,70 @@ body {
     gap: 0.9rem;
 }
 
+.edition-pages {
+    position: relative;
+}
+
 .edition {
+    display: none;
     border: 1px solid var(--line);
     background: #fff;
     padding: 0.88rem;
+}
+
+.edition--active {
+    display: block;
+}
+
+.edition-pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+    padding-top: 0.7rem;
+    border-top: 2px solid var(--night);
+}
+
+.edition-pager-btn {
+    font-family: 'Space Mono', 'Courier New', monospace;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--night);
+    background: transparent;
+    border: 1px solid var(--line);
+    padding: 0.4rem 0.66rem;
+    cursor: pointer;
+}
+
+.edition-pager-btn:hover:not(:disabled),
+.edition-pager-btn:focus-visible {
+    background: rgba(22, 26, 33, 0.08);
+}
+
+.edition-pager-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.edition-pager-status {
+    font-family: 'Space Mono', 'Courier New', monospace;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+}
+
+.edition-jump-link--active {
+    background: var(--night);
+    color: #fff;
+    border-color: var(--night);
+}
+
+.edition-title:focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 3px;
 }
 
 .edition-header {
@@ -337,35 +397,6 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
 }
 
-.edition-photo {
-    margin: 0;
-    border: 1px solid var(--line);
-    background: #fbfcff;
-}
-
-.edition-photo img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    filter: contrast(1.06) saturate(0.95);
-}
-
-.edition-photo figcaption {
-    padding: 0.4rem 0.45rem 0.46rem;
-    color: var(--ink-soft);
-    font-size: 0.76rem;
-}
-
-.edition-empty-photos {
-    margin: 0;
-    border: 1px dashed var(--line);
-    padding: 0.62rem;
-    color: var(--ink-soft);
-    background: #fbfcff;
-    font-size: 0.88rem;
-}
-
 .retro-footer {
     display: flex;
     align-items: center;
@@ -463,28 +494,77 @@ body {
     }
 }
 
+/* Living media frame - the one allowed splash of colour / motion on an otherwise ink page. */
+.edition-media {
+    margin: 0;
+    background: #0c0e12;
+    border: 3px solid var(--night);
+    box-shadow: 0 0 0 1px var(--line), 0 6px 16px rgba(22, 26, 33, 0.22);
+}
+
+.edition-media-el {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.edition-media figcaption {
+    padding: 0.42rem 0.5rem 0.48rem;
+    color: var(--ink-soft);
+    background: #fbfcff;
+    font-size: 0.78rem;
+    font-style: italic;
+}
+
+.edition-media--empty .edition-media-placeholder {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    text-align: center;
+    padding: 0.8rem;
+    color: #f5f7fb;
+    background: linear-gradient(120deg, #4f6f95, #8a4f71, #8f7d48, #4f6f95);
+    background-size: 300% 300%;
+}
+
+.edition-media--empty span {
+    font-family: 'Space Mono', 'Courier New', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-    .edition {
-        animation: retro-rise 260ms ease-out both;
+    .edition--active {
+        animation: retro-flip 400ms ease-out both;
     }
 
-    .edition:nth-child(2) {
-        animation-delay: 55ms;
-    }
-
-    .edition:nth-child(3) {
-        animation-delay: 100ms;
+    .edition-media--empty .edition-media-placeholder {
+        animation: media-shimmer 7s ease-in-out infinite;
     }
 }
 
-@keyframes retro-rise {
+@keyframes retro-flip {
     from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: perspective(1400px) rotateY(-10deg) translateX(-12px);
+        transform-origin: left center;
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: perspective(1400px) rotateY(0) translateX(0);
+    }
+}
+
+@keyframes media-shimmer {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
     }
 }

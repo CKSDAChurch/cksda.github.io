@@ -225,13 +225,73 @@ body {
     gap: 1rem;
 }
 
+.edition-pages {
+    position: relative;
+}
+
 .edition {
+    display: none;
     border-top: 3px double var(--rule);
     padding-top: 0.95rem;
 }
 
+.edition--active {
+    display: block;
+}
+
 .edition:first-child {
     border-top-width: 4px;
+}
+
+.edition-pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 3px double var(--rule);
+}
+
+.edition-pager-btn {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid var(--paper-edge);
+    padding: 0.42rem 0.7rem;
+    cursor: pointer;
+}
+
+.edition-pager-btn:hover:not(:disabled),
+.edition-pager-btn:focus-visible {
+    background: rgba(116, 91, 55, 0.08);
+}
+
+.edition-pager-btn:disabled {
+    opacity: 0.42;
+    cursor: default;
+}
+
+.edition-pager-status {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+}
+
+.edition-jump-link--active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+}
+
+.edition-title:focus-visible {
+    outline: 2px solid var(--rule);
+    outline-offset: 3px;
 }
 
 .edition-tagline {
@@ -359,34 +419,47 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
 }
 
-.edition-photo {
+/* Living media frame - the one allowed splash of colour / motion on an otherwise ink page. */
+.edition-media {
     margin: 0;
-    border: 1px solid var(--paper-edge);
-    background: #f4e8cc;
+    background: #1c160f;
+    border: 3px double var(--ink);
+    padding: 4px;
+    box-shadow: 0 0 0 1px var(--paper-edge), 0 6px 16px rgba(48, 35, 20, 0.24);
 }
 
-.edition-photo img {
+.edition-media-el {
     display: block;
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    filter: sepia(0.32) contrast(1.02) saturate(0.88);
 }
 
-.edition-photo figcaption {
+.edition-media figcaption {
     font-family: 'Libre Baskerville', Georgia, serif;
     font-size: 0.78rem;
+    font-style: italic;
     color: var(--ink-soft);
-    padding: 0.43rem 0.47rem 0.5rem;
+    background: var(--paper);
+    padding: 0.45rem 0.5rem 0.5rem;
 }
 
-.edition-empty-photos {
-    border: 2px dashed var(--paper-edge);
-    color: var(--ink-soft);
-    font-family: 'Libre Baskerville', Georgia, serif;
-    padding: 0.65rem;
-    margin: 0;
-    font-size: 0.9rem;
+.edition-media--empty .edition-media-placeholder {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    text-align: center;
+    padding: 0.8rem;
+    color: #f6efdd;
+    background: linear-gradient(120deg, #6c3b2a, #2f5d54, #8a6b2e, #6c3b2a);
+    background-size: 300% 300%;
+}
+
+.edition-media--empty span {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 .gazette-footer {
@@ -500,27 +573,35 @@ body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    .edition {
-        animation: edition-rise 300ms ease-out both;
+    .edition--active {
+        animation: edition-flip 440ms ease-out both;
     }
 
-    .edition:nth-child(2) {
-        animation-delay: 65ms;
-    }
-
-    .edition:nth-child(3) {
-        animation-delay: 120ms;
+    .edition-media--empty .edition-media-placeholder {
+        animation: media-shimmer 7s ease-in-out infinite;
     }
 }
 
-@keyframes edition-rise {
+@keyframes edition-flip {
     from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: perspective(1400px) rotateY(-11deg) translateX(-14px);
+        transform-origin: left center;
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: perspective(1400px) rotateY(0) translateX(0);
+    }
+}
+
+@keyframes media-shimmer {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
     }
 }

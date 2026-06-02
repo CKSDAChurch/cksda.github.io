@@ -3,8 +3,15 @@
 /*
     ECKCM page updates:
     1) Keep newest day first in DAILY_ISSUES.
-    2) Duplicate the first object and edit only text/photos for each new day.
-    3) Photo paths can point to files in images/ (example: images/eckcm/day-2-evening.jpg).
+    2) Duplicate the first object and edit only text/media for each new day.
+    3) Each day is a "page" the reader flips through (Previous / Next / day links / arrow keys).
+
+    Living media frame (the one allowed splash of colour / motion per page):
+    - A colour photo:
+        { type: 'image', src: 'images/eckcm/day-1.jpg', alt: 'Opening worship', caption: 'Opening night worship.' }
+    - A short video clip (autoplays muted, loops, like a Harry Potter moving photo):
+        { type: 'video', src: 'images/eckcm/day-1.mp4', poster: 'images/eckcm/day-1.jpg', alt: 'Opening worship', caption: 'Opening night worship.' }
+    Put one entry in the `photos` array to feature it. Everything else on the page stays authentic black-and-white print.
 */
 
 const NEWSPAPER = {
@@ -31,7 +38,14 @@ const DAILY_ISSUES = [
             { time: '8:30 PM', title: 'Prayer & Fellowship', detail: 'Small groups closed the night in prayer.' },
         ],
         quote: '"Tonight felt like homecoming and mission launch at the same time."',
-        photos: [],
+        photos: [
+            {
+                type: 'image',
+                src: 'images/logo-mid.png',
+                alt: 'ECKCM Daily Dispatch living frame demo',
+                caption: 'Demo frame: replace with a nightly colour photo or short muted video clip.',
+            },
+        ],
     },
     {
         date: 'Preview Edition - Saturday, June 20, 2026',
@@ -62,18 +76,34 @@ const escapeHtml = (value) => String(value)
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
 
-const renderPhotoMarkup = (photos) => {
-    if (!photos.length) {
-        return '<p class="edition-empty-photos">Photo highlights will be added after tonight\'s sessions.</p>';
+const renderMediaItem = (media) => {
+    const caption = media.caption ? `<figcaption>${escapeHtml(media.caption)}</figcaption>` : '';
+
+    if (media.type === 'video') {
+        const poster = media.poster ? ` poster="${escapeHtml(media.poster)}"` : '';
+        return `
+        <figure class="edition-media edition-media--live">
+            <video class="edition-media-el" src="${escapeHtml(media.src)}"${poster} muted loop autoplay playsinline preload="metadata" aria-label="${escapeHtml(media.alt || '')}"></video>
+            ${caption}
+        </figure>`;
     }
 
-    const items = photos.map((photo) => `
-        <figure class="edition-photo">
-            <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt)}" loading="lazy" decoding="async" />
-            <figcaption>${escapeHtml(photo.caption)}</figcaption>
-        </figure>
-    `).join('');
+    return `
+        <figure class="edition-media edition-media--live">
+            <img class="edition-media-el" src="${escapeHtml(media.src)}" alt="${escapeHtml(media.alt || '')}" loading="lazy" decoding="async" />
+            ${caption}
+        </figure>`;
+};
 
+const renderPhotoMarkup = (photos) => {
+    if (!photos.length) {
+        return `
+        <figure class="edition-media edition-media--empty" aria-label="Reserved media frame">
+            <div class="edition-media-placeholder"><span>Colour photo or video clip appears here</span></div>
+        </figure>`;
+    }
+
+    const items = photos.map(renderMediaItem).join('');
     return `<div class="edition-photos-grid">${items}</div>`;
 };
 
@@ -122,7 +152,7 @@ const buildIssueAnchors = () => DAILY_ISSUES.map((issue, index) => ({
 }));
 
 const renderJumpMarkup = (issues) => issues
-    .map((issue, index) => `<a class="edition-jump-link" href="#${escapeHtml(issue.anchorId)}">Day ${index + 1}</a>`)
+    .map((issue, index) => `<a class="edition-jump-link" href="#${escapeHtml(issue.anchorId)}" data-page="${index}">Day ${index + 1}</a>`)
     .join('');
 
 const renderDailyDispatch = () => {
@@ -150,7 +180,71 @@ const renderDailyDispatch = () => {
     }
     if (jump) jump.innerHTML = renderJumpMarkup(issues);
 
-    container.innerHTML = issues.map(renderIssueMarkup).join('');
+    container.innerHTML = `
+        <div class="edition-pages">${issues.map(renderIssueMarkup).join('')}</div>
+        <nav class="edition-pager" aria-label="Newspaper pages">
+            <button type="button" class="edition-pager-btn" data-dir="prev" aria-label="Previous page">&#8592; Previous Page</button>
+            <span class="edition-pager-status" id="edition-pager-status" aria-live="polite"></span>
+            <button type="button" class="edition-pager-btn" data-dir="next" aria-label="Next page">Next Page &#8594;</button>
+        </nav>`;
+
+    setupPageTurner(container, jump, issues.length);
+};
+
+const setupPageTurner = (container, jump, pageCount) => {
+    const pages = Array.from(container.querySelectorAll('.edition'));
+    const status = getById('edition-pager-status');
+    const prevBtn = container.querySelector('[data-dir="prev"]');
+    const nextBtn = container.querySelector('[data-dir="next"]');
+    const jumpLinks = jump ? Array.from(jump.querySelectorAll('.edition-jump-link')) : [];
+    let current = 0;
+
+    const showPage = (index, { focus = false } = {}) => {
+        current = Math.max(0, Math.min(pageCount - 1, index));
+
+        pages.forEach((page, i) => {
+            const isActive = i === current;
+            page.classList.toggle('edition--active', isActive);
+            page.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+        });
+
+        jumpLinks.forEach((link, i) => {
+            link.classList.toggle('edition-jump-link--active', i === current);
+            if (i === current) {
+                link.setAttribute('aria-current', 'page');
+            } else {
+                link.removeAttribute('aria-current');
+            }
+        });
+
+        if (status) status.textContent = `Page ${current + 1} of ${pageCount}`;
+        if (prevBtn) prevBtn.disabled = current === 0;
+        if (nextBtn) nextBtn.disabled = current === pageCount - 1;
+
+        if (focus && pages[current]) {
+            const heading = pages[current].querySelector('.edition-title');
+            if (heading) heading.setAttribute('tabindex', '-1');
+            if (heading) heading.focus({ preventScroll: true });
+        }
+    };
+
+    if (prevBtn) prevBtn.addEventListener('click', () => showPage(current - 1, { focus: true }));
+    if (nextBtn) nextBtn.addEventListener('click', () => showPage(current + 1, { focus: true }));
+
+    jumpLinks.forEach((link) => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const target = Number(link.getAttribute('data-page')) || 0;
+            showPage(target, { focus: true });
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') showPage(current - 1, { focus: true });
+        if (event.key === 'ArrowRight') showPage(current + 1, { focus: true });
+    });
+
+    showPage(0);
 };
 
 renderDailyDispatch();
