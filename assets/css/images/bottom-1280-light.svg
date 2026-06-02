@@ -2,10 +2,10 @@
 
     <style type="text/css"><![CDATA[
 		line { stroke-width: 2.5px; }
-		line.upper { stroke: rgba(224,224,224,0.75); }
-		line.lower { stroke: rgba(224,224,224,0.75); }
-		polygon.one { fill: #f8f8f8; }
-		polygon.two { fill: #ffffff; }
+		line.upper { stroke: rgba(255,255,255,0.45); }
+		line.lower { stroke: rgba(255,255,255,0.45); }
+		polygon.one { fill: #5a8f99; }
+		polygon.two { fill: #3e8391; }
     ]]></style>	
     
 	<!-- Backgrounds -->

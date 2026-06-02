@@ -402,7 +402,8 @@ const loadEvents = async () => {
 		const res = await fetch(url);
 		if (!res.ok) throw new Error(`HTTP ${res.status}`);
 		const data = await res.json();
-		renderEvents(data.items || []);
+		const items = (data.items || []).filter(ev => ev.visibility !== 'private' && ev.visibility !== 'confidential');
+		renderEvents(items);
 	} catch (err) {
 		console.error('[calendar-events]', err);
 		showError('Unable to load events right now. Please try the full calendar link below.');

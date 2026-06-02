@@ -13,8 +13,6 @@
 
 const esbuild = require('esbuild');
 const sharp = require('sharp');
-const fs = require('node:fs/promises');
-const path = require('node:path');
 
 const apiKey = process.env.YOUTUBE_API_KEY || '';
 const calendarApiKey = process.env.CALENDAR_API_KEY || '';

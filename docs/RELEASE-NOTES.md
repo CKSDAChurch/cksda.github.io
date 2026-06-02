@@ -3,6 +3,39 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v1.3.5 — June 1, 2026
+
+### Added
+- **Lang/theme switcher** — EN / 한 / ES + three-state theme toggle (◐ system / light / dark) rendered at the bottom of the footer; preference saved to `localStorage`.
+- **Page view transitions** — `@view-transition` CSS rule + `initViewTransitions()` JS wired on all same-origin navigations.
+- **Back-to-top button** — fixed bottom-right button appears after scrolling; respects `prefers-reduced-motion`.
+
+### Changed
+- **Footer** — reduced top margin on copyright links (`3em → 0.75em`) to tighten spacing between the copyright line and the legal links below it.
+- **Footer content layout** — rebuilt into tile-style sections (Pastors, Worship Services, Contact & Location) with centered content and cleaner spacing.
+- **Footer contact actions** — simplified to text-first links: address lines open Google Maps and phone uses `tel:`.
+- **Home page footer content** — Worship Services section is conditionally hidden on the home page.
+- **Calendar CTA** — removed the separate ICS download action and kept a single prominent "Open in Google Calendar" button.
+- **Light theme transitions** — restored top and bottom triangular separators in light mode and aligned manual `theme-light` overrides with system-light styling.
+- **Light header background** — increased gradient contrast so the header transition reads more clearly in light mode.
+- **AdventistGiving header links** — changed `rel` from `noopener noreferrer` to `noopener` so AdventistGiving can receive referral traffic while still keeping `target="_blank"` protection.
+- **Build parity** — updated both `assets/js/main.js` and `assets/js/main.min.js` for the same AdventistGiving link behavior in production.
+
+### Fixed
+- **Calendar** — private and confidential Google Calendar events are now filtered out before rendering, preventing them from appearing as "Untitled Event".
+- **Theme mismatch** — fixed a light-mode inconsistency where the header was using light transition assets while the footer could still resolve to dark transition assets under manual theme toggles.
+- **Calendar button contrast** — improved dark-mode readability for the "Open in Google Calendar" CTA.
+- **Newsletter Lesson Section** — corrected the Korean lesson label from "EM / Young Adults" to "KM / Gaon" to match the linked Korean lesson.
+- **`verse-today.json`** — manually restored to the correct June 1 verse after a force push wiped two workflow-authored commits.
+- **`update-verse.yml`** — replaced hardcoded `UTC-5` offset with `ZoneInfo('America/New_York')` so the daily verse date is DST-aware (correct in both EST and EDT); replaced dual midnight EST/EDT cron entries with a single hourly schedule (`17 * * * *`) to avoid GitHub schedule jitter.
+- **PWA icon** — corrected `manifest.json` icon order so the dark icon is the default and the light icon is served when `prefers-color-scheme: light` is active (was reversed).
+- **Footer copyright links** — applied `display: flex; flex-wrap: wrap` to the copyright `<ul>` so links no longer crowd or wrap awkwardly on iPhone widths.
+
+### Removed
+- **Inner-page breadcrumbs** — removed auto-injected "Home / Page" breadcrumb navigation so only the top header menu is used.
+
+---
+
 ## v1.3.4 — May 30, 2026
 
 ### Changed
