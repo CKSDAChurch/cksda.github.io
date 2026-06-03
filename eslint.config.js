@@ -1,17 +1,7 @@
-const js = require('@eslint/js');
-const globals = require('globals');
+import js from '@eslint/js';
+import globals from 'globals';
 
-module.exports = [
-	{
-			files: ['eslint.config.js', 'playwright.config.js', 'scripts/**/*.js'],
-		languageOptions: {
-			ecmaVersion: 2022,
-			sourceType: 'commonjs',
-			globals: {
-				...globals.node
-			}
-		}
-	},
+export default [
 	{
 		ignores: [
 			'assets/js/*.min.js',
@@ -23,17 +13,53 @@ module.exports = [
 	},
 	js.configs.recommended,
 	{
-			files: ['assets/js/**/*.js', 'tests/**/*.js', 'sw.js'],
+		// Config files and build scripts — ESM (Node, package.json "type":"module")
+		files: ['eslint.config.js', 'scripts/**/*.js'],
+		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: 'module',
+			globals: {
+				...globals.node
+			}
+		}
+	},
+	{
+		// Classic (non-module) browser scripts: loaded as plain <script> or var-based
+		files: ['assets/js/analytics.js', 'assets/js/consent.js', 'sw.js'],
 		languageOptions: {
 			ecmaVersion: 2022,
 			sourceType: 'script',
 			globals: {
 				...globals.browser,
-				...globals.node,
-				breakpoints: 'readonly',
+				gtag: 'readonly',
+				YT: 'readonly'
+			}
+		},
+		rules: {
+			'no-var': 'off',
+			'prefer-const': 'off',
+			'no-useless-escape': 'off',
+			'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true, varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }]
+		}
+	},
+	{
+		// ES module source files — bundled by esbuild, loaded via <script type="module">
+		files: [
+			'assets/js/main.js',
+			'assets/js/newsletter.js',
+			'assets/js/youtube.js',
+			'assets/js/page-config.js',
+			'assets/js/lang-utils.js',
+			'assets/js/verse-utils.js',
+			'assets/js/calendar-events.js'
+		],
+		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: 'module',
+			globals: {
+				...globals.browser,
 				gtag: 'readonly',
 				YT: 'readonly',
-				lang: 'readonly',
 				__YOUTUBE_API_KEY__: 'readonly',
 				__CALENDAR_API_KEY__: 'readonly'
 			}
@@ -46,11 +72,36 @@ module.exports = [
 		}
 	},
 	{
-		files: ['assets/js/newsletter.js'],
+		// Unit tests — ESM (node:test runner)
+		files: ['tests/unit/**/*.js'],
 		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: 'module',
 			globals: {
-				getNextScheduledVideoFromPlaylist: 'readonly',
-				getLatestVideoFromPlaylist: 'readonly'
+				...globals.node
+			}
+		}
+	},
+	{
+		// Playwright spec files — CJS (require('@playwright/test'))
+		files: ['tests/*.spec.js'],
+		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: 'commonjs',
+			globals: {
+				...globals.node,
+				...globals.browser
+			}
+		}
+	},
+	{
+		// Playwright config — CJS (require/module.exports)
+		files: ['playwright.config.js'],
+		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: 'commonjs',
+			globals: {
+				...globals.node
 			}
 		}
 	}

@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+# Prevent simultaneous Pages deployments when a scheduled daily run and a
+# push-triggered deploy overlap.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   verify:
     runs-on: ubuntu-latest

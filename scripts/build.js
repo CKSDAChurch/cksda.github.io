@@ -1,4 +1,3 @@
-'use strict';
 /**
  * Build script — minifies all CSS and JS assets.
  *
@@ -11,8 +10,8 @@
  *   YOUTUBE_API_KEY=<key> npm run build    # production / CI
  */
 
-const esbuild = require('esbuild');
-const sharp = require('sharp');
+import esbuild from 'esbuild';
+import sharp from 'sharp';
 
 const apiKey = process.env.YOUTUBE_API_KEY || '';
 const calendarApiKey = process.env.CALENDAR_API_KEY || '';
@@ -36,7 +35,10 @@ if (!calendarApiKey) {
 }
 
 const cssFiles = ['main', 'lightmode', 'darkmode', 'menu', 'newsletter', 'pathfinders'];
-const jsFiles  = ['page-config', 'main', 'analytics', 'consent', 'newsletter'];
+// analytics.js stays as a classic (non-ESM) synchronous script so consent-mode fires early.
+const classicJsFiles = ['analytics'];
+// consent.js is a deferred ESM module (loaded with type="module" in HTML).
+const esmJsFiles = ['consent'];
 
 /**
  * Generate a PWA icon with a solid background colour and the white logo
@@ -76,18 +78,43 @@ async function build() {
             minify: true,
             outfile: `assets/css/${name}.min.css`,
         })),
-        ...jsFiles.map(name => esbuild.build({
+        ...classicJsFiles.map(name => esbuild.build({
             entryPoints: [`assets/js/${name}.js`],
             minify: true,
             outfile: `assets/js/${name}.min.js`,
         })),
-        // youtube.js is built last with the API key injected at the esbuild level.
-        // __YOUTUBE_API_KEY__ is a bare identifier in the source; esbuild replaces it
-        // with the JSON-stringified key value before the minifier runs.
+        ...esmJsFiles.map(name => esbuild.build({
+            entryPoints: [`assets/js/${name}.js`],
+            minify: true,
+            format: 'esm',
+            outfile: `assets/js/${name}.min.js`,
+        })),
+        // main.js bundles page-config.js; output is ESM, loaded via <script type="module">.
+        esbuild.build({
+            entryPoints: ['assets/js/main.js'],
+            bundle: true,
+            minify: true,
+            format: 'esm',
+            outfile: 'assets/js/main.min.js',
+        }),
+        // youtube.js — standalone ESM bundle for index.html; API key injected at build time.
         esbuild.build({
             entryPoints: ['assets/js/youtube.js'],
+            bundle: true,
             minify: true,
+            format: 'esm',
             outfile: 'assets/js/youtube.min.js',
+            define: {
+                __YOUTUBE_API_KEY__: JSON.stringify(apiKey),
+            },
+        }),
+        // newsletter.js bundles youtube.js and verse-utils.js; API key also injected here.
+        esbuild.build({
+            entryPoints: ['assets/js/newsletter.js'],
+            bundle: true,
+            minify: true,
+            format: 'esm',
+            outfile: 'assets/js/newsletter.min.js',
             define: {
                 __YOUTUBE_API_KEY__: JSON.stringify(apiKey),
             },
@@ -95,7 +122,9 @@ async function build() {
         // calendar-events.js — __CALENDAR_API_KEY__ is injected the same way.
         esbuild.build({
             entryPoints: ['assets/js/calendar-events.js'],
+            bundle: true,
             minify: true,
+            format: 'esm',
             outfile: 'assets/js/calendar-events.min.js',
             define: {
                 __CALENDAR_API_KEY__: JSON.stringify(calendarApiKey),

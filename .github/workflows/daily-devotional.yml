@@ -1,0 +1,65 @@
+name: Daily Devotional Deploy
+
+# Runs at both 04:00 UTC (midnight EDT, UTC-4) and 05:00 UTC (midnight EST, UTC-5)
+# so that midnight Eastern is always hit regardless of Daylight Saving Time.
+# One run each day will fire at exactly midnight; the other fires at 1 AM or 11 PM
+# but is harmless — it simply re-deploys with the same verse already in place.
+# Can also be triggered manually from the Actions tab for testing.
+on:
+  schedule:
+    - cron: '0 4 * * *'   # midnight EDT (summer)
+    - cron: '0 5 * * *'   # midnight EST (winter)
+  workflow_dispatch:
+
+# Prevent this workflow and the push-triggered deploy from stepping on each
+# other's Pages deployment if they happen to run at the same time.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build assets with API keys
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          CALENDAR_API_KEY: ${{ secrets.CALENDAR_API_KEY }}
+        run: npm run build
+
+      - name: Inject today's OHC devotional verse
+        run: node scripts/fetch-devotional.js
+
+      - name: Remove non-web files before publish
+        run: |
+          rm -rf docs/ scripts/ tests/ test-results/ playwright-report/ node_modules/
+          rm -f package.json package-lock.json eslint.config.js playwright.config.js README.md
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

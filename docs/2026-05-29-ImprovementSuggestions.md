@@ -63,7 +63,7 @@ A comprehensive, categorized list of improvements made to the CKSDA website. All
 
 ## 6. Performance
 
-- [x] **Add `defer` to scripts** — [assets/js/browser.min.js](../assets/js/browser.min.js), [assets/js/breakpoints.min.js](../assets/js/breakpoints.min.js), assets/js/util.js (deleted), [assets/js/main.js](../assets/js/main.js) should use `defer` to avoid blocking parsing.
+- [x] **Add `defer` to scripts** — removed `assets/js/browser.min.js` and `assets/js/breakpoints.min.js`; `assets/js/util.js` deleted; `assets/js/main.js` should use `defer` to avoid blocking parsing.
 - [x] **Stop `@import` for Google Fonts** — [assets/css/main.css](../assets/css/main.css#L5) uses `@import url("https://fonts.googleapis.com/...")` which is render-blocking. Use `<link rel="preconnect">` + `<link rel="stylesheet">` (or self-host).
 - [x] **Defer Microsoft Clarity** — The inline Clarity loader runs immediately on every page; consider deferring until after page load.
 - [x] **Optimize images** — Deleted unused `header.jpg`, `pic01.jpg`, `pic02.jpg`, `pic03.jpg`, `logo-dark.png`; replaced `header.jpg` hero with CSS gradient; converted Pioneers logos + site logos to WebP (`sharp`); `pathfinders.html` uses `<picture>` with WebP/PNG fallback. CSS `content:` logo references stay as PNG (WebP unsupported there).

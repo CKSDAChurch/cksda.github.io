@@ -1,3 +1,4 @@
+// @ts-check
 /*
 	© CKSDA Church
 	cksda.church/
@@ -9,8 +10,6 @@
 	`define` option (see scripts/build.js). Set CALENDAR_API_KEY in the
 	environment before running `npm run build`.
 */
-
-(() => {
 
 const CALENDAR_API_KEY = __CALENDAR_API_KEY__;
 const CALENDAR_ID = 'c_cupfa6741dgvle32pjejeoqog4@group.calendar.google.com';
@@ -411,6 +410,4 @@ const loadEvents = async () => {
 };
 
 document.addEventListener('DOMContentLoaded', loadEvents);
-
-})();
 

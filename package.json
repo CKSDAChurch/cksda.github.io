@@ -1,8 +1,10 @@
 {
+  "type": "module",
   "scripts": {
     "start": "http-server . -p 8000 -c-1",
     "test": "playwright test",
     "build": "node scripts/build.js",
+    "test:unit": "node --test tests/unit/*.test.js",
     "lint:js": "eslint .",
     "lint:css": "stylelint \"assets/css/**/*.css\"",
     "lint": "npm run lint:js && npm run lint:css"

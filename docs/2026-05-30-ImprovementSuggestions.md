@@ -230,13 +230,13 @@ The CSS is solid but uses few modern features. These are quality-of-code improve
 
 ## 15. Modern JS Architecture
 
-- [ ] **Replace `breakpoints.min.js` / `browser.min.js`** — These are legacy HTML5 UP utilities you likely don't need anymore. Audit references and delete what's unused.
-- [ ] **AbortController for fetches** — When the user changes language quickly, cancel the in-flight previous fetch.
-- [ ] **Migrate to ES modules** — `<script type="module" defer>` plus real `import`/`export` instead of IIFE-wrapped globals. The build already runs esbuild, so this is a small lift.
-- [ ] **Tree-shake the build** — With ESM, esbuild can drop unused code from analytics/newsletter/youtube bundles per page.
-- [ ] **Code-split per page** — Newsletter logic only loads on `newsletter.html`; YouTube only on pages that embed it.
-- [ ] **Typed JSDoc + `// @ts-check`** — Get TypeScript-grade type checking without converting files; great for catching bugs in `main.js`.
-- [ ] **Add a tiny test framework** — `node --test` is built in; write unit tests for `page-config.js`, language fallback, and the verse-fetch parser.
+- [x] **Replace `breakpoints.min.js` / `browser.min.js`** — Audited: `breakpoints` was initialized in `main.js` but never queried (no `.active()` or `.on()` calls); `browser` was never referenced at all. Both removed from all 9 HTML pages, `main.js`, `main.min.js`, and the service-worker cache list.
+- [x] **AbortController for fetches** — `langFetchController` added to `main.js`; aborts any in-flight fetch before starting a new one when language changes.
+- [x] **Migrate to ES modules** — IIFE wrappers removed from all source files; `import`/`export` throughout; all HTML pages updated to `<script type="module">`.
+- [x] **Tree-shake the build** — esbuild `bundle: true` enabled on `main.js`, `newsletter.js`, `youtube.js`, and `calendar-events.js`; unused exports dropped automatically.
+- [x] **Code-split per page** — `newsletter.min.js` bundles `youtube.js` and `verse-utils.js`; `main.min.js` bundles `page-config.js` and `lang-utils.js`; `youtube.min.js` standalone for `index.html` only; `page-config.min.js` removed.
+- [x] **Typed JSDoc + `// @ts-check`** — `// @ts-check` added to all source JS files (`main.js`, `page-config.js`, `analytics.js`, `consent.js`, `youtube.js`, `newsletter.js`, `verse-utils.js`, `lang-utils.js`).
+- [x] **Add a tiny test framework** — `node --test` unit tests added in `tests/unit/` covering `detectLanguage` (lang-utils), `buildPageConfig` (page-config), and `parseVerseAndReference` / `BIBLE_BOOK_PATTERN` (verse-utils); `npm run test:unit` script added to `package.json`.
 
 ---
 

@@ -1,7 +1,6 @@
-(function () {
-	'use strict';
+// @ts-check
 
-	var analyticsConfig = window.CKSDA_ANALYTICS || {};
+var analyticsConfig = window.CKSDA_ANALYTICS || {};
 	var GA_TRACKING_ID = analyticsConfig.gaTrackingId || 'G-LK9DNYP0NB';
 	var CLARITY_ID = analyticsConfig.clarityId || 'hik5wt3z51';
 
@@ -31,4 +30,3 @@
 		script.setAttribute('data-cksda-ga', 'true');
 		document.head.appendChild(script);
 	}
-}());

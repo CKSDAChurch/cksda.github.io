@@ -1,17 +1,11 @@
+// @ts-check
 /*
 	© CKSDA Church
 	cksda.church/
 */
 
-// Responsive breakpoints
-breakpoints({
-	wide: ['1281px', '1680px'],
-	normal: ['981px', '1280px'],
-	narrow: ['841px', '980px'],
-	narrower: ['737px', '840px'],
-	mobile: ['481px', '736px'],
-	mobilep: [null, '480px']
-});
+import { buildPageConfig } from './page-config.js';
+import { detectLanguage } from './lang-utils.js';
 
 // Animate on load
 window.addEventListener('load', () => {
@@ -19,15 +13,7 @@ window.addEventListener('load', () => {
 });
 
 // ============ LANGUAGE & UTILITY ============
-const LANG = (() => {
-	const stored = localStorage.getItem('cksda-lang');
-	if (stored === 'ko' || stored === 'es' || stored === 'en') return stored;
-	const lang = navigator.language;
-	if (lang.startsWith('ko')) return 'ko';
-	if (lang.startsWith('es')) return 'es';
-	if (!lang.startsWith('en')) console.warn(`[i18n] No translation available for "${lang}"; falling back to English.`);
-	return 'en';
-})();
+const LANG = detectLanguage(localStorage.getItem('cksda-lang'), navigator.language);
 
 // Global lang variable for use by other scripts (e.g., youtube.js)
 window.lang = LANG;
@@ -155,16 +141,19 @@ const initThemeToggle = () => {
 	render();
 };
 
+/** @type {AbortController|null} */
+let langFetchController = null;
+
 const loadLanguageFile = async () => {
-	const response = await fetch(LANG_PATH);
+	if (langFetchController) langFetchController.abort();
+	langFetchController = new AbortController();
+	const response = await fetch(LANG_PATH, { signal: langFetchController.signal });
 	if (!response.ok) throw new Error(`Failed to load ${LANG_PATH}`);
 	return response.json();
 };
 
 // ============ PAGE CONFIGURATION ============
-const PAGE_CONFIG = typeof window.buildPageConfig === 'function'
-	? window.buildPageConfig({ pageMatches })
-	: { index: { match: () => true, title: (json) => json._title, subtitle: (json) => json._subtitle, init: () => ({}) } };
+const PAGE_CONFIG = buildPageConfig({ pageMatches });
 
 const findPageConfig = (urls) => {
 	for (const [, config] of Object.entries(PAGE_CONFIG)) {
