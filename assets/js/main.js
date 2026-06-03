@@ -83,6 +83,44 @@ const formatServiceTimeRange = (range) => {
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// ── Clarity / Heatmap safety: mask PII inputs ───────────────────────
+function maskClarityPII(root = document) {
+	try {
+		const selector = 'input, textarea, [contenteditable]';
+		root.querySelectorAll(selector).forEach(el => {
+			if (!(el instanceof HTMLElement)) return;
+			const tag = el.tagName.toLowerCase();
+			if (tag === 'input') {
+				const t = (el.getAttribute('type') || '').toLowerCase();
+				// skip types that aren't user text entry
+				if (['button', 'submit', 'reset', 'checkbox', 'radio', 'file', 'image', 'hidden'].includes(t)) return;
+			}
+			// Mark as masked for Microsoft Clarity
+			el.setAttribute('data-clarity-mask', 'true');
+		});
+	} catch (_e) {
+		// Non-critical
+	}
+}
+
+window.addEventListener('load', () => {
+	maskClarityPII();
+	// Observe for dynamically added inputs (e.g., async forms)
+	try {
+		const obs = new MutationObserver(mutations => {
+			for (const m of mutations) {
+				for (const node of m.addedNodes) {
+					if (!(node instanceof Element)) continue;
+					maskClarityPII(node);
+				}
+			}
+		});
+		obs.observe(document.body, { childList: true, subtree: true });
+	} catch (_e) {
+		// ignore
+	}
+});
+
 const initViewTransitions = () => {
 	if (!document.startViewTransition) return;
 	document.addEventListener('click', (event) => {
@@ -363,6 +401,86 @@ const buildFooter = (json) => {
 			}, { passive: true });
 		}
 		backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' }));
+
+		// ── Outbound link tracking ────────────────────────────────────────
+		document.addEventListener('click', (event) => {
+			const link = event.target.closest('a[target="_blank"]');
+			if (link && typeof gtag === 'function') {
+				try {
+					const url = new URL(link.href);
+					gtag('event', 'click', {
+						event_category: 'outbound',
+						event_label: url.hostname,
+						link_domain: url.hostname,
+						link_url: link.href
+					});
+
+					// Conversion funnel: AdventistGiving clicks
+					if (url.hostname && url.hostname.indexOf('adventistgiving.org') !== -1) {
+						gtag('event', 'open_adventist_giving', {
+							event_category: 'conversion',
+							event_label: link.href,
+							link_url: link.href
+						});
+					}
+				} catch (_e) {
+					// Skip invalid URLs
+				}
+			}
+		}, { passive: true });
+
+		// ── Conversion funnel clicks (mailto / tel) ─────────────────────────
+		document.addEventListener('click', (event) => {
+			const link = event.target.closest('a[href^="mailto:"] , a[href^="tel:"]');
+			if (!link || typeof gtag !== 'function') return;
+			try {
+				const href = link.getAttribute('href');
+				if (!href) return;
+				if (href.startsWith('mailto:')) {
+					const email = href.slice(7);
+					gtag('event', 'open_contact_email', {
+						event_category: 'conversion',
+						event_label: email
+					});
+				} else if (href.startsWith('tel:')) {
+					const number = href.slice(4);
+					gtag('event', 'start_call', {
+						event_category: 'conversion',
+						event_label: number
+					});
+					// If this matches the prayer hotline number, emit a specific event
+					const normalized = number.replace(/[^+0-9]/g, '');
+					if (normalized === '+14234533004' || normalized === '14234533004') {
+						gtag('event', 'start_prayer_hotline', {
+							event_category: 'conversion',
+							event_label: number
+						});
+					}
+				}
+			} catch (_e) {
+				// ignore
+			}
+		}, { passive: true });
+
+		// ── Scroll-depth tracking ─────────────────────────────────────────
+		const scrollDepthThresholds = new Set();
+		window.addEventListener('scroll', () => {
+			if (typeof gtag !== 'function') return;
+			const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+			if (scrollHeight <= 0) return; // Page isn't scrollable
+			const scrollPercent = Math.round((window.scrollY / scrollHeight) * 100);
+			[25, 50, 75, 100].forEach(threshold => {
+				if (scrollPercent >= threshold && !scrollDepthThresholds.has(threshold)) {
+					scrollDepthThresholds.add(threshold);
+					gtag('event', 'scroll', {
+						event_category: 'engagement',
+						event_label: `${threshold}%`,
+						scroll_depth: threshold,
+						page_title: document.title
+					});
+				}
+			});
+		}, { passive: true });
 
 	} catch (err) {
 		console.error('Failed to initialize page:', err);
