@@ -28,7 +28,7 @@
 		"at-rule-empty-line-before": null,
 		"value-keyword-case": null,
 		"font-family-name-quotes": null,
-		"color-function-notation": "legacy",
+		"color-function-notation": "modern",
 		"alpha-value-notation": "number"
 	}
 }

@@ -217,14 +217,14 @@ GA4 is wired; richer events unlock real insight.
 
 The CSS is solid but uses few modern features. These are quality-of-code improvements rather than user-visible wins.
 
-- [ ] **CSS custom properties for theme** — Move colors, spacing scale, radii, and shadows to `--tokens` in `:root` and reference everywhere. Makes the eventual dark-mode toggle trivial.
-- [ ] **Print stylesheet** — `@media print` rules so the newsletter, calendar, and sermon pages print cleanly (hide nav, expand collapsed sections, black text on white).
-- [ ] **Logical properties** — Replace `margin-left/right/top/bottom` with `margin-block`/`margin-inline`.
-- [ ] **Adopt `@layer`** — Define explicit cascade layers (`reset`, `base`, `layout`, `components`, `utilities`, `overrides`) so specificity battles disappear.
-- [ ] **Container queries on cards/embeds** — Newsletter cards, ministry tiles, and YouTube embeds should respond to their container width, not the viewport.
-- [ ] **`:has()` selectors** — Cleaner conditional styling (e.g., "style a `nav` that contains a `.current` item differently") without JS.
-- [ ] **`color-mix()` and `oklch()`** — Modern color manipulation gives you hover/active states from a single source color.
-- [ ] **`view-transitions` API** — Smooth cross-page navigation between ministry pages with a few lines of CSS once the rest is in place.
+- [x] **CSS custom properties for theme** — Move colors, spacing scale, radii, and shadows to `--tokens` in `:root` and reference everywhere. Makes the eventual dark-mode toggle trivial.
+- [x] **Print stylesheet** — `@media print` rules so the newsletter, calendar, and sermon pages print cleanly (hide nav, expand collapsed sections, black text on white).
+- [x] **Logical properties** — Replace `margin-left/right/top/bottom` with `margin-block`/`margin-inline`.
+- [x] **Adopt `@layer`** — Define explicit cascade layers (`reset`, `base`, `layout`, `components`, `utilities`, `overrides`) so specificity battles disappear.
+- [x] **Container queries on cards/embeds** — Newsletter cards, ministry tiles, and YouTube embeds should respond to their container width, not the viewport.
+- [x] **`:has()` selectors** — Cleaner conditional styling (e.g., "style a `nav` that contains a `.current` item differently") without JS.
+- [x] **`color-mix()` and `oklch()`** — Modern color manipulation gives you hover/active states from a single source color.
+- [x] **`view-transitions` API** — Smooth cross-page navigation between ministry pages with a few lines of CSS once the rest is in place.
 
 ---
 

@@ -34,7 +34,7 @@
 
 	/* Basic */
 	body {
-		background: #3e8391;
+		background: var(--color-bg);
 	}
 
 	body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -49,7 +49,7 @@
 	}
 
 	body, input, select, textarea {
-		color: rgba(255, 255, 255, 0.9);
+		color: var(--color-text);
 	}
 
 	a {
@@ -58,7 +58,7 @@
 		-ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		border-bottom: dotted 1px;
-		color: #ffffff;
+		color: var(--color-link);
 		text-decoration: none;
 	}
 
@@ -67,11 +67,11 @@
 		}
 
 	strong, b {
-		color: #ffffff;
+		color: var(--color-text-strong);
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #ffffff;
+		color: var(--color-text-strong);
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -80,38 +80,38 @@
 		}
 
 	hr {
-		border-top: solid 1px rgba(255, 255, 255, 0.5);
+		border-top: solid 1px var(--color-border);
 	}
 
 	blockquote {
-		border-left: solid 0.5em rgba(255, 255, 255, 0.5);
+		border-inline-start: solid 0.5em var(--color-border);
 	}
 
 	/* Section/Article */
 		header p {
-			color: rgba(255, 255, 255, 0.75);
+			color: var(--color-text-subtle);
 		}
 
 		header.major {
-			border-color: rgba(255, 255, 255, 0.5);
+			border-color: var(--color-border);
 			border-style: solid;
 		}
 
 			header.major:before, header.major:after {
-				background: rgba(255, 255, 255, 0.5);
+				background: var(--color-border);
 			}
 
 			header.major p {
-				border-top: solid 1px rgba(255, 255, 255, 0.5);
+				border-top: solid 1px var(--color-border);
 			}
 
 		footer.major {
-			border-color: rgba(255, 255, 255, 0.5);
+			border-color: var(--color-border);
 			border-style: solid;
 		}
 
 			footer.major:before, footer.major:after {
-				background: rgba(255, 255, 255, 0.5);
+				background: var(--color-border);
 			}
 
 	.RSVP.major {
@@ -144,7 +144,7 @@
 /* Form */
 
 	label {
-		color: #ffffff;
+		color: var(--color-text-strong);
 	}
 
 	input[type="text"],
@@ -161,7 +161,7 @@
 		-ms-transition: background-color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out;
 		background: none;
-		border: solid 1px rgba(255, 255, 255, 0.5);
+		border: solid 1px var(--color-border);
 		color: inherit;
 		text-decoration: none;
 		opacity: 1;
@@ -172,8 +172,8 @@
 		input[type="email"]:focus,
 		select:focus,
 		textarea:focus {
-			background: rgba(255, 255, 255, 0.16);
-			border-color: #ffffff;
+			background: var(--color-input-focus-bg);
+			border-color: var(--color-input-focus-border);
 		}
 
 	select {
@@ -181,8 +181,8 @@
 	}
 
 		select option {
-			color: #ffffff;
-			background: #2c545e;
+			color: var(--color-select-text);
+			background: var(--color-select-bg);
 		}
 
 		select:focus::-ms-value {
@@ -255,29 +255,29 @@
 		-webkit-transition: background-color 0.2s ease-in-out;
 		-ms-transition: background-color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out;
-		border: solid 1px rgba(224, 224, 224, 0.75);
+		border: solid 1px var(--color-border-ui);
 	}
 
 	ul.icons li a:hover, ul.icons li span:hover {
-		background: rgba(224, 224, 224, 0.15);
+		background: var(--color-surface-alt);
 	}
 
 	/* Table */
 
 	table.default tbody tr {
-		border-bottom: solid 1px rgba(224, 224, 224, 0.75);
+		border-bottom: solid 1px var(--color-border-ui);
 	}
 
 		table.default tbody tr:nth-child(2n - 1) {
-			background: rgba(224, 224, 224, 0.15);
+			background: var(--color-surface-alt);
 		}
 
 	table.default th {
-		color: #2c3830;
+		color: var(--color-table-th);
 	}
 
 	table.default thead {
-		border-bottom: solid 1px rgba(224, 224, 224, 0.75);
+		border-bottom: solid 1px var(--color-border-ui);
 	}
 
 /* Button */
@@ -293,22 +293,22 @@
 		-webkit-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
-		background: #3E8391;
-		color: #ffffff;
+		background: var(--color-btn-bg);
+		color: var(--color-btn-text);
 	}
 
 		input[type="submit"]:hover,
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
-			background: #6e6570;
+			background: var(--color-btn-hover-bg);
 		}
 
 		input[type="submit"]:active,
 		input[type="reset"]:active,
 		input[type="button"]:active,
 		.button:active {
-			background: #474148;
+			background: var(--color-btn-active-bg);
 		}
 
 		input[type="submit"].alt,
@@ -316,29 +316,29 @@
 		input[type="button"].alt,
 		.button.alt {
 			background: none;
-			box-shadow: inset 0 0 0 1px rgba(224, 224, 224, 0.75);
-			color: #3E8391;
+			box-shadow: inset 0 0 0 1px var(--color-border-ui);
+			color: var(--color-brand);
 		}
 
 			input[type="submit"].alt:hover,
 			input[type="reset"].alt:hover,
 			input[type="button"].alt:hover,
 			.button.alt:hover {
-				background: rgba(224, 224, 224, 0.15);
+				background: var(--color-surface-alt);
 			}
 
 			input[type="submit"].alt:active,
 			input[type="reset"].alt:active,
 			input[type="button"].alt:active,
 			.button.alt:active {
-				background: rgba(224, 224, 224, 0.35);
+				background: var(--color-surface-alt-2);
 			}
 
 /* Box */
 
 	.box {
-		background: #ffffff;
-		border: solid 1px rgba(224, 224, 224, 0.75);
+		background: var(--color-surface);
+		border: solid 1px var(--color-border-ui);
 	}
 
 		.box.alt {
@@ -348,7 +348,7 @@
 
 /* Feature */
 		.feature:before {
-			background: #3E8391;
+			background: var(--color-brand);
 		}
 
 /* Header */
@@ -356,8 +356,8 @@
 		background-image:
 			url("images/top-3200-light.svg"),
 			url("images/overlay.png"),
-			linear-gradient(180deg, #8fc4cd 0%, #3e8391 42%, #255a67 100%);
-		color: rgba(255, 255, 255, 0.8);
+			linear-gradient(180deg, var(--color-brand-light) 0%, var(--color-brand) 42%, var(--color-brand-deeper) 100%);
+		color: var(--color-footer-text);
 	}
 
 		#header:before, #header:after {
@@ -369,37 +369,37 @@
 		}
 
 		#header:before, #header:after {
-			background: rgba(224, 224, 224, 0.75);
+			background: var(--color-border-ui);
 		}
 
 		#header a {
-			border-bottom-color: rgba(255, 255, 255, 0.35);
-			color: rgba(255, 255, 255, 0.8);
+			border-bottom-color: rgb(255 255 255 / 0.35);
+			color: var(--color-footer-text);
 		}
 
 			#header a:hover {
 				border-bottom-color: transparent;
-				color: #ffffff;
+				color: var(--color-text-strong);
 			}
 
 		#header p {
-			color: rgba(255, 255, 255, 0.8);
+			color: var(--color-footer-text);
 		}
 
 		#header strong, #header b {
-			color: #ffffff;
+			color: var(--color-text-strong);
 		}
 
 		#header h1, #header h2, #header h3, #header h4, #header h5, #header h6 {
-			color: #ffffff;
+			color: var(--color-text-strong);
 		}
 
 		#header input[type="submit"],
 		#header input[type="reset"],
 		#header input[type="button"],
 		#header .button {
-			background: #ffffff;
-			color: #3E8391;
+			background: var(--color-surface);
+			color: var(--color-brand);
 		}
 
 		#header .logo img {
@@ -419,9 +419,9 @@
 	}
 
 	#footer {
-		background-color: #3E8391;
+		background-color: var(--color-footer-bg);
 		background-image: url("images/bottom-3200-light.svg");
-		color: rgba(255, 255, 255, 0.8);
+		color: var(--color-footer-text);
 		/*
 			Since the SVG background occupies a lot of vertical space, we'll
 			add additional top padding (to move our content out of its way)
@@ -430,40 +430,40 @@
 	}
 
 		#footer:before {
-			background: rgba(224, 224, 224, 0.75);
+			background: var(--color-border-ui);
 		}
 
 		#footer a {
-			color: #ffffff;
+			color: var(--color-text-strong);
 		}
 
 		#footer strong, #footer b {
-			color: #ffffff;
+			color: var(--color-text-strong);
 		}
 
 		#footer h1, #footer h2, #footer h3, #footer h4, #footer h5, #footer h6 {
-			color: #ffffff;
+			color: var(--color-text-strong);
 		}
 
 		#footer header p {
-			color: rgba(255, 255, 255, 0.5);
+			color: var(--color-text-faint);
 		}
 
 		#footer input[type="submit"],
 		#footer input[type="reset"],
 		#footer input[type="button"],
 		#footer .button {
-			background: #ffffff;
-			box-shadow: inset 0 0 0 1px #ffffff;
-			color: #3E8391;
+			background: var(--color-surface);
+			box-shadow: inset 0 0 0 1px var(--color-surface);
+			color: var(--color-brand);
 		}
 
 			#footer input[type="submit"]:hover,
 			#footer input[type="reset"]:hover,
 			#footer input[type="button"]:hover,
 			#footer .button:hover {
-				background: rgba(224, 224, 224, 0.15);
-				color: #ffffff;
+				background: var(--color-surface-alt);
+				color: var(--color-text-strong);
 			}
 
 		#footer input[type="text"]:focus,
@@ -471,19 +471,19 @@
 		#footer input[type="email"]:focus,
 		#footer select:focus,
 		#footer textarea:focus {
-			border-color: #ffffff;
+			border-color: var(--color-input-focus-border);
 		}
 
 		#footer .formerize-placeholder {
-			color: rgba(255, 255, 255, 0.3) !important;
+			color: var(--color-text-faintest) !important;
 		}
 
 		#footer .copyright {
-			color: rgba(255, 255, 255, 0.5);
+			color: var(--color-text-faint);
 		}
 
 			#footer .copyright li a:hover, #footer .copyright li span:hover {
-				color: #ffffff;
+				color: var(--color-text-strong);
 			}
 
 /* Main */
@@ -498,12 +498,12 @@
 	}
 
 		#main:before {
-			background: rgba(255, 255, 255, 0.5);
+			background: var(--color-border);
 		}
 
 		#main header.major,
 		#main footer.major {
-			background: #3e8391;
+			background: var(--color-brand);
 		}
 
 /* Normal */
@@ -514,7 +514,7 @@
 			background-image:
 				url("images/top-1600-light.svg"),
 				url("images/overlay.png"),
-				linear-gradient(180deg, #8fc4cd 0%, #3e8391 42%, #255a67 100%);
+				linear-gradient(180deg, var(--color-brand-light) 0%, var(--color-brand) 42%, var(--color-brand-deeper) 100%);
 		}
 
 		/* Footer */
@@ -528,11 +528,11 @@
 	@media screen and (max-width: 736px) {
 		/* Feature */
 		.feature {
-			background: #3e8391;
+			background: var(--color-brand);
 		}
 
 		.feature .content {
-			border: solid 1px rgba(44, 84, 94, 0.25);
+			border: solid 1px var(--color-feature-border);
 		}
 
 		/* Header */
@@ -540,7 +540,7 @@
 			background-image:
 				url("images/top-1280-light.svg"),
 				url("images/overlay.png"),
-				linear-gradient(180deg, #8fc4cd 0%, #3e8391 42%, #255a67 100%);
+				linear-gradient(180deg, var(--color-brand-light) 0%, var(--color-brand) 42%, var(--color-brand-deeper) 100%);
 		}
 
 		/* Footer */
@@ -553,56 +553,56 @@
 /* Accessibility: Skip-to-content colors (light mode) */
 @media (prefers-color-scheme: light) {
 	.skip-to-content {
-		background: #2c545e;
-		color: #ffffff;
-		border: 2px solid #ffffff;
+		background: var(--color-skip-bg);
+		color: var(--color-skip-text);
+		border: 2px solid var(--color-skip-border);
 	}
 }
 /* Event Cards — light mode */
 @media (prefers-color-scheme: light) {
 	.events-summary {
-		color: #ffffff;
+		color: var(--color-text-strong);
 	}
 
 	.events-gcal-btn {
-		background: #3e8391;
-		color: #ffffff;
+		background: var(--color-brand);
+		color: var(--color-text-strong);
 	}
 
 	.events-gcal-btn:hover {
-		background: #2c545e;
-		color: #ffffff;
+		background: var(--color-brand-deep);
+		color: var(--color-text-strong);
 	}
 
 	/* View toggle */
 	.events-view-btn {
-		border-color: rgba(44, 84, 94, 0.28);
-		color: #2c545e;
+		border-color: rgb(44 84 94 / 0.28);
+		color: var(--color-brand-deep);
 		background: transparent;
 	}
 
 	.events-view-btn.is-active {
-		background: #3e8391;
-		color: #ffffff;
-		border-color: #3e8391;
+		background: var(--color-brand);
+		color: var(--color-text-strong);
+		border-color: var(--color-brand);
 	}
 
 	.events-view-btn:not(.is-active):hover {
-		background: rgba(44, 84, 94, 0.07);
+		background: rgb(44 84 94 / 0.07);
 	}
 
 	/* Month grid */
 	.calendar-grid {
-		background: rgba(44, 84, 94, 0.12);
+		background: rgb(44 84 94 / 0.12);
 	}
 
 	.calendar-grid__header {
 		background: #eef4f5;
-		color: #2c545e;
+		color: var(--color-brand-deep);
 	}
 
 	.calendar-grid__cell {
-		background: #ffffff;
+		background: var(--color-surface);
 	}
 
 	.calendar-grid__cell--other-month {
@@ -610,78 +610,78 @@
 	}
 
 	.calendar-grid__cell--today .calendar-grid__day-num {
-		background: #3e8391;
-		color: #ffffff;
+		background: var(--color-brand);
+		color: var(--color-text-strong);
 	}
 
 	.calendar-nav-btn {
-		color: #2c545e;
+		color: var(--color-brand-deep);
 	}
 
 	.calendar-month-title {
-		color: #2c3830;
+		color: var(--color-table-th);
 	}
 
 	.calendar-grid__pill {
-		background: rgba(62, 131, 145, 0.18);
-		color: #2c545e;
+		background: rgb(62 131 145 / 0.18);
+		color: var(--color-brand-deep);
 	}
 
 	.calendar-grid__overflow {
-		color: #2c545e;
+		color: var(--color-brand-deep);
 	}
 
 	/* Popup */
 	.event-popup__card {
-		background: #ffffff;
-		border: 1px solid rgba(44, 84, 94, 0.12);
-		box-shadow: 0 12px 40px rgba(44, 84, 94, 0.15);
+		background: var(--color-surface);
+		border: 1px solid rgb(44 84 94 / 0.12);
+		box-shadow: 0 12px 40px rgb(44 84 94 / 0.15);
 		color: #4a4540;
 	}
 
 	.event-popup__date {
-		color: #3e8391;
+		color: var(--color-brand);
 	}
 
 	.event-popup__title {
-		color: #2c3830;
+		color: var(--color-table-th);
 	}
 
 	.event-popup__close {
-		color: #2c545e;
+		color: var(--color-brand-deep);
 	}
 
 	.events-month-heading {
-		color: #2c545e;
+		color: var(--color-brand-deep);
 	}
 
 	.events-month-heading::before,
 	.events-month-heading::after {
-		background: rgba(44, 84, 94, 0.25);
+		background: rgb(44 84 94 / 0.25);
 	}
 
 	.event-card {
-		background: rgba(255, 255, 255, 0.75);
-		border: 1px solid rgba(44, 84, 94, 0.15);
-		box-shadow: 0 2px 8px rgba(44, 84, 94, 0.07);
+		background: rgb(255 255 255 / 0.75);
+		border: 1px solid rgb(44 84 94 / 0.15);
+		box-shadow: 0 2px 8px rgb(44 84 94 / 0.07);
 	}
 
 	.event-card:hover {
-		box-shadow: 0 6px 20px rgba(44, 84, 94, 0.14);
+		box-shadow: 0 6px 20px rgb(44 84 94 / 0.14);
 	}
 
 	.event-card__badge {
-		background: #3e8391;
-		color: #ffffff;
+		background: var(--color-brand);
+		color: var(--color-text-strong);
 	}
 
 	.event-card__link {
-		background: rgba(44, 84, 94, 0.1);
-		color: #2c545e;
+		background: rgb(44 84 94 / 0.1);
+		color: var(--color-brand-deep);
 	}
 
 	.event-card__link:hover {
-		background: rgba(44, 84, 94, 0.2);
+		background: rgb(44 84 94 / 0.2);
 		border-bottom-color: transparent;
 	}
 }

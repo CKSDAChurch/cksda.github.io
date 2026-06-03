@@ -96,6 +96,11 @@ const TIME_ZONE = 'America/New_York';
 		return `${parts.month}_${parts.day}`;
 	};
 
+	const isLocalDevHost = () => {
+		const host = window.location.hostname;
+		return host === 'localhost' || host === '127.0.0.1' || host === '::1';
+	};
+
 	const getWhiteEstateDevotionalUrl = (date = new Date()) => `${DEVOTIONAL_BASE_URL}${getDateKeyForTimeZone(date)}/`;
 
 	const fetchWhiteEstateVerseOfDay = async () => {
@@ -273,17 +278,19 @@ const TIME_ZONE = 'America/New_York';
 		let verseEntry;
 		let devotionalUrl = getWhiteEstateDevotionalUrl();
 
-		try {
-			const dailyVerse = await fetchWhiteEstateVerseOfDay();
-			verseEntry = { reference: dailyVerse.reference, text: dailyVerse.text };
-			devotionalUrl = dailyVerse.devotionalUrl;
-		} catch (error) {
-			console.warn('White Estate verse fetch failed, using HTML/default fallback:', error);
+		if (isLocalDevHost()) {
 			try {
-				verseEntry = getHtmlFallbackVerseEntry();
-			} catch (_) {
+				const dailyVerse = await fetchWhiteEstateVerseOfDay();
+				verseEntry = { reference: dailyVerse.reference, text: dailyVerse.text };
+				devotionalUrl = dailyVerse.devotionalUrl;
+			} catch (error) {
+				console.warn('White Estate verse fetch failed, using HTML/default fallback:', error);
 				verseEntry = getHtmlFallbackVerseEntry();
 			}
+		} else {
+			// In production, newsletter.html is pre-patched at build/deploy time.
+			// Skipping direct client fetch avoids unavoidable browser CORS failures.
+			verseEntry = getHtmlFallbackVerseEntry();
 		}
 
 		const verseLinkUrl = getBibleGatewayUrl(verseEntry.reference);
