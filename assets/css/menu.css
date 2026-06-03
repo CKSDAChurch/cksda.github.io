@@ -8,7 +8,8 @@
   color: #ffffff;
 }
 
-#ministries:hover .ministryPages {
+#ministries:hover .ministryPages,
+#ministries:has(:focus-within) .ministryPages {
   display: block;
 }
 
@@ -17,16 +18,16 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: rgba(72, 114, 122, 0.96);
+  background-color: rgb(72 114 122 / 0.96);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   width: auto;
   min-width: 240px;
   max-width: 320px;
   box-sizing: border-box;
-  border: 1px solid rgba(225, 242, 222, 0.18);
+  border: 1px solid rgb(225 242 222 / 0.18);
   border-radius: 8px;
-  box-shadow: 0 16px 40px rgba(4, 45, 45, 0.35);
+  box-shadow: 0 16px 40px rgb(4 45 45 / 0.35);
   z-index: 9999;
   pointer-events: auto;
 }
@@ -37,8 +38,8 @@
     right: 0;
     width: min(220px, calc(100vw - 24px));
     transform: none;
-    background-color: rgba(18, 34, 42, 0.92);
-    border-color: rgba(225, 242, 222, 0.22);
+    background-color: rgb(18 34 42 / 0.92);
+    border-color: rgb(225 242 222 / 0.22);
   }
 }
 
@@ -50,7 +51,7 @@
 }
 
 .ministryPages a:hover {
-  background-color: rgba(225, 242, 222, 0.12);
+  background-color: rgb(225 242 222 / 0.12);
 }
 
 .ministryPage {

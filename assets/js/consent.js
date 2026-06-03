@@ -33,22 +33,7 @@ var CONSENT_KEY = 'cksdaConsent';
 	}
 
 	function showBanner() {
-		var style = document.createElement('style');
-		style.textContent =
-			'#cookie-consent-banner{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;color:#e0e0e0;' +
-			'padding:1rem 1.5rem;display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;z-index:9999;' +
-			'font-size:.875rem;box-shadow:0 -2px 8px rgba(0,0,0,.5);}' +
-			'#cookie-consent-banner p{margin:0;flex:1 1 18rem;}' +
-			'#cookie-consent-banner a{color:#7ec8e3;text-decoration:underline;}' +
-			'.cksda-consent-actions{display:flex;gap:.5rem;flex-shrink:0;}' +
-			'#cksda-consent-accept,#cksda-consent-decline{padding:.4rem 1rem;border:none;border-radius:4px;' +
-			'cursor:pointer;font-size:.875rem;font-weight:600;}' +
-			'#cksda-consent-accept{background:#4a90d9;color:#fff;}' +
-			'#cksda-consent-accept:hover,#cksda-consent-accept:focus{background:#357abd;}' +
-			'#cksda-consent-decline{background:transparent;color:#e0e0e0;border:1px solid #909090;}' +
-			'#cksda-consent-decline:hover,#cksda-consent-decline:focus{background:rgba(255,255,255,.1);}';
-		document.head.appendChild(style);
-
+		// Banner styles live in main.css (parsed once at load time).
 		var banner = document.createElement('div');
 		banner.id = 'cookie-consent-banner';
 		banner.setAttribute('role', 'dialog');

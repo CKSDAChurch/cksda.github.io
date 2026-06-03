@@ -3,6 +3,29 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v1.5.0 — June 2, 2026
+
+### Added
+- **CSS design token system** — Single source of truth for all brand and UI colours defined in `main.css` using `oklch()` for perceptual uniformity; dark/light themes defined via `:root`, `@media (prefers-color-scheme: dark)`, `html.theme-light`, and `html.theme-dark` selectors.
+- **`color-mix()` for interactive states** — Button hover and active backgrounds derived from brand tokens using `color-mix(in oklch, ...)`, replacing hard-coded purple-grey fallbacks.
+- **Container query for lessons grid** — `.lessons-section` in `newsletter.css` is now a named inline-size container; `@container lessons (max-width: 440px)` collapses the 4-column lessons grid to 2 columns when the section itself is narrow.
+- **`:has()` — keyboard-accessible ministry dropdown** — `#ministries:has(:focus-within) .ministryPages` added to `menu.css` so the dropdown stays open during keyboard navigation.
+- **`:has()` — dialog scroll-lock** — `html:has(dialog[open])` prevents body scroll while a `<dialog>` is open.
+- **`:has()` — form validation highlight** — `.form-card:has(input:user-invalid, ...)` adds a red border tint to any form card containing an invalid field.
+- **`@layer` cascade layers** — `@layer base, theme;` declared in `main.css`; FontAwesome and Google Fonts assigned to `layer(base)`, and `lightmode.css`/`darkmode.css`/`menu.css` assigned to `layer(theme)`. Unlayered component and override rules in `main.css` correctly win without specificity hacks.
+- **CSS logical properties** — All inline-direction physical properties (`margin-left/right`, `padding-left/right`, `border-left/right`, `text-align: left/right`, `float: left/right`) converted to their logical equivalents across `main.css`, `lightmode.css`, `darkmode.css`, `menu.css`, `newsletter.css`, and `pathfinders.css`. RTL language support now requires only an `html[dir="rtl"]` attribute.
+
+### Changed
+- **`lightmode.css` and `darkmode.css`** — All hardcoded colour values replaced with `var(--color-*)` tokens; both files now respond automatically to any future token change.
+- **Newsletter devotional fetch strategy** — `newsletter.js` now skips direct White Estate client fetches on production hosts and uses the pre-patched HTML verse (while keeping live fetch behavior for localhost), eliminating expected browser CORS failures for site visitors.
+- **Deployment consistency for daily verse** — `deploy.yml` now runs `scripts/fetch-devotional.js` before publishing, matching `daily-devotional.yml` so push-triggered deploys do not overwrite the same-day devotional update.
+- **Playwright runtime compatibility** — migrated Playwright setup to `playwright.config.cjs`, updated ESLint target mapping, and converted `tests/mobile.spec.js` to ESM import syntax so lint and mobile tests run cleanly under `"type": "module"`.
+
+### Fixed
+- **Favicon 404 noise** — added explicit favicon links to redirect/offline pages that were missing them (`zeitgeist.html`, `offline.html`, `college.html`, `directory.html`, `collegiate.html`) to reduce browser fallback requests to `/favicon.ico`.
+- **Back-to-top progressive enhancement** — documented and stabilized the CSS-first scroll visibility behavior with JS fallback for non-supporting browsers, reducing scroll-handler work where `animation-timeline` is available.
+- **Cookie consent styling path** — moved consent banner styling out of runtime JS injection and into stylesheet-driven CSS so first render no longer depends on a dynamic `<style>` append.
+
 ## v1.4.0 — June 2, 2026
 
 ### Added

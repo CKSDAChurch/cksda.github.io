@@ -353,11 +353,15 @@ const buildFooter = (json) => {
 		backBtn.setAttribute('aria-label', 'Back to top');
 		backBtn.innerHTML = '<i class="fa-solid fa-chevron-up" aria-hidden="true"></i>';
 		document.body.appendChild(backBtn);
-		window.addEventListener('scroll', () => {
-			const pastHalf = window.scrollY > window.innerHeight * 0.5;
-			const nearBottom = (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight - backBtn.offsetHeight * 2);
-			backBtn.classList.toggle('visible', pastHalf && !nearBottom);
-		}, { passive: true });
+		// Scroll-driven CSS handles visibility in supporting browsers;
+		// fall back to a JS scroll listener where it isn't supported.
+		if (!CSS.supports('animation-timeline: scroll()')) {
+			window.addEventListener('scroll', () => {
+				const pastHalf = window.scrollY > window.innerHeight * 0.5;
+				const nearBottom = (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight - backBtn.offsetHeight * 2);
+				backBtn.classList.toggle('visible', pastHalf && !nearBottom);
+			}, { passive: true });
+		}
 		backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' }));
 
 	} catch (err) {

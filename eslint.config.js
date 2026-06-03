@@ -83,11 +83,11 @@ export default [
 		}
 	},
 	{
-		// Playwright spec files — CJS (require('@playwright/test'))
+		// Playwright spec files — ESM
 		files: ['tests/*.spec.js'],
 		languageOptions: {
 			ecmaVersion: 2022,
-			sourceType: 'commonjs',
+			sourceType: 'module',
 			globals: {
 				...globals.node,
 				...globals.browser
@@ -95,8 +95,8 @@ export default [
 		}
 	},
 	{
-		// Playwright config — CJS (require/module.exports)
-		files: ['playwright.config.js'],
+		// Playwright config — CJS (.cjs)
+		files: ['playwright.config.cjs'],
 		languageOptions: {
 			ecmaVersion: 2022,
 			sourceType: 'commonjs',
