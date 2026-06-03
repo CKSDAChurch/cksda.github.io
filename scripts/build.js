@@ -12,6 +12,8 @@
 
 import esbuild from 'esbuild';
 import sharp from 'sharp';
+import fs from 'node:fs';
+import { purgeFile } from './purge-css.js';
 
 const apiKey = process.env.YOUTUBE_API_KEY || '';
 const calendarApiKey = process.env.CALENDAR_API_KEY || '';
@@ -34,6 +36,7 @@ if (!calendarApiKey) {
     }
 }
 
+// These are bundled standalone (no @import resolution needed).
 const cssFiles = ['main', 'lightmode', 'darkmode', 'menu', 'newsletter', 'pathfinders'];
 // analytics.js stays as a classic (non-ESM) synchronous script so consent-mode fires early.
 const classicJsFiles = ['analytics'];
@@ -140,6 +143,33 @@ async function build() {
     ];
 
     await Promise.all(tasks);
+
+    // ── CSS purge: remove unused class rules per page group ──────────────────
+    // All root HTML pages that load shared styles.
+    const allHtml = fs.readdirSync('.')
+        .filter(file => file.toLowerCase().endsWith('.html'));
+    // JS sources that may inject class names dynamically.
+    const allJs = [
+        'assets/js/main.js', 'assets/js/page-config.js', 'assets/js/consent.js',
+        'assets/js/analytics.js', 'assets/js/youtube.js', 'assets/js/calendar-events.js',
+    ];
+    console.log('Purging unused CSS…');
+    await Promise.all([
+        // main.min.css — used by all pages
+        purgeFile('assets/css/main.min.css',       [...allHtml, ...allJs]),
+        // lightmode/darkmode/menu are @imported by main.min.css at runtime
+        purgeFile('assets/css/lightmode.min.css',  [...allHtml, ...allJs]),
+        purgeFile('assets/css/darkmode.min.css',   [...allHtml, ...allJs]),
+        purgeFile('assets/css/menu.min.css',       [...allHtml, ...allJs]),
+        // newsletter.min.css — used only by newsletter.html
+        purgeFile('assets/css/newsletter.min.css', [
+            'newsletter.html',
+            'assets/js/newsletter.js', 'assets/js/verse-utils.js', 'assets/js/youtube.js',
+        ]),
+        // pathfinders.min.css — used only by pathfinders.html
+        purgeFile('assets/css/pathfinders.min.css', ['pathfinders.html', ...allJs]),
+    ]);
+
     console.log('Build complete.');
 }
 

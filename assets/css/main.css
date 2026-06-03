@@ -23,7 +23,7 @@
 @layer base, theme;
 
 @import url("fontawesome-all.min.css") layer(base);
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic,400,400italic,600,600italic,700,700italic") layer(base);
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap") layer(base);
 
 /********** Colour Schemes **********/
 @import "./lightmode.css" layer(theme);

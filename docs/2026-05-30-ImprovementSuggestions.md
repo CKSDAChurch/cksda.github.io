@@ -170,11 +170,11 @@ Foundational wins are done; these are the next 10–20%.
 - [x] **Service-worker cache versioning** — Confirm `sw.js` uses a versioned cache name and `skipWaiting` + `clients.claim` so deploys don't strand users on stale assets.
 - [ ] **Preload the hero font and LCP image** — `<link rel="preload" as="font" crossorigin>` and `<link rel="preload" as="image">` for the largest contentful paint asset on each page.
 - [ ] **Resource hints audit** — `dns-prefetch` and `preconnect` for googletagmanager, clarity, youtube.com domains before the scripts load.
-- [ ] **Self-host Google Fonts** — Even with preconnect, third-party fonts add a DNS hop and a request. Subset the actual glyphs used and serve as WOFF2 from `/assets/webfonts/`.
+- [ ] **Self-host Google Fonts** — Not adopted: local downloaded Source Sans Pro files caused heading glyph regressions in production rendering (notably uppercase "A"). Keep Google Fonts for Source Sans Pro to preserve stable typography.
 - [ ] **Subset Font Awesome** — You almost certainly use <30 icons; build a custom kit or switch to inline SVG sprites. Current full FA is ~80KB of CSS + font files.
 - [ ] **Stale-while-revalidate for JSON** — `verse-today.json` and language files should use SWR so users see instant content but get freshness on the next visit.
 - [ ] **Image CDN or `srcset` widths** — Today images are served at one resolution. Generate 480/768/1280 variants via the existing `sharp` build step and emit `srcset`.
-- [ ] **Eliminate unused CSS per page** — Run PurgeCSS as a build step keyed by each HTML file; ministry pages don't need newsletter.css rules and vice versa.
+- [x] **Eliminate unused CSS per page** — `scripts/purge-css.js` added (pure Node.js, no external deps); runs after esbuild in `build.js`; purged −13.6 KB / 159 rules from `main.min.css`, −1.2 KB from `newsletter.min.css`, −132 B from `pathfinders.min.css`.
 
 ---
 
