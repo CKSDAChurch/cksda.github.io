@@ -1,3 +1,4 @@
+// @ts-check
 /*
 	© CKSDA Church
 	cksda.church/
@@ -206,21 +207,21 @@ var day = now.getDay();
 const youtubeLive = document.getElementById("youtubeLive");
 if (youtubeLive) {
     // CKSDA Church hours (EM)
-    if (lang == "en" && (hour >= 11 && hour < 13 && day == 6)) {
+    if (window.lang == "en" && (hour >= 11 && hour < 13 && day == 6)) {
         youtubeLive.innerHTML = `<h3>Watch CKSDA Church</h3>
             <iframe style="width: 100%; height: 22em;" title="CKSDA Church Livestream" frameborder="0" allowfullscreen
             src="https://www.youtube.com/embed/live_stream?channel=UCwWsr1Z3S9SY-DfkIwUMSYQ"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
     }
     // CKSDA Church hours (KM)
-    else if (lang == "ko" && ((hour >= 19 && hour <= 20 && day == 5) || (hour >= 9 && hour < 11 && day == 6))) {
+    else if (window.lang == "ko" && ((hour >= 19 && hour <= 20 && day == 5) || (hour >= 9 && hour < 11 && day == 6))) {
         youtubeLive.innerHTML = `<h3>Watch CKSDA Church</h3>
             <iframe style="width: 100%; height: 22em;" title="CKSDA Church Livestream" frameborder="0" allowfullscreen
             src="https://www.youtube.com/embed/live_stream?channel=UCwWsr1Z3S9SY-DfkIwUMSYQ"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
     }
     // Last Week (KM)
-    else if (lang == "ko") {
+    else if (window.lang == "ko") {
         getLatestVideoFromPlaylist('PLIkL0-bPEL8qxyr_fpD0-8ke5zosKG-cF').then(videoId => {
             if (videoId) {
                 youtubeLive.innerHTML = `<h3>Watch CKSDA Church</h3>
@@ -275,7 +276,8 @@ if (hasPlayerEmbed) {
 }
 
 // 3. This function creates an <iframe> (and YouTube player) after the API code downloads.
-function onYouTubeIframeAPIReady() {
+// Must be assigned to window so the YouTube IFrame API (a non-module external script) can call it.
+window.onYouTubeIframeAPIReady = function() {
     if (document.getElementById('player')) {
         player = new YT.Player('player', {
             videoId: 'wyswv1J8kAM',
@@ -325,3 +327,5 @@ function stopVideo() {
     player2.stopVideo();
     player3.stopVideo();
 }
+
+export { getLatestVideoFromPlaylist, getNextScheduledVideoFromPlaylist };

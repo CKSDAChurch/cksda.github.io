@@ -11,7 +11,7 @@
 
 'use strict';
 
-const CACHE_NAME = 'cksda-v1';
+const CACHE_NAME = 'cksda-v3';
 
 // Core assets pre-cached on first install.
 // Keep this list to critical same-origin assets that are always present.
@@ -21,9 +21,6 @@ const PRECACHE_URLS = [
 	'/assets/css/lightmode.min.css',
 	'/assets/css/darkmode.min.css',
 	'/assets/css/menu.min.css',
-	'/assets/js/browser.min.js',
-	'/assets/js/breakpoints.min.js',
-	'/assets/js/page-config.min.js',
 	'/assets/js/main.min.js',
 	'/assets/js/consent.min.js',
 	'/images/logo-light.png',

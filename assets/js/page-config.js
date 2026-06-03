@@ -1,9 +1,10 @@
+// @ts-check
 /*
 	© CKSDA Church
 	cksda.church/
 */
 
-const buildPageConfig = (helpers) => {
+export const buildPageConfig = (helpers) => {
 	const { pageMatches } = helpers;
 
 	return {
@@ -131,4 +132,3 @@ const buildPageConfig = (helpers) => {
 	};
 };
 
-window.buildPageConfig = buildPageConfig;

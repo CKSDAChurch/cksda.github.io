@@ -1,10 +1,13 @@
+// @ts-check
 /*
 	© CKSDA Church
 	cksda.church/
 */
 
-(function () {
-	const TIME_ZONE = 'America/Chicago';
+import { getLatestVideoFromPlaylist, getNextScheduledVideoFromPlaylist } from './youtube.js';
+import { parseVerseAndReference } from './verse-utils.js';
+
+const TIME_ZONE = 'America/New_York';
 	const LOCATION = {
 		lat: 35.055464,
 		lng: -85.0710314
@@ -27,8 +30,6 @@
 	const DEVOTIONAL_BASE_URL = 'https://whiteestate.org/devotional/ohc/';
 
 	const pad2 = (value) => String(value).padStart(2, '0');
-
-	const BIBLE_BOOK_PATTERN = '(?:Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|1\\s*Samuel|2\\s*Samuel|1\\s*Kings|2\\s*Kings|1\\s*Chronicles|2\\s*Chronicles|Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|Song\\s+of\\s+Solomon|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|1\\s*Corinthians|2\\s*Corinthians|Galatians|Ephesians|Philippians|Colossians|1\\s*Thessalonians|2\\s*Thessalonians|1\\s*Timothy|2\\s*Timothy|Titus|Philemon|Hebrews|James|1\\s*Peter|2\\s*Peter|1\\s*John|2\\s*John|3\\s*John|Jude|Revelation)';
 
 	const zonedParts = (date, timeZone) => {
 		const formatter = new Intl.DateTimeFormat('en-US', {
@@ -85,8 +86,8 @@
 		if (reference && text) return { reference, text };
 
 		return {
-			reference: 'Acts 1:8',
-			text: '"But ye shall receive power, after that the Holy Ghost is come upon you: and ye shall be witnesses unto me both in Jerusalem, and in all Judaea, and in Samaria, and unto the uttermost part of the earth."'
+			reference: 'Song of Solomon 2:11-12',
+			text: '"For, lo, the winter is past, the rain is over and gone; the flowers appear on the earth; the time of the singing of birds is come, and the voice of the turtle is heard in our land."'
 		};
 	};
 
@@ -96,26 +97,6 @@
 	};
 
 	const getWhiteEstateDevotionalUrl = (date = new Date()) => `${DEVOTIONAL_BASE_URL}${getDateKeyForTimeZone(date)}/`;
-
-	const parseVerseAndReference = (rawText) => {
-		if (!rawText) return null;
-
-		const clean = rawText.replace(/\s+/g, ' ').trim();
-		const refRegex = new RegExp(`${BIBLE_BOOK_PATTERN}\\s+\\d{1,3}:\\d{1,3}(?:[-\\u2013]\\d{1,3})?`, 'gi');
-		const matches = [...clean.matchAll(refRegex)];
-		if (!matches.length) return null;
-
-		const lastMatch = matches[matches.length - 1];
-		const reference = lastMatch[0].replace(/\s+/g, ' ').trim();
-		const verseText = clean.slice(0, lastMatch.index).trim().replace(/[\s.]+$/, '');
-
-		if (!verseText || !reference) return null;
-
-		return {
-			reference,
-			text: `"${verseText}."`
-		};
-	};
 
 	const fetchWhiteEstateVerseOfDay = async () => {
 		const devotionalUrl = getWhiteEstateDevotionalUrl();
@@ -133,18 +114,6 @@
 			...parsed,
 			devotionalUrl
 		};
-	};
-
-	// CORS-friendly fallback: net.Bible VOTD API (used when White Estate fetch fails on production)
-	const fetchNetBibleVerse = async () => {
-		const response = await fetch('https://labs.bible.org/api/?passage=votd&type=json');
-		if (!response.ok) throw new Error(`net.Bible API failed with ${response.status}`);
-		const data = await response.json();
-		if (!data?.length) throw new Error('net.Bible returned empty response');
-		const item = data[0];
-		const reference = `${item.bookname} ${item.chapter}:${item.verse}`;
-		const text = `"${item.text}"`;
-		return { reference, text, devotionalUrl: getWhiteEstateDevotionalUrl() };
 	};
 
 	const getBibleGatewayUrl = (reference) => `https://www.biblegateway.com/passage/?search=${encodeURIComponent(reference)}&version=NKJV`;
@@ -213,18 +182,15 @@
 		const EM_PLAYLIST = 'PLIkL0-bPEL8qQUoX4JIONp-RCjgwKQFgx';
 		const sabbathParts = zonedParts(getUpcomingSabbathDate().date, TIME_ZONE);
 		const targetDateStr = `${sabbathParts.year}-${pad2(sabbathParts.month)}-${pad2(sabbathParts.day)}`;
-		let videoId = null;
-		if (typeof getNextScheduledVideoFromPlaylist === 'function') {
-			videoId = await getNextScheduledVideoFromPlaylist(EM_PLAYLIST, targetDateStr).catch(() => null);
-			if (videoId) {
-				els.livestreamLink.href = `https://www.youtube.com/watch?v=${videoId}`;
-			}
+		let videoId = await getNextScheduledVideoFromPlaylist(EM_PLAYLIST, targetDateStr).catch(() => null);
+		if (videoId) {
+			els.livestreamLink.href = `https://www.youtube.com/watch?v=${videoId}`;
 		}
 
 		// If the target Sabbath is TODAY and no upcoming/live video was found (service already ended),
 		// fall back to the most recently published video from the playlist — that's today's service.
 		// This keeps the speaker name correct on Sabbath afternoon without waiting for midnight.
-		if (!videoId && typeof getLatestVideoFromPlaylist === 'function') {
+		if (!videoId) {
 			const nowParts = zonedParts(new Date(), TIME_ZONE);
 			const todayStr = `${nowParts.year}-${pad2(nowParts.month)}-${pad2(nowParts.day)}`;
 			if (targetDateStr === todayStr) {
@@ -303,42 +269,20 @@
 		if (els.devotionalLink) els.devotionalLink.href = getWhiteEstateDevotionalUrl();
 	};
 
-	// Fetch the pre-built verse JSON written daily by the update-verse GitHub Actions workflow.
-	// This avoids CORS issues — it's same-origin and bypasses the whiteestate.org fetch entirely.
-	const fetchVerseTodayJson = async () => {
-		const response = await fetch('assets/programs/verse-today.json');
-		if (!response.ok) throw new Error(`verse-today.json fetch failed with ${response.status}`);
-		const data = await response.json();
-		if (!data?.reference || !data?.text) throw new Error('verse-today.json missing required fields');
-		return data;
-	};
-
 	const updateVerseOfDay = async () => {
 		let verseEntry;
 		let devotionalUrl = getWhiteEstateDevotionalUrl();
 
 		try {
-			// First try the pre-built JSON (works on production — same origin, no CORS)
-			const jsonVerse = await fetchVerseTodayJson();
-			verseEntry = { reference: jsonVerse.reference, text: jsonVerse.text };
-			devotionalUrl = jsonVerse.devotionalUrl || devotionalUrl;
-		} catch (jsonError) {
-			console.warn('verse-today.json unavailable, trying live White Estate fetch:', jsonError);
+			const dailyVerse = await fetchWhiteEstateVerseOfDay();
+			verseEntry = { reference: dailyVerse.reference, text: dailyVerse.text };
+			devotionalUrl = dailyVerse.devotionalUrl;
+		} catch (error) {
+			console.warn('White Estate verse fetch failed, using HTML/default fallback:', error);
 			try {
-				// Direct fetch works locally (file://) but is blocked by CORS on production
-				const dailyVerse = await fetchWhiteEstateVerseOfDay();
-				verseEntry = { reference: dailyVerse.reference, text: dailyVerse.text };
-				devotionalUrl = dailyVerse.devotionalUrl;
-			} catch (error) {
-				console.warn('White Estate verse fetch failed, trying net.Bible fallback:', error);
-				try {
-					const netBibleVerse = await fetchNetBibleVerse();
-					verseEntry = { reference: netBibleVerse.reference, text: netBibleVerse.text };
-					devotionalUrl = netBibleVerse.devotionalUrl;
-				} catch (netBibleError) {
-					console.warn('net.Bible verse fetch also failed, using HTML/default fallback:', netBibleError);
-					verseEntry = getHtmlFallbackVerseEntry();
-				}
+				verseEntry = getHtmlFallbackVerseEntry();
+			} catch (_) {
+				verseEntry = getHtmlFallbackVerseEntry();
 			}
 		}
 
@@ -566,4 +510,3 @@
 	};
 
 	init();
-})();
