@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms; worker-src 'self'; base-uri 'self'; form-action 'self';" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="color-scheme" content="light dark" />
+	<meta name="robots" content="noindex" />
+	<link rel="icon" href="./images/favicon.png" />
+	<title>Page not found | Collegedale Korean SDA Church</title>
+	<style>
+		:root {
+			--color-bg: #e4eded;
+			--color-surface: #f4f8f8;
+			--color-surface-border: rgba(62, 131, 145, 0.24);
+			--color-text: #22343a;
+			--color-text-subtle: #4d666e;
+			--color-code-bg: rgba(62, 131, 145, 0.12);
+			--color-code-text: #1f535e;
+			--color-btn-bg: #3e8391;
+			--color-btn-hover: #2f6974;
+			--color-btn-text: #ffffff;
+			--shadow-surface: 0 14px 34px rgba(22, 58, 66, 0.11);
+		}
+
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--color-bg: #042d2d;
+				--color-surface: #0b3d45;
+				--color-surface-border: rgba(126, 203, 218, 0.28);
+				--color-text: #e1f2de;
+				--color-text-subtle: #c1d9d8;
+				--color-code-bg: rgba(126, 203, 218, 0.18);
+				--color-code-text: #d7f0ef;
+				--color-btn-bg: #5ba8b5;
+				--color-btn-hover: #7ecbda;
+				--color-btn-text: #042d2d;
+				--shadow-surface: 0 18px 45px rgba(0, 0, 0, 0.35);
+			}
+		}
+
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			font-family: "Source Sans Pro", "Segoe UI", Arial, sans-serif;
+			background:
+				radial-gradient(circle at top center, rgba(126, 203, 218, 0.12), transparent 50%),
+				linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 35%),
+				var(--color-bg);
+			color: var(--color-text);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			padding: 2rem;
+			text-align: center;
+		}
+		main {
+			background: var(--color-surface);
+			border: 1px solid var(--color-surface-border);
+			border-radius: 16px;
+			box-shadow: var(--shadow-surface);
+			max-width: 36rem;
+			width: 100%;
+			padding: 2rem 1.5rem;
+		}
+		img { width: 80px; height: 80px; margin-bottom: 1rem; }
+		h1 { font-size: 1.75rem; color: var(--color-text); margin-bottom: 0.75rem; }
+		p { max-width: 30rem; line-height: 1.6; margin: 0 auto 1.5rem auto; color: var(--color-text-subtle); }
+		code {
+			display: inline-block;
+			background: var(--color-code-bg);
+			color: var(--color-code-text);
+			padding: 0.1em 0.4em;
+			border-radius: 6px;
+			font-size: 0.9em;
+			word-break: break-all;
+		}
+		a.btn {
+			display: inline-block;
+			padding: 0.65rem 1.75rem;
+			background: var(--color-btn-bg);
+			color: var(--color-btn-text);
+			text-decoration: none;
+			border-radius: 999px;
+			font-size: 1rem;
+			font-weight: 700;
+			transition: background-color 0.2s ease, transform 0.2s ease;
+		}
+		a.btn:hover, a.btn:focus {
+			background: var(--color-btn-hover);
+			outline: 2px solid var(--color-btn-bg);
+			outline-offset: 2px;
+			transform: translateY(-1px);
+		}
+	</style>
+
+	<!-- Analytics: must load before the inline gtag call below -->
+	<script src="./assets/js/analytics.min.js"></script>
+	<!-- Report page_not_found so broken inbound links surface in GA4 reports -->
+	<script>
+		if (typeof window.gtag === 'function') {
+			window.gtag('event', 'page_not_found', {
+				page_path: window.location.pathname,
+				page_search: window.location.search || undefined,
+				page_referrer: document.referrer || undefined
+			});
+		}
+	</script>
+</head>
+<body>
+	<main>
+		<img src="./images/logo-light.png" alt="Collegedale Korean SDA Church" width="80" height="80" />
+		<h1>Page not found</h1>
+		<p>The page <code id="requested-path"></code> couldn't be found.<br />
+		It may have been moved, renamed, or never existed.</p>
+		<a class="btn" href="/">Go to homepage</a>
+	</main>
+
+	<script>
+		var el = document.getElementById('requested-path');
+		if (el) el.textContent = window.location.pathname;
+	</script>
+	<script type="module" src="./assets/js/consent.min.js"></script>
+</body>
+</html>

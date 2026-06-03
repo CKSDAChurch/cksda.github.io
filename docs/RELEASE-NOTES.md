@@ -3,6 +3,16 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v1.7.0 — June 3, 2026
+
+### Added
+- **Core Web Vitals reporting** — `web-vitals.js` measures LCP, CLS, INP, TTFB, and FCP via native `PerformanceObserver` APIs and sends each metric to GA4 as a non-interaction event; each report includes a `metric_rating` (`good` / `needs-improvement` / `poor`) benchmarked against Google's thresholds.
+- **`404.html` page** — new branded 404 error page with dark/light theme using CSS design tokens, radial-gradient background, and a card layout consistent with the site aesthetic; includes CSP and `noindex` meta tag.
+- **`offline.html` redesign** — full dark/light theme with CSS design tokens and brand palette, replacing the previous minimal unstyled fallback.
+
+### Changed
+- **Service worker cache bumped to `cksda-v4`** — `web-vitals.min.js` added to the pre-cache list to ensure it is available on repeat visits.
+
 ## v1.6.0 — June 3, 2026
 
 ### Added

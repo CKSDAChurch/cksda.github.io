@@ -130,6 +130,13 @@ async function build() {
                 __CALENDAR_API_KEY__: JSON.stringify(calendarApiKey),
             },
         }),
+        // web-vitals.js — standalone ESM module; no external imports.
+        esbuild.build({
+            entryPoints: ['assets/js/web-vitals.js'],
+            minify: true,
+            format: 'esm',
+            outfile: 'assets/js/web-vitals.min.js',
+        }),
     ];
 
     await Promise.all(tasks);

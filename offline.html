@@ -3,14 +3,44 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="icon" href="./images/favicon.png" />
+	<link rel="icon" type="image/png" sizes="32x32" href="./images/favicon.png" />
+	<link rel="shortcut icon" href="./images/favicon.png" />
+	<meta name="color-scheme" content="light dark" />
 	<title>You're offline | Collegedale Korean SDA Church</title>
 	<style>
+		:root {
+			--color-bg: #f2f7f7;
+			--color-surface: #ffffff;
+			--color-surface-border: rgba(62, 131, 145, 0.2);
+			--color-text: #22343a;
+			--color-text-subtle: #4d666e;
+			--color-btn-bg: #3e8391;
+			--color-btn-hover: #2f6974;
+			--color-btn-text: #ffffff;
+			--shadow-surface: 0 16px 40px rgba(22, 58, 66, 0.12);
+		}
+
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--color-bg: #042d2d;
+				--color-surface: #0b3d45;
+				--color-surface-border: rgba(126, 203, 218, 0.28);
+				--color-text: #e1f2de;
+				--color-text-subtle: #c1d9d8;
+				--color-btn-bg: #5ba8b5;
+				--color-btn-hover: #7ecbda;
+				--color-btn-text: #042d2d;
+				--shadow-surface: 0 18px 45px rgba(0, 0, 0, 0.35);
+			}
+		}
+
 		* { box-sizing: border-box; margin: 0; padding: 0; }
 		body {
 			font-family: "Source Sans Pro", "Segoe UI", Arial, sans-serif;
-			background: #f7f3ed;
-			color: #4a4540;
+			background:
+				radial-gradient(circle at top center, rgba(126, 203, 218, 0.22), transparent 42%),
+				var(--color-bg);
+			color: var(--color-text);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -19,26 +49,44 @@
 			padding: 2rem;
 			text-align: center;
 		}
-		img { width: 80px; height: 80px; margin-bottom: 1.5rem; }
-		h1 { font-size: 1.75rem; color: #2c3830; margin-bottom: 0.75rem; }
-		p { max-width: 28rem; line-height: 1.6; margin-bottom: 1.5rem; }
+		main {
+			background: var(--color-surface);
+			border: 1px solid var(--color-surface-border);
+			border-radius: 16px;
+			box-shadow: var(--shadow-surface);
+			max-width: 34rem;
+			width: 100%;
+			padding: 2rem 1.5rem;
+		}
+		img { width: 80px; height: 80px; margin-bottom: 1rem; }
+		h1 { font-size: 1.75rem; color: var(--color-text); margin-bottom: 0.75rem; }
+		p { max-width: 28rem; line-height: 1.6; margin: 0 auto 1.5rem auto; color: var(--color-text-subtle); }
 		button {
 			padding: 0.65rem 1.75rem;
-			background: #2c3830;
-			color: #f7f3ed;
+			background: var(--color-btn-bg);
+			color: var(--color-btn-text);
 			border: none;
-			border-radius: 4px;
+			border-radius: 999px;
 			font-size: 1rem;
+			font-weight: 700;
 			cursor: pointer;
+			transition: background-color 0.2s ease, transform 0.2s ease;
 		}
-		button:hover, button:focus { background: #3a4a40; outline: 2px solid #2c3830; outline-offset: 2px; }
+		button:hover, button:focus {
+			background: var(--color-btn-hover);
+			outline: 2px solid var(--color-btn-bg);
+			outline-offset: 2px;
+			transform: translateY(-1px);
+		}
 	</style>
 </head>
 <body>
-	<img src="/images/logo-light.png" alt="Collegedale Korean SDA Church" width="80" height="80" />
-	<h1>You're offline</h1>
-	<p>It looks like you don't have an internet connection right now.<br>
-	Please check your network and try again.</p>
-	<button onclick="window.location.reload()">Try again</button>
+	<main>
+		<img src="./images/logo-light.png" alt="Collegedale Korean SDA Church" width="80" height="80" />
+		<h1>You're offline</h1>
+		<p>It looks like you don't have an internet connection right now.<br>
+		Please check your network and try again.</p>
+		<button onclick="window.location.reload()">Try again</button>
+	</main>
 </body>
 </html>
