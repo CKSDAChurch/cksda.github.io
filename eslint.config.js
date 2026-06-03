@@ -51,7 +51,8 @@ export default [
 			'assets/js/page-config.js',
 			'assets/js/lang-utils.js',
 			'assets/js/verse-utils.js',
-			'assets/js/calendar-events.js'
+			'assets/js/calendar-events.js',
+			'assets/js/web-vitals.js'
 		],
 		languageOptions: {
 			ecmaVersion: 2022,
