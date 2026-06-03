@@ -80,11 +80,11 @@ Conversion-oriented features that turn casual visitors into engaged members.
 You have GA4 + Clarity for behavior, but no signal when the site itself misbehaves.
 
 - [ ] **Uptime monitoring** — Free tier of UptimeRobot / BetterStack pinging `cksda.church/` and `cksda.church/newsletter.html` every 5 minutes; alert to email or Discord.
-- [ ] **404 page with analytics** — Custom `/404.html` that logs a GA4 event with the requested path, so broken inbound links surface in reports.
+- [x] **404 page with analytics** — Custom `/404.html` that logs a GA4 event with the requested path, so broken inbound links surface in reports.
 - [x] **Synthetic check for verse-of-day API** — The `update-verse.yml` cron silently no-ops if the upstream API changes shape. Add a workflow assertion that the resulting JSON has expected fields and fail loudly.
 - [ ] **Client-side error tracking** — Add Sentry (or Highlight, or a self-hosted GlitchTip) with a low-volume free tier. Capture uncaught errors, unhandled promise rejections, and CSP violations.
 - [ ] **CSP violation reporting** — Add `report-to` / `report-uri` to the CSP header so blocked requests get logged rather than silently failing.
-- [ ] **Web Vitals → GA4** — Send LCP, INP, CLS, TTFB to GA4 via the `web-vitals` library so you can monitor real-user performance per page.
+- [x] **Web Vitals → GA4** — Send LCP, INP, CLS, TTFB, FCP to GA4 via native PerformanceObserver APIs (`web-vitals.js` → `web-vitals.min.js`); no external library needed.
 - [ ] **Deploy notifications** — Post a Discord/Slack webhook on every successful deploy with the commit message, so the team knows when content is live.
 
 ---
