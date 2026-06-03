@@ -317,6 +317,27 @@ function onPlayerReady(event) {
 //    the player should play for six seconds and then stop.
 var done = false;
 function onPlayerStateChange(event) {
+    const playerId = event.target.getIframe().id;
+	
+    // Track play/pause events
+    if (typeof gtag === 'function') {
+        if (event.data == YT.PlayerState.PLAYING) {
+            gtag('event', 'video_start', {
+                event_category: 'video',
+                event_label: playerId,
+                video_title: event.target.getVideoTitle?.() || 'YouTube Video',
+                video_id: event.target.getVideoData?.().video_id
+            });
+        } else if (event.data == YT.PlayerState.PAUSED) {
+            gtag('event', 'video_pause', {
+                event_category: 'video',
+                event_label: playerId,
+                video_current_time: Math.round(event.target.getCurrentTime?.() || 0),
+                video_duration: Math.round(event.target.getDuration?.() || 0)
+            });
+        }
+    }
+	
     if (event.data == YT.PlayerState.PLAYING && !done) {
         setTimeout(stopVideo, 6000);
         done = true;
@@ -327,5 +348,43 @@ function stopVideo() {
     player2.stopVideo();
     player3.stopVideo();
 }
+
+// ── YouTube watch-progress tracking ────────────────────────────────────
+// Track when users reach 25%, 50%, 75%, and 100% watched
+const youtubeProgressTracking = new Map();
+
+window.addEventListener('load', () => {
+    if (typeof gtag !== 'function') return;
+	
+    setInterval(() => {
+        [player, player2, player3].forEach(p => {
+            if (!p || p.getPlayerState?.() !== YT.PlayerState.PLAYING) return;
+			
+            const playerId = p.getIframe?.()?.id;
+            if (!playerId) return;
+			
+            const current = p.getCurrentTime?.() || 0;
+            const duration = p.getDuration?.() || 0;
+            if (duration <= 0) return;
+			
+            const percentWatched = Math.round((current / duration) * 100);
+            const milestones = [25, 50, 75, 100];
+			
+            milestones.forEach(milestone => {
+                const key = `${playerId}_${milestone}`;
+                if (percentWatched >= milestone && !youtubeProgressTracking.has(key)) {
+                    youtubeProgressTracking.set(key, true);
+                    gtag('event', 'video_progress', {
+                        event_category: 'video',
+                        event_label: playerId,
+                        video_progress: milestone,
+                        video_current_time: Math.round(current),
+                        video_duration: Math.round(duration)
+                    });
+                }
+            });
+        });
+    }, 1000); // Check every second
+});
 
 export { getLatestVideoFromPlaylist, getNextScheduledVideoFromPlaylist };

@@ -3,6 +3,17 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v1.6.0 — June 3, 2026
+
+### Added
+- **GA4 custom user properties** — Send `language`, `theme` (light/dark), and `is_pwa_installed` as user-scoped GA4 dimensions to track user preferences and PWA adoption; properties sync when language or theme changes, and on PWA install event.
+- **GA4 conversion-funnel events** — Track key user actions as conversion steps: `open_adventist_giving` (giving link), `open_contact_email` (email links), `start_call` (phone links), and `start_prayer_hotline` (prayer hotline specifically). Enables GA4 funnel analysis for visitor engagement.
+- **Clarity PII masking for form inputs** — All `<input>`, `<textarea>`, and `[contenteditable]` elements automatically masked with `data-clarity-mask="true"` to prevent Microsoft Clarity from recording sensitive data; includes a DOM mutation observer to catch dynamically added form fields after page load.
+- **Clarity masking Playwright test suite** — Added 4 comprehensive tests in `tests/mobile.spec.js` verifying that the masking function correctly identifies and masks text-input fields, ignores button/checkbox/radio types, and masks dynamically inserted inputs.
+
+### Changed
+- **Outbound link tracking improvements** — Separated concern: existing outbound link tracking for all `target="_blank"` links now excludes AdventistGiving, which emits its own distinct `open_adventist_giving` GA4 event for funnel analysis.
+
 ## v1.5.0 — June 2, 2026
 
 ### Added

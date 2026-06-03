@@ -181,13 +181,17 @@ Foundational wins are done; these are the next 10–20%.
 ## 11. Analytics — Depth
 
 GA4 is wired; richer events unlock real insight.
-
-- [ ] **Outbound link tracking** — Auto-tag every `target="_blank"` click with `link_domain` and `link_url`. A 10-line listener does it for all of them.
-- [ ] **Scroll-depth events** — Fire at 25/50/75/100% for long pages (newsletter, ministry pages) to measure engagement.
-- [ ] **YouTube embed engagement** — Use the YouTube IFrame API to track play / pause / 25%-50%-75%-100% watched as GA4 events.
-- [ ] **Custom dimensions** — Send `language`, `theme` (light/dark), and `is_pwa_installed` as GA4 user properties.
-- [ ] **Conversion funnels** — Mark practical pathways such as "view contact page", "open AdventistGiving", and "start prayer hotline text" as GA4 funnels.
-- [ ] **Heatmap sampling note** — Verify Clarity isn't recording sensitive content (form inputs) — mask any future PII fields with `data-clarity-mask`.
+ - [x] **Outbound link tracking** — Auto-tag every `target="_blank"` click with `link_domain` and `link_url`. A 10-line listener does it for all of them.
+ - [x] **Scroll-depth events** — Fire at 25/50/75/100% for long pages (newsletter, ministry pages) to measure engagement.
+ - [x] **YouTube embed engagement** — Use the YouTube IFrame API to track play / pause / 25%-50%-75%-100% watched as GA4 events.
+ - [ ] **YouTube embed engagement** — Use the YouTube IFrame API to track play / pause / 25%-50%-75%-100% watched as GA4 events.
+ - [x] **Custom dimensions** — Send `language`, `theme` (light/dark), and `is_pwa_installed` as GA4 user properties.
+ - [x] **Outbound link tracking** — Auto-tag every `target="_blank"` click with `link_domain` and `link_url`.
+ - [x] **Scroll-depth events** — Fire at 25/50/75/100% for long pages (newsletter, ministry pages).
+ - [x] **YouTube embed engagement** — Use the YouTube IFrame API to track play / pause / 25%-50%-75%-100% watched as GA4 events.
+ - [x] **Custom dimensions** — Send `language`, `theme` (light/dark), and `is_pwa_installed` as GA4 user properties.
+ - [x] **Conversion funnels** — Mark practical pathways such as "view contact page", "open AdventistGiving", and "start prayer hotline text" as GA4 funnels.
+ - [x] **Heatmap sampling note** — Verify Clarity isn't recording sensitive content (form inputs) — mask any future PII fields with `data-clarity-mask`.
 
 ---
 

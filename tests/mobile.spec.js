@@ -123,3 +123,119 @@ test.describe('music', () => {
 		}
 	});
 });
+
+// ─── Clarity PII Masking ───────────────────────────────────────────────────────
+
+test.describe('clarity pii masking', () => {
+	test('maskClarityPII() applies data-clarity-mask to input elements', async ({ page }) => {
+		await page.goto('/');
+		// Call the masking function directly to verify it works
+		const masked = await page.evaluate(() => {
+			// Create a test input if none exist
+			const testInput = document.createElement('input');
+			testInput.type = 'text';
+			testInput.id = 'test-clarity-input';
+			document.body.appendChild(testInput);
+			
+			// Call the mask function that main.js defines
+			if (typeof window.maskClarityPII === 'function') {
+				window.maskClarityPII();
+				return testInput.getAttribute('data-clarity-mask') === 'true';
+			}
+			return false;
+		});
+		expect(masked, 'maskClarityPII() should apply data-clarity-mask to inputs').toBe(true);
+	});
+
+	test('dynamically added inputs are masked by mutation observer', async ({ page }) => {
+		await page.goto('/');
+		// Wait a moment for the mutation observer to be set up
+		await page.waitForTimeout(500);
+		
+		const masked = await page.evaluate(async () => {
+			return new Promise(resolve => {
+				const input = document.createElement('input');
+				input.type = 'email';
+				input.id = 'test-dynamic-input';
+				document.body.appendChild(input);
+				
+				// Give the mutation observer a moment to catch it
+				setTimeout(() => {
+					const hasMask = input.getAttribute('data-clarity-mask') === 'true';
+					resolve(hasMask);
+				}, 100);
+			});
+		});
+		expect(masked, 'dynamically added input should be masked by observer').toBe(true);
+	});
+
+	test('password and other sensitive inputs are masked', async ({ page }) => {
+		await page.goto('/');
+		const masked = await page.evaluate(() => {
+			const inputs = [
+				{ type: 'password', id: 'pwd-1' },
+				{ type: 'email',    id: 'eml-1' },
+				{ type: 'text',     id: 'txt-1' },
+				{ type: 'search',   id: 'srch-1' },
+				{ type: 'tel',      id: 'tel-1' },
+				{ type: 'url',      id: 'url-1' },
+			];
+			
+			inputs.forEach(spec => {
+				const inp = document.createElement('input');
+				inp.type = spec.type;
+				inp.id = spec.id;
+				document.body.appendChild(inp);
+			});
+			
+			if (typeof window.maskClarityPII === 'function') {
+				window.maskClarityPII();
+			}
+			
+			// Check that text-like inputs are masked
+			return inputs.map(spec => ({
+				id: spec.id,
+				masked: document.getElementById(spec.id)?.getAttribute('data-clarity-mask') === 'true'
+			}));
+		});
+		
+		// All should be masked
+		masked.forEach(item => {
+			expect(item.masked, `${item.id} should be masked`).toBe(true);
+		});
+	});
+
+	test('button and non-text inputs are NOT masked', async ({ page }) => {
+		await page.goto('/');
+		const results = await page.evaluate(() => {
+			const inputs = [
+				{ type: 'button', id: 'btn-1' },
+				{ type: 'submit', id: 'sub-1' },
+				{ type: 'checkbox', id: 'chk-1' },
+				{ type: 'radio', id: 'rad-1' },
+				{ type: 'file', id: 'fil-1' },
+			];
+			
+			inputs.forEach(spec => {
+				const inp = document.createElement('input');
+				inp.type = spec.type;
+				inp.id = spec.id;
+				document.body.appendChild(inp);
+			});
+			
+			if (typeof window.maskClarityPII === 'function') {
+				window.maskClarityPII();
+			}
+			
+			return inputs.map(spec => ({
+				id: spec.id,
+				hasMask: document.getElementById(spec.id)?.getAttribute('data-clarity-mask') !== null
+			}));
+		});
+		
+		// None should have the mask attribute
+		results.forEach(item => {
+			expect(item.hasMask, `${item.id} should NOT be masked`).toBe(false);
+		});
+	});
+});
