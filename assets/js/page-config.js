@@ -115,13 +115,29 @@ export const buildPageConfig = (helpers) => {
 						<div class="service-times__grid">
 							<div class="service-times__card">
 								<h3>${f.korean}</h3>
-								<p><strong>${f.ssTitle}</strong><br>${fmtRange(f.koSStime)}</p>
-								<p><strong>${f.wsTitle}</strong><br>${fmtRange(f.koWStime)}</p>
+								<dl class="service-times__schedule">
+									<div class="service-times__schedule-item">
+										<dt class="service-times__schedule-label">${f.ssTitle}</dt>
+										<dd class="service-times__schedule-time">${fmtRange(f.koSStime)}</dd>
+									</div>
+									<div class="service-times__schedule-item">
+										<dt class="service-times__schedule-label">${f.wsTitle}</dt>
+										<dd class="service-times__schedule-time">${fmtRange(f.koWStime)}</dd>
+									</div>
+								</dl>
 							</div>
 							<div class="service-times__card">
 								<h3>${f.english}</h3>
-								<p><strong>${f.ssTitle}</strong><br>${fmtRange(f.enSStime)}</p>
-								<p><strong>${f.wsTitle}</strong><br>${fmtRange(f.enWStime)}</p>
+								<dl class="service-times__schedule">
+									<div class="service-times__schedule-item">
+										<dt class="service-times__schedule-label">${f.ssTitle}</dt>
+										<dd class="service-times__schedule-time">${fmtRange(f.enSStime)}</dd>
+									</div>
+									<div class="service-times__schedule-item">
+										<dt class="service-times__schedule-label">${f.wsTitle}</dt>
+										<dd class="service-times__schedule-time">${fmtRange(f.enWStime)}</dd>
+									</div>
+								</dl>
 							</div>
 						</div>
 						<p class="service-times__note"><a href="calendar.html">${json.calendarPage ? json.calendarPage.browserTitle.split('|')[0].trim() : 'View full calendar'} &rarr;</a></p>

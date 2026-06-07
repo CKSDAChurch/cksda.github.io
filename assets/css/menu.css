@@ -18,16 +18,16 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: rgb(72 114 122 / 0.96);
+  background-color: rgb(18 49 61 / 0.97);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   width: auto;
   min-width: 240px;
   max-width: 320px;
   box-sizing: border-box;
-  border: 1px solid rgb(225 242 222 / 0.18);
+  border: 1px solid rgb(225 242 222 / 0.22);
   border-radius: 8px;
-  box-shadow: 0 16px 40px rgb(4 45 45 / 0.35);
+  box-shadow: 0 16px 40px rgb(3 16 22 / 0.42);
   z-index: 9999;
   pointer-events: auto;
 }
@@ -38,20 +38,20 @@
     right: 0;
     width: min(220px, calc(100vw - 24px));
     transform: none;
-    background-color: rgb(18 34 42 / 0.92);
-    border-color: rgb(225 242 222 / 0.22);
+    background-color: rgb(18 49 61 / 0.97);
+    border-color: rgb(225 242 222 / 0.24);
   }
 }
 
 .ministryPages a {
-  color: #e1f2de;
+  color: #ffffff;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
 .ministryPages a:hover {
-  background-color: rgb(225 242 222 / 0.12);
+  background-color: rgb(255 255 255 / 0.14);
 }
 
 .ministryPage {

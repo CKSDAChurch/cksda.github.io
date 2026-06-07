@@ -4,14 +4,15 @@
 
 	Service Worker
 	Strategies:
-	  Navigation (HTML):  network-first → /offline.html fallback
-	  Static assets:      cache-first   → populate cache on first fetch
-	  Cross-origin:       pass through  (not intercepted)
+	  Navigation (HTML):  network-first  → /offline.html fallback
+	  Static assets:      stale-while-revalidate → serve cached immediately,
+	                      fetch fresh in background, update cache for next visit
+	  Cross-origin:       pass through   (not intercepted)
 */
 
 'use strict';
 
-const CACHE_NAME = 'cksda-v4';
+const CACHE_NAME = 'cksda-v1.7.1';
 
 // Core assets pre-cached on first install.
 // Keep this list to critical same-origin assets that are always present.
@@ -61,18 +62,22 @@ self.addEventListener('fetch', event => {
 		return;
 	}
 
-	// Static assets: serve from cache; populate cache on first network fetch.
+	// Static assets: stale-while-revalidate.
+	// Respond immediately with the cached version (fast), then fetch a fresh copy
+	// in the background and update the cache so the *next* visit is up to date.
 	event.respondWith(
-		caches.match(request).then(cached => {
-			if (cached) return cached;
-			return fetch(request).then(response => {
-				if (!response || response.status !== 200 || response.type !== 'basic') {
+		caches.open(CACHE_NAME).then(cache =>
+			cache.match(request).then(cached => {
+				const networkFetch = fetch(request).then(response => {
+					if (response && response.status === 200 && response.type === 'basic') {
+						cache.put(request, response.clone());
+					}
 					return response;
-				}
-				const clone = response.clone();
-				caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
-				return response;
-			});
-		})
+				}).catch(() => null);
+
+				// Return cached immediately if available; otherwise wait for network.
+				return cached || networkFetch;
+			})
+		)
 	);
 });

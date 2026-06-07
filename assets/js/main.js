@@ -295,13 +295,29 @@ const buildFooter = (json) => {
 	<div class="footer-section-tiles footer-section-tiles--worship WorshipServices">
 		<article class="footer-tile WorshipChild">
 			<h4 class="footer-tile__title">${footer.korean}</h4>
-			<p class="footer-tile__value"><strong>${footer.ssTitle}</strong><br />${formatServiceTimeRange(footer.koSStime)}<br />
-			<strong>${footer.wsTitle}</strong><br />${formatServiceTimeRange(footer.koWStime)}</p>
+			<dl class="footer-service-schedule">
+				<div class="footer-service-schedule__item">
+					<dt class="footer-service-schedule__label">${footer.ssTitle}</dt>
+					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.koSStime)}</dd>
+				</div>
+				<div class="footer-service-schedule__item">
+					<dt class="footer-service-schedule__label">${footer.wsTitle}</dt>
+					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.koWStime)}</dd>
+				</div>
+			</dl>
 		</article>
 		<article class="footer-tile WorshipChild">
 			<h4 class="footer-tile__title">${footer.english}</h4>
-			<p class="footer-tile__value"><strong>${footer.ssTitle}</strong><br />${formatServiceTimeRange(footer.enSStime)}<br />
-			<strong>${footer.wsTitle}</strong><br />${formatServiceTimeRange(footer.enWStime)}</p>
+			<dl class="footer-service-schedule">
+				<div class="footer-service-schedule__item">
+					<dt class="footer-service-schedule__label">${footer.ssTitle}</dt>
+					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.enSStime)}</dd>
+				</div>
+				<div class="footer-service-schedule__item">
+					<dt class="footer-service-schedule__label">${footer.wsTitle}</dt>
+					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.enWStime)}</dd>
+				</div>
+			</dl>
 		</article>
 	</div>
 ` : '';
@@ -389,7 +405,7 @@ const buildFooter = (json) => {
 		const backBtn = document.createElement('button');
 		backBtn.id = 'back-to-top';
 		backBtn.setAttribute('aria-label', 'Back to top');
-		backBtn.innerHTML = '<i class="fa-solid fa-chevron-up" aria-hidden="true"></i>';
+		backBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6l-7 7 1.4 1.4L11 9.8V18h2V9.8l4.6 4.6L19 13z"/></svg>';
 		document.body.appendChild(backBtn);
 		// Scroll-driven CSS handles visibility in supporting browsers;
 		// fall back to a JS scroll listener where it isn't supported.

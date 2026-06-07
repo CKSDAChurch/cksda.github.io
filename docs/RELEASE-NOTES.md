@@ -3,9 +3,25 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v1.7.1 — June 7, 2026
+
+### Fixed
+
+- **Calendar colours now follow the chosen site theme** — Calendar grid, event cards, view toggle, and event popups were styled with OS-level `prefers-color-scheme` media queries while the rest of the site uses class-based theming. When a visitor's OS theme differed from their selected site theme, this produced unreadable combinations (most notably white text on a white event popup). These rules are now class-based (`html.theme-light` / `html.theme-dark`) in `main.css`, so they always match the active theme.
+- **Month-view event readability** — Day numbers and event pills now use explicit theme-aware colours instead of inheriting page colours, fixing low-contrast/invisible text in the month grid.
+
+### Added
+
+- **Tappable day cells in month view** — Each day with events is now a single keyboard- and touch-accessible target (replacing tiny, hard-to-tap event pills). Days with one event open the event detail directly; days with several open a new day popup listing every event for that date with its time.
+
+### Changed
+
+- **Mobile month-grid event indicators** — Event dots enlarged and given a visible, theme-aware colour for better legibility on small screens.
+
 ## v1.7.0 — June 3, 2026
 
 ### Added
+
 - **Core Web Vitals reporting** — `web-vitals.js` measures LCP, CLS, INP, TTFB, and FCP via native `PerformanceObserver` APIs and sends each metric to GA4 as a non-interaction event; each report includes a `metric_rating` (`good` / `needs-improvement` / `poor`) benchmarked against Google's thresholds.
 - **`404.html` page** — new branded 404 error page with dark/light theme using CSS design tokens, radial-gradient background, and a card layout consistent with the site aesthetic; includes CSP and `noindex` meta tag.
 - **`offline.html` redesign** — full dark/light theme with CSS design tokens and brand palette, replacing the previous minimal unstyled fallback.
