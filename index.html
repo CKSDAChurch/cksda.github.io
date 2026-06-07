@@ -21,6 +21,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="assets/css/main.min.css" />
+	<link rel="stylesheet" href="assets/css/instagram.min.css" />
 	<link rel="icon" href="./images/favicon.png" />
 	<link rel="manifest" href="/manifest.json" />
 	<meta name="theme-color" content="#3e8391" media="(prefers-color-scheme: light)" />
@@ -98,6 +99,13 @@
 			</section>
 		</div>
 
+		<section id="instagram-feed" class="instagram-feed container medium" aria-labelledby="instagram-feed-title">
+			<h2 id="instagram-feed-title">Latest on Instagram</h2>
+			<p class="instagram-feed__intro">Latest 12 posts across all CKSDA ministry Instagram accounts.</p>
+			<ul id="instagram-feed-accounts" class="instagram-feed__accounts" aria-label="CKSDA Instagram accounts"></ul>
+			<div id="instagram-feed-grid" class="instagram-feed__grid" role="list"></div>
+		</section>
+
 	</main>
 
 	<!-- Footer -->
@@ -106,6 +114,7 @@
 	<!-- Scripts -->
 	<script type="module" src="assets/js/main.min.js"></script>
 	<script type="module" src="assets/js/youtube.min.js"></script>
+	<script type="module" src="assets/js/instagram-feed.min.js"></script>
 	<script type="module" src="assets/js/consent.min.js"></script>
 	<script type="module" src="assets/js/web-vitals.min.js"></script>
 

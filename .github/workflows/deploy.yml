@@ -73,6 +73,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # Refresh Instagram feed JSON (latest 12 posts across configured accounts).
+      - name: Sync Instagram feed
+        env:
+          INSTAGRAM_GRAPH_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_GRAPH_ACCESS_TOKEN }}
+          INSTAGRAM_GRAPH_BUSINESS_ACCOUNT_ID: ${{ secrets.INSTAGRAM_GRAPH_BUSINESS_ACCOUNT_ID }}
+          INSTAGRAM_ACCOUNT_HANDLES: cksdachurch,ck.sda,cksdamusic,cksda_ya,cksda_youth,pioneerspathfinder
+        run: node scripts/fetch-instagram.js
+
       # Build minified site assets.
       - name: Build assets with API key
         env:
