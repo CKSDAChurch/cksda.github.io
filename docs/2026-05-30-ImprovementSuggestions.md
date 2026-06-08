@@ -69,7 +69,7 @@ Conversion-oriented features that turn casual visitors into engaged members.
 
 - [x] **AdventistGiving outbound flow improvements** — Evaluated: AdventistGiving does not publish a custom URL scheme and has not configured universal/app links, so there is no way to open the app automatically from a web link. The existing `https://adventistgiving.org` link is kept as-is.
 - [ ] **"Watch live" status indicator** — Small dot in the header that turns green during Sabbath service hours.
-- [ ] **Sabbath countdown only** — Keep a single countdown to next Sabbath service; remove additional per-ministry event countdown complexity.
+- [x] **Sabbath countdown chip on Today page** — A live-updating countdown chip in the [today.html](../today.html) header counts down to the next Sabbath (Friday sunset) with days/hours/minutes/seconds; switches to "Happy Sabbath • ends in Xh Xm" during Sabbath hours (Friday sunset → Saturday sunset) using the server-computed `sabbathStartUtc`/`sabbathEndUtc` from `devotional-today.json`; shows a farewell message after Saturday sunset. Combined with the V3 §1.4 sunset/Sabbath-times widget — both ideas now live in the same chip.
 - [ ] **Volunteer signup** — `/serve.html` listing ministries with open volunteer roles; clicking opens a contact form.
 - [ ] **Member directory ownership hardening** — Directory already exists at `directory.cksda.church`. Stack confirmed: Gunicorn (Python WSGI) on Render, behind Cloudflare. Framework is Python-based (Django most likely given the auth/directory feature set, but could be Flask). Prioritize moving source/deploy ownership into the church GitHub org (not a personal machine/account) and documenting the Render deploy config, then reassess auth/privacy improvements.
 

@@ -21,11 +21,12 @@ A focused, small-church-sized batch building on [2026-05-29-ImprovementSuggestio
 
 This is the heart of this round. The pieces already exist — they just need to be promoted out of the weekly newsletter and onto the surfaces people actually open.
 
-- [ ] **Surface the daily devotional on the homepage** — The devotional is already fetched and committed every midnight ([scripts/fetch-devotional.js](../scripts/fetch-devotional.js), [.github/workflows/daily-devotional.yml](../.github/workflows/daily-devotional.yml)). Show the verse text + reference + "Our High Calling →" link on [index.html](../index.html) above or beside the service times, so the first thing the PWA shows each day is spiritually useful.
-- [ ] **Extract the devotional to a JSON file (single source of truth)** — Today the build patches the devotional *into [newsletter.html](../newsletter.html) only*. Have [scripts/fetch-devotional.js](../scripts/fetch-devotional.js) also write `assets/data/devotional-today.json` (verse, reference, devotional URL, date). Both the homepage and the newsletter read from it, so the content stays identical and is reusable offline (see §2).
-- [ ] **"Today's Sabbath School lesson" card on the homepage** — Reuse the existing auto-computed lesson-link logic from [assets/js/newsletter.js](../assets/js/newsletter.js) so the homepage can show a one-tap link to *today's* EM and KM lesson (with a "see all classes" link to the newsletter grid). This is the single most-used daily action besides the devotional.
-- [ ] **Sunset / Sabbath times mini-widget** — The Friday/Saturday sunset times are computed in the newsletter header today. Surface a tiny "Sabbath begins Fri 8:42 PM" line on the homepage so members glance at it any day of the week.
-- [ ] **Consider a dedicated `/today.html` daily dashboard** — One calm page combining devotional + today's lesson links + sunset + next service, designed as the daily landing spot. (Optional — could instead just enrich [index.html](../index.html); decide based on whether you want the homepage to stay "front door" vs "daily companion".)
+- [x] **Extract the devotional to a JSON file (single source of truth)** — [scripts/fetch-daily-data.js](../scripts/fetch-daily-data.js) now writes `assets/data/devotional-today.json` (verse, reference, devotional URL, date, fridaySunset, saturdaySunset, sabbathStartUtc, sabbathEndUtc). Both [today.html](../today.html) and other surfaces read from it; the sunset UTC timestamps enable exact Sabbath-hours detection.
+- [x] **Dedicated `/today.html` daily dashboard** — Standalone page with newsletter-style design (teal header, warm-linen devotional card, lesson tile grid, no site nav shell) combining devotional, Friday/Saturday sunset times, and all eight Sabbath School lesson tiles (EM, KM, Collegiate, High School, Earliteen, Juniors, Primary, Cradle Roll). Powered by [assets/js/daily.js](../assets/js/daily.js) reading from the JSON. Has its own [assets/css/today.css](../assets/css/today.css) scoped tightly by the purger.
+- [x] **Surface the daily devotional + lesson links** — Via the persistent top banner (below) rather than cluttering the homepage.
+- [x] **Sunset / Sabbath times mini-widget** — Replaced by a live countdown chip in the [today.html](../today.html) header (combining this item with V2 §3 "Sabbath countdown only"). The chip counts down to the next Sabbath using server-computed `sabbathStartUtc`/`sabbathEndUtc` from `devotional-today.json`; shows "Happy Sabbath • ends in …" during active Sabbath hours; "Good Sabbath! See you next week ♥" after Saturday sunset. Friday/Saturday sunset times remain stored in the JSON for potential future use.
+- [x] **Persistent "Today" top banner** — Fixed strip across all main-shell pages showing today's date with a direct link to [today.html](../today.html). During Sabbath hours it says "Happy Sabbath"; when a live YouTube stream is detected it swaps the CTA to "Watch livestream →".
+- [x] **Calendar events on Today page** — If there are calendar events scheduled for today, show them on [today.html](../today.html) below the devotional so members opening the app always know what's happening at church today.
 
 ---
 
@@ -80,7 +81,7 @@ Genuinely new small wins not covered in Rounds 1–2.
 
 Because we're now leaning on the daily devotional as *primary* content, its automation deserves the same guardrails the verse cron got in Round 2.
 
-- [ ] **Assert the fetched devotional is well-formed** — In [scripts/fetch-devotional.js](../scripts/fetch-devotional.js), fail loudly (or keep the prior good value) if the White Estate HTML shape changes and parsing yields empty/garbage, rather than silently shipping a blank devotional.
+- [ ] **Assert the fetched devotional is well-formed** — In [scripts/fetch-daily-data.js](../scripts/fetch-daily-data.js), fail loudly (or keep the prior good value) if the White Estate HTML shape changes and parsing yields empty/garbage, rather than silently shipping a blank devotional.
 - [ ] **Keep a "last known good" fallback** — If today's fetch fails, retain yesterday's committed devotional with a gentle "(showing the most recent devotional)" note instead of fallback placeholder text.
 - [ ] **Lightweight smoke check after the daily build** — A tiny assertion in the workflow that `devotional-today.json` exists, has a verse + reference, and is dated today; alert (email/Discord webhook from the Action) if not.
 
@@ -88,7 +89,7 @@ Because we're now leaning on the daily devotional as *primary* content, its auto
 
 ## 7. Documentation (only what helps maintainers)
 
-- [ ] **Document the daily-content data flow** — A short note in `docs/` showing: White Estate → `fetch-devotional.js` → `devotional-today.json` → homepage + newsletter + service-worker cache. Helps whoever maintains this after the current setup.
+- [ ] **Document the daily-content data flow** — A short note in `docs/` showing: White Estate → `fetch-daily-data.js` → `devotional-today.json` + `calendar-today.json` → homepage + newsletter + service-worker cache. Helps whoever maintains this after the current setup.
 - [ ] **Note the newsletter daily/weekly split convention** — So future edits keep daily content in the shared block and weekly operational content separate.
 
 <!-- End of round-3 improvements checklist -->

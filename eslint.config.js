@@ -52,7 +52,8 @@ export default [
 			'assets/js/lang-utils.js',
 			'assets/js/verse-utils.js',
 			'assets/js/calendar-events.js',
-			'assets/js/web-vitals.js'
+			'assets/js/web-vitals.js',
+			'assets/js/daily.js'
 		],
 		languageOptions: {
 			ecmaVersion: 2022,

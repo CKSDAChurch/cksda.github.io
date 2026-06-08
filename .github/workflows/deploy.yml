@@ -83,7 +83,7 @@ jobs:
 
       # Update newsletter verse for today.
       - name: Inject today's OHC devotional verse
-        run: node scripts/fetch-devotional.js
+        run: node scripts/fetch-daily-data.js
 
       # Keep only publishable web files.
       - name: Remove non-web files before publish

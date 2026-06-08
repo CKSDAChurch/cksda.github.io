@@ -23,6 +23,13 @@
   </url>
 
   <url>
+    <loc>https://cksda.church/today.html</loc>
+    <lastmod>2026-06-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
     <loc>https://cksda.church/children.html</loc>
     <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
