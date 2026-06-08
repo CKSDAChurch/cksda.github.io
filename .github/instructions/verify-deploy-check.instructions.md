@@ -56,7 +56,7 @@ Add new JS files to the right list, or add a standalone `esbuild.build(...)` blo
 
 ### PWA icon source images
 
-The build generates icons from `images/logo-light.png`. If that file is renamed or deleted, update the paths in `generateIcon(...)` calls inside `scripts/build.js`.
+The build generates icons from `assets/images/logo-light.png`. If that file is renamed or deleted, update the paths in `generateIcon(...)` calls inside `scripts/build.js`.
 
 ## 4. Deploy job — Cleanup step
 

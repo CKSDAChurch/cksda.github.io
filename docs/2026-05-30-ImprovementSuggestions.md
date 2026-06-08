@@ -55,9 +55,9 @@ The site currently has zero `<form>` elements — every interaction is a `mailto
 The site is currently a brochure. Adding evergreen, repeatable content is what keeps people returning and what visitors actually search for.
 
 - [ ] **"What to expect on your first visit" page** — Dress, parking, kids' programs, language services. Highest-converting page a church website can have.
-- [ ] **Service-times footer enhancement** — Keep service times in the existing footer on every page, but improve readability and visual hierarchy (especially mobile).
-- [x] **Calendar ICS export** — Publish `/cksda.ics` that mirrors the Google/Outlook calendar so visitors can subscribe without needing a Google account.
-- [ ] **Ministry leader bios** — Photo + short bio + contact for each ministry page. Builds trust and gives visitors a real person to reach out to.
+- [x] **Service-times footer enhancement** — Footer renders a semantic per-language service schedule (`<dl>`/`<dt>`/`<dd>`) inside `footer-tile` cards via `buildFooter()` in `main.js`, with dedicated `footer-service-schedule` styling and mobile-specific rules in `main.css`.
+- [x] ~~**Calendar ICS export**~~ — **Not implementing.** The `/cksda.ics` file was removed intentionally; calendar subscription is not desired at this time.
+- [x] **Ministry leader bios** — `leader-card` component added to Children's, Music, Personal Ministries, Young Adults, and Pathfinders pages; pastoral team section (Pastors Yang & Jeon) added to `index.html`. Avatar placeholder used; swap in `<img>` when photos are ready.
 - [ ] **AudioVerse link strategy (optional)** — If sermons are later mirrored to AudioVerse, add a simple outbound link and explanation rather than introducing a separate in-site audio pipeline now.
 - [ ] **Instagram-first photo strategy** — Keep photos on Instagram as the source of truth; if needed, add a lightweight "latest photos" link/embed rather than maintaining a separate gallery page.
 
@@ -183,11 +183,6 @@ Foundational wins are done; these are the next 10–20%.
 GA4 is wired; richer events unlock real insight.
  - [x] **Outbound link tracking** — Auto-tag every `target="_blank"` click with `link_domain` and `link_url`. A 10-line listener does it for all of them.
  - [x] **Scroll-depth events** — Fire at 25/50/75/100% for long pages (newsletter, ministry pages) to measure engagement.
- - [x] **YouTube embed engagement** — Use the YouTube IFrame API to track play / pause / 25%-50%-75%-100% watched as GA4 events.
- - [ ] **YouTube embed engagement** — Use the YouTube IFrame API to track play / pause / 25%-50%-75%-100% watched as GA4 events.
- - [x] **Custom dimensions** — Send `language`, `theme` (light/dark), and `is_pwa_installed` as GA4 user properties.
- - [x] **Outbound link tracking** — Auto-tag every `target="_blank"` click with `link_domain` and `link_url`.
- - [x] **Scroll-depth events** — Fire at 25/50/75/100% for long pages (newsletter, ministry pages).
  - [x] **YouTube embed engagement** — Use the YouTube IFrame API to track play / pause / 25%-50%-75%-100% watched as GA4 events.
  - [x] **Custom dimensions** — Send `language`, `theme` (light/dark), and `is_pwa_installed` as GA4 user properties.
  - [x] **Conversion funnels** — Mark practical pathways such as "view contact page", "open AdventistGiving", and "start prayer hotline text" as GA4 funnels.

@@ -3,9 +3,52 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v1.9.0 — June 7, 2026
+
+### Added
+- **Pastor bio dialog** — Footer pastor tiles are now tappable `<button>` elements with a "View bio ›" cue; clicking opens a native `<dialog>` showing a photo, name, role, biography text, and email link for each pastor.
+- **Pastor photos in footer** — Circular `<img>` headshots (`pastor-yang.jpg`, `pastor-jeon.jpg`) added to both footer pastor tiles.
+- **`PASTOR_BIOS` data object in `main.js`** — Centralised bio data (name, role, bio text, contact, image path) for Pastor Yang and Pastor Jeon; drives both the footer tiles and the bio dialog.
+- **Multi-day event spanning in month grid** — Calendar month view now registers events on every day they cover within the month, so multi-day events appear in all relevant cells.
+- **Day-of events popup** — Clicking a month-grid day with multiple events opens a new "day list" popup listing every event with its time; selecting one opens the full event detail popup.
+- **Korean calendar support** — `calendar-events.js` now exposes two calendar IDs (`CALENDAR_ID_EM` / `CALENDAR_ID_KM`) and picks the correct one based on `window.lang`, so Korean-language visitors see the KM calendar.
+- **Tappable day cells in month view** — Day cells with events are promoted to keyboard/touch-accessible targets using `role="button"` and `tabindex="0"`; single-event days open the detail popup directly.
+
+### Changed
+- **Service times layout (footer + homepage)** — Sabbath School and Worship Service times converted from `<p>` blocks to `<dl>`/`<dt>`/`<dd>` definition lists with CSS grid (`footer-service-schedule` / `service-times__schedule`) for accessible, responsive display.
+- **Footer pastor tiles** — Changed from `<article>` to `<button>` with `aria-haspopup="dialog"` to semantically communicate interactivity.
+- **Back-to-top button icon** — Replaced FontAwesome `fa-chevron-up` with an inline SVG arrow so the icon renders without a webfont dependency; CSS added to size it correctly.
+- **Font Awesome family names** — Updated CSS references from `'Font Awesome 5 Free'` / `'Font Awesome 5 Brands'` to `'Font Awesome 6 Free'` / `'Font Awesome 6 Brands'`.
+- **Calendar event filter** — Generic "Sabbath School" and "Church Service" recurring events are now filtered out so the calendar page only shows non-routine events.
+- **Month-grid event pills** — Event pills changed from `<button>` to `<span>` elements (interactivity moved to the parent day cell); overflow "+N more" similarly demoted to `<span>`.
+- **Logo image path** — Header logo `src` corrected from `./images/logo-light.png` to `./assets/images/logo-light.png`.
+- **Service worker cache bumped** — `CACHE_NAME` updated to `cksda-v1.9.0`.
+
+### Fixed
+- **Multi-day event visibility** — Events spanning across day boundaries were previously only shown on their start day; they now appear on every day they occupy in the month grid.
+- **`Intl.DateTimeFormat` TypeScript types** — `formatEvtTimeRange` in `calendar-events.js` now creates the formatter as a named `Intl.DateTimeFormat` instance to avoid TS widening literal option types to `string`.
+
+## v1.8.0 — June 7, 2026
+
+### Fixed
+
+- **Background SVG images now appear on first paint** — Header and footer background images were gated behind `html.theme-light` / `html.theme-dark` CSS selectors but the theme class was only applied by the deferred `main.min.js` module, causing a visible flash of no background on every page load. A tiny inline script now sets the correct theme class in `<head>` before the stylesheet is parsed, so images are fetched from the very first render across all 9 affected pages.
+- **Calendar colours now follow the chosen site theme** — Calendar grid, event cards, view toggle, and event popups were styled with OS-level `prefers-color-scheme` media queries while the rest of the site uses class-based theming. When a visitor's OS theme differed from their selected site theme, this produced unreadable combinations (most notably white text on a white event popup). These rules are now class-based (`html.theme-light` / `html.theme-dark`) in `main.css`, so they always match the active theme.
+- **Month-view event readability** — Day numbers and event pills now use explicit theme-aware colours instead of inheriting page colours, fixing low-contrast/invisible text in the month grid.
+
+### Added
+
+- **Ministry leader bio cards** — Photo-ready bio cards (`leader-card` component) added to Children's, Music, Personal Ministries, Young Adults, and Pathfinders pages; pastoral team section (Pastor Kangwon Yang + Associate Pastor Daniel Jeon) added to the home page.
+- **Tappable day cells in month view** — Each day with events is now a single keyboard- and touch-accessible target (replacing tiny, hard-to-tap event pills). Days with one event open the event detail directly; days with several open a new day popup listing every event for that date with its time.
+
+### Changed
+
+- **Mobile month-grid event indicators** — Event dots enlarged and given a visible, theme-aware colour for better legibility on small screens.
+
 ## v1.7.0 — June 3, 2026
 
 ### Added
+
 - **Core Web Vitals reporting** — `web-vitals.js` measures LCP, CLS, INP, TTFB, and FCP via native `PerformanceObserver` APIs and sends each metric to GA4 as a non-interaction event; each report includes a `metric_rating` (`good` / `needs-improvement` / `poor`) benchmarked against Google's thresholds.
 - **`404.html` page** — new branded 404 error page with dark/light theme using CSS design tokens, radial-gradient background, and a card layout consistent with the site aesthetic; includes CSP and `noindex` meta tag.
 - **`offline.html` redesign** — full dark/light theme with CSS design tokens and brand palette, replacing the previous minimal unstyled fallback.

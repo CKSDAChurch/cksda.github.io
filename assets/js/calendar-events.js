@@ -11,8 +11,10 @@
 	environment before running `npm run build`.
 */
 
+// @ts-ignore -- injected at build time by esbuild `define`
 const CALENDAR_API_KEY = __CALENDAR_API_KEY__;
-const CALENDAR_ID = 'c_cupfa6741dgvle32pjejeoqog4@group.calendar.google.com';
+const CALENDAR_ID_EM = 'c_cupfa6741dgvle32pjejeoqog4@group.calendar.google.com';
+const CALENDAR_ID_KM = 'c_m3106699ve2tvccdnva408cdlo@group.calendar.google.com';
 const MAX_EVENTS = 60;
 
 const MONTH_NAMES = [
@@ -23,6 +25,7 @@ const DAY_NAMES_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const DAY_NAMES_LONG = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 // Module state
+/** @type {Array<Record<string, any>>} */
 let allEvents = [];
 let currentView = 'list'; // 'list' | 'month'
 const today = new Date();
@@ -30,6 +33,7 @@ let viewYear = today.getFullYear();
 let viewMonth = today.getMonth();
 
 // Safely convert a plain-text string to HTML-escaped text
+/** @param {string} str */
 const escapeHtml = (str) => {
 	const div = document.createElement('div');
 	div.textContent = str;
@@ -37,6 +41,7 @@ const escapeHtml = (str) => {
 };
 
 // Strip any HTML tags from a string and return plain text
+/** @param {string} html */
 const stripHtml = (html) => {
 	const div = document.createElement('div');
 	div.innerHTML = html;
@@ -45,6 +50,10 @@ const stripHtml = (html) => {
 
 // Parse a Google Calendar date string into a Date object.
 // All-day events use "YYYY-MM-DD" (local midnight); timed events use ISO 8601.
+/**
+ * @param {string} dateStr
+ * @param {boolean} isAllDay
+ */
 const parseDate = (dateStr, isAllDay) => {
 	if (isAllDay) {
 		const [y, m, d] = dateStr.split('-').map(Number);
@@ -53,15 +62,28 @@ const parseDate = (dateStr, isAllDay) => {
 	return new Date(dateStr);
 };
 
+/**
+ * @param {Date} start
+ * @param {Date|null} end
+ * @param {boolean} isAllDay
+ */
 const formatEvtTimeRange = (start, end, isAllDay) => {
 	if (isAllDay) return 'All day';
-	const opts = { hour: 'numeric', minute: '2-digit' };
 	const lang = window.lang || navigator.language;
-	const startStr = start.toLocaleTimeString(lang, opts);
-	const endStr = end ? end.toLocaleTimeString(lang, opts) : null;
+	// TS widens object-literal property values to `string`; declaring as separate consts preserves
+	// the literal types ('numeric' / '2-digit') so they satisfy Intl.DateTimeFormatOptions.
+	const dtfHour = 'numeric';
+	const dtfMinute = '2-digit';
+	const dtf = new Intl.DateTimeFormat(lang, { hour: dtfHour, minute: dtfMinute });
+	const startStr = dtf.format(start);
+	const endStr = end ? dtf.format(end) : null;
 	return endStr && startStr !== endStr ? `${startStr} \u2013 ${endStr}` : startStr;
 };
 
+/**
+ * @param {Date} a
+ * @param {Date} b
+ */
 const isSameDay = (a, b) =>
 	a.getFullYear() === b.getFullYear() &&
 	a.getMonth() === b.getMonth() &&
@@ -69,6 +91,7 @@ const isSameDay = (a, b) =>
 
 // ── List view ────────────────────────────────────────────────────
 
+/** @param {Record<string, any>} event */
 const renderEventCard = (event) => {
 	const isAllDay = !!event.start.date;
 	const start = parseDate(isAllDay ? event.start.date : event.start.dateTime, isAllDay);
@@ -109,6 +132,7 @@ const renderEventCard = (event) => {
 </article>`;
 };
 
+/** @param {Array<Record<string, any>>} events */
 const groupByMonth = (events) => {
 	const groups = new Map();
 	for (const ev of events) {
@@ -148,21 +172,40 @@ const renderMonthContent = () => {
 	const year = viewYear;
 	const month = viewMonth;
 
-	// Index events by day number within this month
+	// Index events by day number within this month.
+	// Multi-day events are registered on every day they cover within the month.
+	/** @type {Map<number, Array<{ev: Record<string, any>, idx: number}>>} */
 	const eventsByDay = new Map();
+	const daysInThisMonth = new Date(year, month + 1, 0).getDate();
 	for (let i = 0; i < allEvents.length; i++) {
 		const ev = allEvents[i];
 		const isAllDay = !!ev.start.date;
 		const start = parseDate(isAllDay ? ev.start.date : ev.start.dateTime, isAllDay);
-		if (start.getFullYear() === year && start.getMonth() === month) {
-			const d = start.getDate();
+		// For all-day events Google Calendar sets end to the day *after* the last day
+		const end = ev.end
+			? parseDate(ev.end.date || ev.end.dateTime, !!ev.end.date)
+			: start;
+
+		// Clamp to the current month
+		const monthStart = new Date(year, month, 1);
+		const monthEnd = new Date(year, month, daysInThisMonth);
+		if (start > monthEnd || end <= monthStart) continue;
+
+		const clampedStart = start < monthStart ? monthStart : start;
+		// end is exclusive for all-day events, so subtract 1 ms for timed; for all-day it's already exclusive
+		const inclusiveEnd = isAllDay ? new Date(end.getTime() - 1) : end;
+		const clampedEnd = inclusiveEnd > monthEnd ? monthEnd : inclusiveEnd;
+
+		for (let d = clampedStart.getDate(); d <= clampedEnd.getDate(); d++) {
 			if (!eventsByDay.has(d)) eventsByDay.set(d, []);
-			eventsByDay.get(d).push({ ev, idx: i });
+			const dayEntry = /** @type {Array<{ev: Record<string, any>, idx: number}>} */ (eventsByDay.get(d));
+			// Avoid duplicates if event was already added for this day
+			if (!dayEntry.some(e => e.idx === i)) dayEntry.push({ ev, idx: i });
 		}
 	}
 
 	const firstDow = new Date(year, month, 1).getDay();
-	const daysInMonth = new Date(year, month + 1, 0).getDate();
+	const daysInMonth = daysInThisMonth;
 	const daysInPrevMonth = new Date(year, month, 0).getDate();
 	const totalCells = Math.ceil((firstDow + daysInMonth) / 7) * 7;
 
@@ -188,26 +231,35 @@ const renderMonthContent = () => {
 		}
 
 		const isToday = isSameDay(cellDate, today);
-		const dayEvents = (!isOtherMonth && eventsByDay.has(dayNum)) ? eventsByDay.get(dayNum) : [];
+		const dayEvents = (!isOtherMonth && eventsByDay.has(dayNum)) ? (eventsByDay.get(dayNum) ?? []) : [];
+		const hasEvents = dayEvents.length > 0;
 		const MAX_PILLS = 3;
 		const overflow = Math.max(0, dayEvents.length - MAX_PILLS);
 
-		const pills = dayEvents.slice(0, MAX_PILLS).map(({ ev, idx }) => {
+		const pills = dayEvents.slice(0, MAX_PILLS).map(({ ev }) => {
 			const title = escapeHtml(ev.summary || 'Untitled');
-			return `<button class="calendar-grid__pill" data-event-idx="${idx}" title="${title}">${title}</button>`;
+			return `<span class="calendar-grid__pill" title="${title}">${title}</span>`;
 		}).join('');
 
 		const overflowEl = overflow
-			? `<button class="calendar-grid__overflow" data-switch-list>+${overflow} more</button>`
+			? `<span class="calendar-grid__overflow">+${overflow} more</span>`
 			: '';
 
 		const cls = [
 			'calendar-grid__cell',
 			isOtherMonth && 'calendar-grid__cell--other-month',
 			isToday && 'calendar-grid__cell--today',
+			hasEvents && 'calendar-grid__cell--has-events',
 		].filter(Boolean).join(' ');
 
-		cellsHtml += `<div class="${cls}" role="gridcell">
+		// Cells with events become a single tappable target (better than tiny pills,
+		// especially on touch screens). The event indices are stored for the handler.
+		const interactiveAttrs = hasEvents
+			? ` role="button" tabindex="0" data-event-idxs="${dayEvents.map(d => d.idx).join(',')}"` +
+			  ` aria-label="${MONTH_NAMES[month]} ${dayNum}, ${dayEvents.length} event${dayEvents.length === 1 ? '' : 's'}"`
+			: ' role="gridcell"';
+
+		cellsHtml += `<div class="${cls}"${interactiveAttrs}>
   <span class="calendar-grid__day-num"${isToday ? ' aria-current="date"' : ''}>${dayNum}</span>
   <div class="calendar-grid__events">${pills}${overflowEl}</div>
 </div>`;
@@ -233,6 +285,7 @@ const closePopup = () => {
 	if (p) p.remove();
 };
 
+/** @param {number} idx */
 const showEventPopup = (idx) => {
 	closePopup();
 	const ev = allEvents[idx];
@@ -273,10 +326,11 @@ const showEventPopup = (idx) => {
 </div>`;
 
 	document.body.appendChild(popup);
-	popup.querySelector('.event-popup__card').focus();
-	popup.querySelector('.event-popup__backdrop').addEventListener('click', closePopup);
-	popup.querySelector('.event-popup__close').addEventListener('click', closePopup);
+	(/** @type {HTMLElement|null} */ (popup.querySelector('.event-popup__card')))?.focus();
+	popup.querySelector('.event-popup__backdrop')?.addEventListener('click', closePopup);
+	popup.querySelector('.event-popup__close')?.addEventListener('click', closePopup);
 
+	/** @param {KeyboardEvent} e */
 	const onKey = (e) => {
 		if (e.key === 'Escape') {
 			closePopup();
@@ -286,7 +340,79 @@ const showEventPopup = (idx) => {
 	document.addEventListener('keydown', onKey);
 };
 
-// ── View toggle + wiring ──────────────────────────────────────────
+// Popup listing every event on a single day (used when a day has multiple events).
+/** @param {number[]} idxs */
+const showDayPopup = (idxs) => {
+	const events = idxs.map(i => allEvents[i]).filter(Boolean);
+	if (!events.length) return;
+	if (idxs.length === 1) {
+		showEventPopup(idxs[0]);
+		return;
+	}
+
+	closePopup();
+
+	const first = events[0];
+	const firstAllDay = !!first.start.date;
+	const firstStart = parseDate(firstAllDay ? first.start.date : first.start.dateTime, firstAllDay);
+	const dateLabel = `${DAY_NAMES_LONG[firstStart.getDay()]}, ${MONTH_NAMES[firstStart.getMonth()]} ${firstStart.getDate()}, ${firstStart.getFullYear()}`;
+
+	const rows = idxs.map((i) => {
+		const ev = allEvents[i];
+		if (!ev) return '';
+		const isAllDay = !!ev.start.date;
+		const start = parseDate(isAllDay ? ev.start.date : ev.start.dateTime, isAllDay);
+		const end = ev.end ? parseDate(ev.end.date || ev.end.dateTime, !!ev.end.date) : null;
+		const timeStr = formatEvtTimeRange(start, end, isAllDay);
+		const title = escapeHtml(ev.summary || 'Untitled Event');
+		return `<button class="event-day-list__item" data-event-idx="${i}">
+  <span class="event-day-list__time">${timeStr}</span>
+  <span class="event-day-list__title">${title}</span>
+</button>`;
+	}).join('');
+
+	const popup = document.createElement('div');
+	popup.id = 'event-popup';
+	popup.setAttribute('role', 'dialog');
+	popup.setAttribute('aria-modal', 'true');
+	popup.setAttribute('aria-label', `${events.length} events on ${dateLabel}`);
+	popup.innerHTML = `<div class="event-popup__backdrop"></div>
+<div class="event-popup__card" tabindex="-1">
+  <button class="event-popup__close" aria-label="Close">&times;</button>
+  <p class="event-popup__date">${dateLabel}</p>
+  <h3 class="event-popup__title">${events.length} events</h3>
+  <div class="event-day-list">${rows}</div>
+</div>`;
+
+	document.body.appendChild(popup);
+	(/** @type {HTMLElement|null} */ (popup.querySelector('.event-popup__card')))?.focus();
+	popup.querySelector('.event-popup__backdrop')?.addEventListener('click', closePopup);
+	popup.querySelector('.event-popup__close')?.addEventListener('click', closePopup);
+	popup.querySelectorAll('.event-day-list__item').forEach((btn) => {
+		const button = /** @type {HTMLButtonElement} */ (btn);
+		button.addEventListener('click', () => showEventPopup(Number(button.dataset.eventIdx)));
+	});
+
+	/** @param {KeyboardEvent} e */
+	const onKey = (e) => {
+		if (e.key === 'Escape') {
+			closePopup();
+			document.removeEventListener('keydown', onKey);
+		}
+	};
+	document.addEventListener('keydown', onKey);
+};
+
+// Open the appropriate popup for a day cell (single event → detail, many → list).
+/** @param {HTMLElement} cell */
+const openDayCell = (cell) => {
+	const idxs = (cell.dataset.eventIdxs || '')
+		.split(',')
+		.filter(Boolean)
+		.map(Number);
+	if (idxs.length === 1) showEventPopup(idxs[0]);
+	else if (idxs.length > 1) showDayPopup(idxs);
+};
 
 const renderViewToggle = () =>
 	`<div class="events-view-toggle" role="group" aria-label="Calendar view">
@@ -307,9 +433,10 @@ const refresh = () => {
 
 	// View toggle
 	container.querySelectorAll('.events-view-btn').forEach(btn => {
-		btn.addEventListener('click', () => {
-			if (btn.dataset.view !== currentView) {
-				currentView = btn.dataset.view;
+		const button = /** @type {HTMLButtonElement} */ (btn);
+		button.addEventListener('click', () => {
+			if (button.dataset.view !== currentView) {
+				currentView = button.dataset.view ?? currentView;
 				refresh();
 			}
 		});
@@ -329,22 +456,22 @@ const refresh = () => {
 		refresh();
 	});
 
-	// Event pill clicks → popup
-	container.querySelectorAll('.calendar-grid__pill').forEach(pill => {
-		pill.addEventListener('click', () => showEventPopup(Number(pill.dataset.eventIdx)));
-	});
-
-	// "+N more" → switch to list view
-	container.querySelectorAll('[data-switch-list]').forEach(btn => {
-		btn.addEventListener('click', () => {
-			currentView = 'list';
-			refresh();
+	// Event day cells → popup
+	container.querySelectorAll('.calendar-grid__cell--has-events').forEach(el => {
+		const cell = /** @type {HTMLElement} */ (el);
+		cell.addEventListener('click', () => openDayCell(cell));
+		cell.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				openDayCell(cell);
+			}
 		});
 	});
 };
 
 // ── Initialization ────────────────────────────────────────────────
 
+/** @param {Array<Record<string, any>>} items */
 const renderEvents = (items) => {
 	allEvents = items;
 	const container = document.getElementById('events-container');
@@ -370,6 +497,7 @@ const renderEvents = (items) => {
 	refresh();
 };
 
+/** @param {string} msg */
 const showError = (msg) => {
 	const loading = document.getElementById('events-loading');
 	const errorEl = document.getElementById('events-error');
@@ -389,7 +517,7 @@ const loadEvents = async () => {
 	// Start from the beginning of the current month so the month grid is fully populated
 	const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
 	const timeMin = encodeURIComponent(monthStart.toISOString());
-	const calId = encodeURIComponent(CALENDAR_ID);
+	const calId = encodeURIComponent((/** @type {any} */ (window)).lang === 'ko' ? CALENDAR_ID_KM : CALENDAR_ID_EM);
 	const url =
 		`https://www.googleapis.com/calendar/v3/calendars/${calId}/events` +
 		`?key=${encodeURIComponent(CALENDAR_API_KEY)}` +
@@ -401,7 +529,13 @@ const loadEvents = async () => {
 		const res = await fetch(url);
 		if (!res.ok) throw new Error(`HTTP ${res.status}`);
 		const data = await res.json();
-		const items = (data.items || []).filter(ev => ev.visibility !== 'private' && ev.visibility !== 'confidential');
+		const items = /** @type {Array<Record<string, any>>} */ (data.items || []).filter(
+			/** @param {Record<string, any>} ev */ ev =>
+				ev.visibility !== 'private' &&
+				ev.visibility !== 'confidential' &&
+				ev.summary !== 'Sabbath School' &&
+				ev.summary !== 'Church Service'
+		);
 		renderEvents(items);
 	} catch (err) {
 		console.error('[calendar-events]', err);

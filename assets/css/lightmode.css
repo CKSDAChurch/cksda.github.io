@@ -403,7 +403,7 @@
 		}
 
 		#header .logo img {
-			content: url("../../images/logo-light.png");
+			content: url("../images/logo-light.png");
 		}
 
 /* Footer */
@@ -558,130 +558,6 @@
 		border: 2px solid var(--color-skip-border);
 	}
 }
-/* Event Cards — light mode */
-@media (prefers-color-scheme: light) {
-	.events-summary {
-		color: var(--color-text-strong);
-	}
-
-	.events-gcal-btn {
-		background: var(--color-brand);
-		color: var(--color-text-strong);
-	}
-
-	.events-gcal-btn:hover {
-		background: var(--color-brand-deep);
-		color: var(--color-text-strong);
-	}
-
-	/* View toggle */
-	.events-view-btn {
-		border-color: rgb(44 84 94 / 0.28);
-		color: var(--color-brand-deep);
-		background: transparent;
-	}
-
-	.events-view-btn.is-active {
-		background: var(--color-brand);
-		color: var(--color-text-strong);
-		border-color: var(--color-brand);
-	}
-
-	.events-view-btn:not(.is-active):hover {
-		background: rgb(44 84 94 / 0.07);
-	}
-
-	/* Month grid */
-	.calendar-grid {
-		background: rgb(44 84 94 / 0.12);
-	}
-
-	.calendar-grid__header {
-		background: #eef4f5;
-		color: var(--color-brand-deep);
-	}
-
-	.calendar-grid__cell {
-		background: var(--color-surface);
-	}
-
-	.calendar-grid__cell--other-month {
-		background: #faf8f5;
-	}
-
-	.calendar-grid__cell--today .calendar-grid__day-num {
-		background: var(--color-brand);
-		color: var(--color-text-strong);
-	}
-
-	.calendar-nav-btn {
-		color: var(--color-brand-deep);
-	}
-
-	.calendar-month-title {
-		color: var(--color-table-th);
-	}
-
-	.calendar-grid__pill {
-		background: rgb(62 131 145 / 0.18);
-		color: var(--color-brand-deep);
-	}
-
-	.calendar-grid__overflow {
-		color: var(--color-brand-deep);
-	}
-
-	/* Popup */
-	.event-popup__card {
-		background: var(--color-surface);
-		border: 1px solid rgb(44 84 94 / 0.12);
-		box-shadow: 0 12px 40px rgb(44 84 94 / 0.15);
-		color: #4a4540;
-	}
-
-	.event-popup__date {
-		color: var(--color-brand);
-	}
-
-	.event-popup__title {
-		color: var(--color-table-th);
-	}
-
-	.event-popup__close {
-		color: var(--color-brand-deep);
-	}
-
-	.events-month-heading {
-		color: var(--color-brand-deep);
-	}
-
-	.events-month-heading::before,
-	.events-month-heading::after {
-		background: rgb(44 84 94 / 0.25);
-	}
-
-	.event-card {
-		background: rgb(255 255 255 / 0.75);
-		border: 1px solid rgb(44 84 94 / 0.15);
-		box-shadow: 0 2px 8px rgb(44 84 94 / 0.07);
-	}
-
-	.event-card:hover {
-		box-shadow: 0 6px 20px rgb(44 84 94 / 0.14);
-	}
-
-	.event-card__badge {
-		background: var(--color-brand);
-		color: var(--color-text-strong);
-	}
-
-	.event-card__link {
-		background: rgb(44 84 94 / 0.1);
-		color: var(--color-brand-deep);
-	}
-
-	.event-card__link:hover {
-		background: rgb(44 84 94 / 0.2);
-		border-bottom-color: transparent;
-	}
-}
+/* Event Cards / calendar colours are defined as class-based theme rules
+   (html.theme-light …) in main.css so they track the user's chosen site
+   theme instead of the OS-level prefers-color-scheme. */

@@ -213,6 +213,24 @@ const buildLangSwitcher = (extraClass = '') => {
 };
 
 // ============ HEADER/FOOTER BUILDERS ============
+
+/** @type {Record<string, {name:string, role:string, bio:string, contact:string, img:string}>} */
+const PASTOR_BIOS = {
+	yang: {
+		name: 'Pastor Kangwon Yang',
+		role: 'Head Pastor',
+		bio: 'Born and raised in South Korea, Pastor Yang has served as a Seventh-day Adventist pastor since 2003. He holds a master of divinity from Andrews University and has led our congregation since 2022. His favourite verse is Daniel 12:3 — "Those who are wise shall shine like the brightness of the firmament."',
+		contact: 'pastor@cksda.church',
+		img: 'assets/images/pastor-yang.jpg',
+	},
+	jeon: {
+		name: 'Pastor Daniel Jeon',
+		role: 'Associate Pastor',
+		bio: 'Born in Colorado, Pastor Jeon holds a master of divinity from Andrews University and has been pastoring since 2015 across the U.S., Canada, and Australia. Fluent in English and Korean, he joined our church in 2024. His favourite verse is John 17:3 \u2014 \u201cAnd this is eternal life, that they may know You, the only true God, and Jesus Christ whom You have sent.\u201d',
+		contact: 'associatepastor@cksda.church',
+		img: 'assets/images/pastor-jeon.jpg',
+	},
+};
 const buildHeader = (json, title, subtitle) => {
 	const { menuItems } = json;
 	const { 
@@ -254,7 +272,7 @@ const buildHeader = (json, title, subtitle) => {
 	urlList = urlList.replace(/\s*\|\s*\|/g, ' |').replace(/^\s*\|\s*/, '').replace(/\s*\|\s*$/, '');
 
 	return `<a class="skip-to-content" href="#main">Skip to main content</a>
-	<span class="logo icon"><img src="./images/logo-light.png" alt="Collegedale Korean SDA Church logo"/></span>
+	<span class="logo icon"><img src="./assets/images/logo-light.png" alt="Collegedale Korean SDA Church logo"/></span>
 	<div class="url-list">${urlList}</div>
 	<h1>${title}</h1>
 	<p>${subtitle}</p>`;
@@ -295,13 +313,29 @@ const buildFooter = (json) => {
 	<div class="footer-section-tiles footer-section-tiles--worship WorshipServices">
 		<article class="footer-tile WorshipChild">
 			<h4 class="footer-tile__title">${footer.korean}</h4>
-			<p class="footer-tile__value"><strong>${footer.ssTitle}</strong><br />${formatServiceTimeRange(footer.koSStime)}<br />
-			<strong>${footer.wsTitle}</strong><br />${formatServiceTimeRange(footer.koWStime)}</p>
+			<dl class="footer-service-schedule">
+				<div class="footer-service-schedule__item">
+					<dt class="footer-service-schedule__label">${footer.ssTitle}</dt>
+					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.koSStime)}</dd>
+				</div>
+				<div class="footer-service-schedule__item">
+					<dt class="footer-service-schedule__label">${footer.wsTitle}</dt>
+					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.koWStime)}</dd>
+				</div>
+			</dl>
 		</article>
 		<article class="footer-tile WorshipChild">
 			<h4 class="footer-tile__title">${footer.english}</h4>
-			<p class="footer-tile__value"><strong>${footer.ssTitle}</strong><br />${formatServiceTimeRange(footer.enSStime)}<br />
-			<strong>${footer.wsTitle}</strong><br />${formatServiceTimeRange(footer.enWStime)}</p>
+			<dl class="footer-service-schedule">
+				<div class="footer-service-schedule__item">
+					<dt class="footer-service-schedule__label">${footer.ssTitle}</dt>
+					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.enSStime)}</dd>
+				</div>
+				<div class="footer-service-schedule__item">
+					<dt class="footer-service-schedule__label">${footer.wsTitle}</dt>
+					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.enWStime)}</dd>
+				</div>
+			</dl>
 		</article>
 	</div>
 ` : '';
@@ -309,15 +343,29 @@ const buildFooter = (json) => {
 	return `<div class="container medium">
 	<header class="major last"><h2>${footer.pastorsTitle}</h2></header>
 	<div class="footer-section-tiles footer-section-tiles--pastors">
-		<article class="footer-tile footer-tile--pastor">
+		<button class="footer-tile footer-tile--pastor" data-pastor="yang" aria-haspopup="dialog">
+			<img class="footer-tile__photo" src="${PASTOR_BIOS.yang.img}" alt="" loading="lazy">
 			<h4 class="footer-tile__title">${footer.headPastorTitle}</h4>
 			<p class="footer-tile__value">${footer.headPastor}</p>
-		</article>
-		<article class="footer-tile footer-tile--pastor">
+			<span class="footer-tile__cue" aria-hidden="true">View bio &rsaquo;</span>
+		</button>
+		<button class="footer-tile footer-tile--pastor" data-pastor="jeon" aria-haspopup="dialog">
+			<img class="footer-tile__photo" src="${PASTOR_BIOS.jeon.img}" alt="" loading="lazy">
 			<h4 class="footer-tile__title">${footer.associatePastorTitle}</h4>
 			<p class="footer-tile__value">${footer.associatePastor}</p>
-		</article>
+			<span class="footer-tile__cue" aria-hidden="true">View bio &rsaquo;</span>
+		</button>
 	</div>
+	<dialog id="pastor-bio-dialog" aria-modal="true" aria-labelledby="pastor-bio-name">
+		<button class="pastor-bio-close" aria-label="Close">&times;</button>
+		<div class="leader-card leader-card--dialog">
+			<div class="leader-card__avatar" aria-hidden="true"><i class="fa fa-user-circle"></i></div>
+			<h3 id="pastor-bio-name" class="leader-card__name"></h3>
+			<p class="leader-card__role"></p>
+			<p class="leader-card__bio"></p>
+			<p class="leader-card__contact"></p>
+		</div>
+	</dialog>
 
 	${worshipServicesSection}
 
@@ -349,6 +397,41 @@ const buildFooter = (json) => {
 
 	${buildLangSwitcher()}
 	</div>`;
+};
+
+// ============ PASTOR BIO DIALOG ============
+
+const initPastorBios = () => {
+	const dialog = /** @type {HTMLDialogElement|null} */ (document.getElementById('pastor-bio-dialog'));
+	if (!dialog) return;
+	const nameEl = dialog.querySelector('.leader-card__name');
+	const roleEl = dialog.querySelector('.leader-card__role');
+	const bioEl = dialog.querySelector('.leader-card__bio');
+	const contactEl = dialog.querySelector('.leader-card__contact');
+
+	const avatarEl = dialog.querySelector('.leader-card__avatar');
+
+	document.querySelectorAll('[data-pastor]').forEach(btn => {
+		btn.addEventListener('click', () => {
+			const key = /** @type {HTMLElement} */ (btn).dataset.pastor ?? '';
+			const bio = PASTOR_BIOS[key];
+			if (!bio || !nameEl || !roleEl || !bioEl || !contactEl) return;
+			if (avatarEl) {
+				avatarEl.innerHTML = bio.img
+					? `<img src="${bio.img}" alt="${bio.name}" loading="lazy">`
+					: '<i class="fa fa-user-circle"></i>';
+			}
+			nameEl.textContent = bio.name;
+			roleEl.textContent = bio.role;
+			bioEl.textContent = bio.bio;
+			contactEl.innerHTML = `<a href="mailto:${bio.contact}">${bio.contact}</a>`;
+			dialog.showModal();
+		});
+	});
+
+	dialog.querySelector('.pastor-bio-close')?.addEventListener('click', () => dialog.close());
+	// Click on backdrop closes
+	dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
 };
 
 // ============ INITIALIZATION ============
@@ -384,12 +467,13 @@ const buildFooter = (json) => {
 			});
 		});
 		initThemeToggle();
+		initPastorBios();
 
 		// ── Back-to-top button ─────────────────────────────────────────────
 		const backBtn = document.createElement('button');
 		backBtn.id = 'back-to-top';
 		backBtn.setAttribute('aria-label', 'Back to top');
-		backBtn.innerHTML = '<i class="fa-solid fa-chevron-up" aria-hidden="true"></i>';
+		backBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6l-7 7 1.4 1.4L11 9.8V18h2V9.8l4.6 4.6L19 13z"/></svg>';
 		document.body.appendChild(backBtn);
 		// Scroll-driven CSS handles visibility in supporting browsers;
 		// fall back to a JS scroll listener where it isn't supported.

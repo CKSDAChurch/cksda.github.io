@@ -64,4 +64,5 @@ When asked to stage changes:
 1. Review staged/targeted diffs.
 2. Decide whether they are release-worthy using the criteria above.
 3. If worthy, update [docs/RELEASE-NOTES.md](../../docs/RELEASE-NOTES.md) and stage it together with those changes.
-4. If not worthy, proceed without release-notes edits.
+4. **Bump `CACHE_NAME` in [sw.js](../../sw.js)** to match the new version string (e.g. `cksda-v1.2.3`). This forces returning visitors to get a fresh service worker and pick up the updated cached assets. Always do this whenever the release notes version is incremented.
+5. If not worthy, proceed without release-notes edits or SW version changes.
