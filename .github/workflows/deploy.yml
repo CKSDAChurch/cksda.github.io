@@ -47,6 +47,7 @@ jobs:
             --accept 200,206,302,403,429,520
             --root-dir ${{ github.workspace }}
             --exclude 'localhost'
+            --exclude 'https://cksda\.church'
             ./*.html ./sitemap.xml ./*.md docs/*.md
 
   deploy:

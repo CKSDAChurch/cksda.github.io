@@ -2324,7 +2324,7 @@ span.image.icon {
 		text-rendering: auto;
 		line-height: 1;
 		text-transform: none !important;
-		font-family: 'Font Awesome 5 Free';
+		font-family: 'Font Awesome 6 Free';
 		font-weight: 400;
 	}
 
@@ -2341,7 +2341,7 @@ span.image.icon {
 	}
 
 	.icon.brands:before {
-		font-family: 'Font Awesome 5 Brands';
+		font-family: 'Font Awesome 6 Brands';
 	}
 
 /* List */
@@ -2683,6 +2683,12 @@ html {
 	outline-offset: 2px;
 }
 
+#back-to-top svg {
+	width: 1rem;
+	height: 1rem;
+	fill: currentColor;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	#back-to-top {
 		transition: none;
@@ -2958,6 +2964,54 @@ html {
 	margin-top: 0;
 }
 
+#footer .footer-service-schedule,
+.service-times__schedule {
+	display: grid;
+	gap: 0.75rem;
+	margin: 0;
+}
+
+#footer .footer-service-schedule__item,
+.service-times__schedule-item {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.25rem;
+	place-items: center;
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid rgb(255 255 255 / 0.18);
+	text-align: center;
+}
+
+#footer .footer-service-schedule__item:last-child,
+.service-times__schedule-item:last-child {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+#footer .footer-service-schedule__label,
+.service-times__schedule-label {
+	margin: 0;
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.09em;
+	line-height: 1.4;
+	text-transform: uppercase;
+	opacity: 0.82;
+}
+
+#footer .footer-service-schedule__time,
+.service-times__schedule-time {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.45;
+	text-align: center;
+}
+
+#footer .footer-service-schedule__time {
+	white-space: nowrap;
+}
+
 #footer .WorshipServices {
 	gap: 1rem;
 	justify-content: stretch;
@@ -2965,6 +3019,7 @@ html {
 
 #footer .WorshipServices .WorshipChild {
 	margin: 0;
+	text-align: center;
 }
 
 #footer .footer-contact.footer-tile {
@@ -3116,6 +3171,89 @@ html {
 	#footer .footer-tile {
 		transition: none;
 	}
+}
+
+/* ---- Pastor tile (button reset + cue label) ---- */
+#footer .footer-tile--pastor {
+	width: 100%;
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	appearance: none;
+}
+
+#footer .footer-tile__photo {
+	width: 4.5rem;
+	height: 4.5rem;
+	border-radius: 50%;
+	object-fit: cover;
+	object-position: top center;
+	display: block;
+	margin: 0 auto 0.6rem;
+	border: 2px solid rgb(255 255 255 / 0.35);
+}
+
+#footer .footer-tile--pastor:focus-visible {
+	outline: 2px solid rgb(255 255 255 / 0.8);
+	outline-offset: 2px;
+}
+
+#footer .footer-tile__cue {
+	display: block;
+	margin-top: 0.5rem;
+	font-size: 0.78rem;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	opacity: 0.62;
+	transition: opacity 0.15s;
+}
+
+#footer .footer-tile--pastor:hover .footer-tile__cue,
+#footer .footer-tile--pastor:focus-visible .footer-tile__cue {
+	opacity: 1;
+}
+
+/* ---- Pastor bio dialog ---- */
+#pastor-bio-dialog {
+	position: fixed;
+	inset: 0;
+	margin: auto;
+	width: min(92vw, 28rem);
+	max-height: 90dvh;
+	overflow-y: auto;
+	border: 1px solid rgb(128 128 128 / 0.25);
+	border-radius: 1.1rem;
+	padding: 2rem 1.75rem 1.75rem;
+	background: var(--color-bg, #1e252d);
+	color: inherit;
+	box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.45);
+}
+
+#pastor-bio-dialog::backdrop {
+	background: rgb(0 0 0 / 0.55);
+	backdrop-filter: blur(3px);
+}
+
+.pastor-bio-close {
+	position: absolute;
+	inset-block-start: 0.85rem;
+	inset-inline-end: 1rem;
+	background: transparent;
+	border: none;
+	color: inherit;
+	font-size: 1.6rem;
+	line-height: 1;
+	cursor: pointer;
+	opacity: 0.6;
+	padding: 0.2rem 0.4rem;
+	border-radius: 4px;
+}
+
+.pastor-bio-close:hover,
+.pastor-bio-close:focus-visible {
+	opacity: 1;
+	outline: none;
+	background: rgb(128 128 128 / 0.15);
 }
 
 /* ============================================================
@@ -3298,6 +3436,76 @@ html {
 
 .ministry-leaders {
 	margin-top: 2rem;
+}
+
+/* ---- Leader / pastor bio cards ---- */
+.leader-grid {
+	gap: 1.25rem;
+	margin-top: 1.5rem;
+}
+
+.leader-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 1.5rem 1.25rem 1.25rem;
+	border: 1px solid rgb(128 128 128 / 0.2);
+	border-radius: 1rem;
+	background: rgb(255 255 255 / 0.04);
+	box-shadow: 0 0.5rem 1.4rem rgb(0 0 0 / 0.07);
+	gap: 0.75rem;
+}
+
+.leader-card__avatar {
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
+	object-fit: cover;
+	background: rgb(62 131 145 / 0.18);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2.2rem;
+	color: var(--color-accent, #3e8391);
+	flex-shrink: 0;
+}
+
+.leader-card__avatar img {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	object-fit: cover;
+	display: block;
+}
+
+.leader-card__name {
+	font-size: 1.05rem;
+	font-weight: 700;
+	margin: 0;
+	letter-spacing: 0.02em;
+	text-transform: none;
+}
+
+.leader-card__role {
+	font-size: 0.82rem;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	opacity: 0.72;
+	margin: 0;
+}
+
+.leader-card__bio {
+	font-size: 0.93rem;
+	line-height: 1.55;
+	margin: 0;
+	opacity: 0.88;
+}
+
+.leader-card__contact {
+	margin-top: auto;
+	padding-top: 0.5rem;
+	font-size: 0.88rem;
 }
 
 .share-archive-link {
@@ -3884,6 +4092,75 @@ html:has(dialog[open]) {
 		width: 100% !important;
 		max-width: none !important;
 	}
+}
+
+/* ===== Music Programs ===== */
+.music-programs {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	margin-top: 1rem;
+}
+
+.music-program-card {
+	border: 1px solid rgb(128 128 128 / 0.2);
+	border-radius: 0.9rem;
+	overflow: hidden;
+	background: rgb(255 255 255 / 0.04);
+	box-shadow: 0 0.75rem 1.75rem rgb(0 0 0 / 0.08);
+}
+
+.music-program-card__header {
+	display: flex;
+	align-items: baseline;
+	gap: 0.85rem;
+	padding: 0.85rem 1.25rem;
+	background: rgb(62 131 145 / 0.18);
+	border-bottom: 1px solid rgb(128 128 128 / 0.18);
+}
+
+.music-program-card__date {
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	opacity: 0.72;
+	white-space: nowrap;
+}
+
+.music-program-card__title {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: none;
+}
+
+.music-program-card__body {
+	padding: 1.25rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+.music-program-card__body > p {
+	margin: 0;
+	opacity: 0.88;
+}
+
+.music-concert-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+}
+
+.music-concert-group__label {
+	margin: 0;
+	font-size: 0.85rem;
+	font-weight: 700;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	opacity: 0.7;
 }
 
 /* ===== Related Ministries ===== */
@@ -4578,6 +4855,8 @@ ul.icons li a:focus-visible {
 	font-size: 0.875em;
 	margin-bottom: 0.2em;
 	opacity: 0.85;
+	overflow-wrap: break-word;
+	word-break: break-word;
 }
 
 .event-card__meta .icon {
@@ -4589,6 +4868,8 @@ ul.icons li a:focus-visible {
 	margin: 0.5em 0;
 	line-height: 1.55;
 	opacity: 0.8;
+	overflow-wrap: break-word;
+	word-break: break-word;
 }
 
 .event-card__link {
@@ -4679,11 +4960,10 @@ ul.icons li a:focus-visible {
 	display: flex;
 	justify-content: center;
 	margin-bottom: 1.5em;
-	border-radius: 3em;
-	overflow: hidden;
 	width: -moz-fit-content;
 	width: fit-content;
 	margin-inline: auto;
+	gap: 0.5em;
 }
 
 .events-view-btn {
@@ -4693,19 +4973,16 @@ ul.icons li a:focus-visible {
 	font-family: inherit;
 	font-size: 0.82em;
 	font-weight: 700;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
-	padding: 0.58em 1.5em;
-	transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+	padding: 0.5em 1.4em;
+	transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 	display: inline-flex;
 	align-items: center;
 	gap: 0.4em;
+	border-radius: 999px;
 	border-width: 1px;
 	border-style: solid;
-}
-
-.events-view-btn + .events-view-btn {
-	border-inline-start-width: 0;
 }
 
 /* ===== Month Grid (calendar.html) ===== */
@@ -4749,7 +5026,7 @@ ul.icons li a:focus-visible {
 
 .calendar-grid {
 	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	grid-template-columns: repeat(7, minmax(0, 1fr));
 	gap: 1px;
 	border-radius: 6px;
 	overflow: hidden;
@@ -4770,9 +5047,18 @@ ul.icons li a:focus-visible {
 	padding: 0.4em 0.3em;
 }
 
+.calendar-grid__cell--has-events {
+	cursor: pointer;
+}
+
+.calendar-grid__cell--has-events:focus-visible {
+	outline: 2px solid var(--color-brand);
+	outline-offset: -2px;
+}
+
 .calendar-grid__day-num {
 	display: block;
-	font-size: 0.75em;
+	font-size: 0.8em;
 	font-weight: 600;
 	width: 1.9em;
 	height: 1.9em;
@@ -4799,21 +5085,16 @@ ul.icons li a:focus-visible {
 	display: block;
 	width: 100%;
 	text-align: start;
-	padding: 0.15em 0.35em;
-	border-radius: 3px;
-	font-size: 0.68em;
+	padding: 0.2em 0.45em;
+	border-radius: 4px;
+	font-size: 0.72em;
 	font-family: inherit;
-	cursor: pointer;
 	border: none;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	line-height: 1.4;
-	transition: opacity 0.15s;
-}
-
-.calendar-grid__pill:hover {
-	opacity: 0.75;
+	line-height: 1.5;
+	pointer-events: none;
 }
 
 .calendar-grid__overflow {
@@ -4822,18 +5103,13 @@ ul.icons li a:focus-visible {
 	background: none;
 	border: none;
 	font-family: inherit;
-	font-size: 0.65em;
-	cursor: pointer;
+	font-size: 0.66em;
+	font-weight: 600;
 	text-align: start;
-	padding: 0.15em 0.35em;
+	padding: 0.1em 0.45em;
 	display: block;
 	width: 100%;
-	opacity: 0.6;
-	transition: opacity 0.15s;
-}
-
-.calendar-grid__overflow:hover {
-	opacity: 1;
+	pointer-events: none;
 }
 
 /* Mobile: event dots instead of text pills */
@@ -4857,12 +5133,20 @@ ul.icons li a:focus-visible {
 
 	.calendar-grid__pill {
 		font-size: 0;
-		width: 6px;
-		min-width: 6px;
-		height: 6px;
-		min-height: 6px;
+		width: 7px;
+		min-width: 7px;
+		height: 7px;
+		min-height: 7px;
 		padding: 0;
 		border-radius: 50%;
+	}
+
+	html.theme-light .calendar-grid__pill {
+		background: var(--color-brand-deep);
+	}
+
+	html.theme-dark .calendar-grid__pill {
+		background: var(--color-brand);
 	}
 
 	.calendar-grid__overflow {
@@ -4949,6 +5233,320 @@ ul.icons li a:focus-visible {
 	opacity: 0.8;
 }
 
+/* Day popup — list of events for a single day */
+.event-day-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4em;
+	margin-top: 0.6em;
+	max-height: 60vh;
+	overflow-y: auto;
+}
+
+.event-day-list__item {
+	-webkit-appearance: none;
+	appearance: none;
+	background: none;
+	cursor: pointer;
+	font-family: inherit;
+	text-align: start;
+	display: flex;
+	flex-direction: column;
+	gap: 0.1em;
+	padding: 0.6em 0.7em;
+	border-radius: 6px;
+	border: 1px solid transparent;
+	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.event-day-list__time {
+	font-size: 0.72em;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.event-day-list__title {
+	font-size: 0.95em;
+	line-height: 1.35;
+}
+
+/* ===== Calendar / Events — light theme colours ===== */
+html.theme-light .events-summary {
+	color: var(--color-text-strong);
+}
+
+html.theme-light .events-month-heading {
+	color: var(--color-brand-deep);
+}
+
+html.theme-light .events-month-heading::before,
+html.theme-light .events-month-heading::after {
+	background: rgb(44 84 94 / 0.25);
+}
+
+html.theme-light .event-card {
+	background: rgb(255 255 255 / 0.92);
+	border: 1px solid rgb(44 84 94 / 0.15);
+	box-shadow: 0 2px 8px rgb(44 84 94 / 0.08);
+	color: #45413c;
+}
+
+html.theme-light .event-card:hover {
+	box-shadow: 0 6px 20px rgb(44 84 94 / 0.16);
+}
+
+html.theme-light .event-card__title {
+	color: var(--color-brand-deep);
+}
+
+html.theme-light .event-card__badge {
+	background: var(--color-brand);
+	color: var(--color-text-strong);
+}
+
+html.theme-light .event-card__link {
+	background: rgb(44 84 94 / 0.1);
+	color: var(--color-brand-deep);
+}
+
+html.theme-light .event-card__link:hover {
+	background: rgb(44 84 94 / 0.2);
+	border-bottom-color: transparent;
+}
+
+html.theme-light .events-view-btn {
+	border-color: rgb(44 84 94 / 0.35);
+	color: var(--color-brand-deep);
+	background: transparent;
+}
+
+html.theme-light .events-view-btn.is-active {
+	background: var(--color-brand-deep);
+	color: #ffffff;
+	border-color: var(--color-brand-deep);
+}
+
+html.theme-light .events-view-btn:not(.is-active):hover {
+	background: rgb(44 84 94 / 0.07);
+}
+
+html.theme-light .calendar-grid {
+	background: rgb(44 84 94 / 0.14);
+}
+
+html.theme-light .calendar-grid__header {
+	background: #eef4f5;
+	color: var(--color-brand-deep);
+}
+
+html.theme-light .calendar-grid__cell {
+	background: #ffffff;
+	color: #45413c;
+}
+
+html.theme-light .calendar-grid__cell--other-month {
+	background: #f3f6f7;
+}
+
+html.theme-light .calendar-grid__cell--has-events:hover,
+html.theme-light .calendar-grid__cell--has-events:focus-visible {
+	background: #eaf3f5;
+}
+
+html.theme-light .calendar-grid__cell--today .calendar-grid__day-num {
+	background: var(--color-brand);
+	color: var(--color-text-strong);
+}
+
+html.theme-light .calendar-nav-btn {
+	color: var(--color-brand-deep);
+}
+
+html.theme-light .calendar-month-title {
+	color: var(--color-brand-deep);
+}
+
+html.theme-light .calendar-grid__pill {
+	background: rgb(62 131 145 / 0.16);
+	color: #21424a;
+}
+
+html.theme-light .calendar-grid__overflow {
+	color: var(--color-brand-deep);
+}
+
+html.theme-light .event-popup__card {
+	background: #ffffff;
+	border: 1px solid rgb(44 84 94 / 0.12);
+	box-shadow: 0 16px 48px rgb(44 84 94 / 0.22);
+	color: #45413c;
+}
+
+html.theme-light .event-popup__date {
+	color: var(--color-brand);
+}
+
+html.theme-light .event-popup__title {
+	color: var(--color-brand-deep);
+}
+
+html.theme-light .event-popup__close {
+	color: var(--color-brand-deep);
+}
+
+html.theme-light .event-day-list__item {
+	color: #45413c;
+}
+
+html.theme-light .event-day-list__item:hover,
+html.theme-light .event-day-list__item:focus-visible {
+	background: rgb(44 84 94 / 0.06);
+	border-color: rgb(44 84 94 / 0.12);
+}
+
+html.theme-light .event-day-list__time {
+	color: var(--color-brand);
+}
+
+/* ===== Calendar / Events — dark theme colours ===== */
+html.theme-dark .events-summary {
+	color: var(--color-brand);
+}
+
+html.theme-dark .events-month-heading {
+	color: var(--color-brand);
+}
+
+html.theme-dark .events-month-heading::before,
+html.theme-dark .events-month-heading::after {
+	background: rgb(91 168 181 / 0.2);
+}
+
+html.theme-dark .event-card {
+	background: rgb(255 255 255 / 0.05);
+	border: 1px solid rgb(225 242 222 / 0.1);
+	box-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
+	color: var(--color-text);
+}
+
+html.theme-dark .event-card:hover {
+	box-shadow: 0 6px 20px rgb(0 0 0 / 0.4);
+}
+
+html.theme-dark .event-card__title {
+	color: var(--color-text-strong);
+}
+
+html.theme-dark .event-card__badge {
+	background: var(--color-brand-deeper);
+	color: var(--color-text-strong);
+}
+
+html.theme-dark .event-card__link {
+	background: rgb(91 168 181 / 0.14);
+	color: var(--color-brand);
+}
+
+html.theme-dark .event-card__link:hover {
+	background: rgb(91 168 181 / 0.24);
+	border-bottom-color: transparent;
+}
+
+html.theme-dark .events-view-btn {
+	border-color: rgb(91 168 181 / 0.4);
+	color: var(--color-brand);
+	background: transparent;
+}
+
+html.theme-dark .events-view-btn.is-active {
+	background: var(--color-brand-deeper);
+	color: var(--color-text-strong);
+	border-color: var(--color-brand-deeper);
+}
+
+html.theme-dark .events-view-btn:not(.is-active):hover {
+	background: rgb(91 168 181 / 0.12);
+}
+
+html.theme-dark .calendar-grid {
+	background: rgb(225 242 222 / 0.08);
+}
+
+html.theme-dark .calendar-grid__header {
+	background: var(--color-surface);
+	color: var(--color-brand);
+}
+
+html.theme-dark .calendar-grid__cell {
+	background: rgb(255 255 255 / 0.03);
+	color: var(--color-text);
+}
+
+html.theme-dark .calendar-grid__cell--other-month {
+	background: rgb(0 0 0 / 0.12);
+}
+
+html.theme-dark .calendar-grid__cell--has-events:hover,
+html.theme-dark .calendar-grid__cell--has-events:focus-visible {
+	background: rgb(91 168 181 / 0.12);
+}
+
+html.theme-dark .calendar-grid__cell--today .calendar-grid__day-num {
+	background: var(--color-brand-deeper);
+	color: var(--color-text-strong);
+}
+
+html.theme-dark .calendar-nav-btn {
+	color: var(--color-brand);
+}
+
+html.theme-dark .calendar-month-title {
+	color: var(--color-text-strong);
+}
+
+html.theme-dark .calendar-grid__pill {
+	background: rgb(91 168 181 / 0.22);
+	color: var(--color-text-strong);
+}
+
+html.theme-dark .calendar-grid__overflow {
+	color: var(--color-brand);
+}
+
+html.theme-dark .event-popup__card {
+	background: var(--color-surface);
+	border: 1px solid rgb(225 242 222 / 0.12);
+	box-shadow: 0 16px 48px rgb(0 0 0 / 0.55);
+	color: var(--color-text);
+}
+
+html.theme-dark .event-popup__date {
+	color: var(--color-brand);
+}
+
+html.theme-dark .event-popup__title {
+	color: var(--color-text-strong);
+}
+
+html.theme-dark .event-popup__close {
+	color: var(--color-text-strong);
+}
+
+html.theme-dark .event-day-list__item {
+	color: var(--color-text);
+}
+
+html.theme-dark .event-day-list__item:hover,
+html.theme-dark .event-day-list__item:focus-visible {
+	background: rgb(91 168 181 / 0.12);
+	border-color: rgb(225 242 222 / 0.12);
+}
+
+html.theme-dark .event-day-list__time {
+	color: var(--color-brand);
+}
+
 /* ===== Service Times (index.html) ===== */
 .service-times {
 	text-align: center;
@@ -4973,27 +5571,41 @@ ul.icons li a:focus-visible {
 .service-times__card {
 	background: rgb(144 144 144 / 0.075);
 	border-radius: 6px;
-	padding: 1.25em 2em;
+	padding: 1.25em 1.5em;
 	min-width: 180px;
 	flex: 1 1 180px;
 	max-width: 260px;
+	text-align: start;
 }
 
 .service-times__card h3 {
-	margin-bottom: 0.6em;
+	margin-bottom: 0.9em;
 	font-size: 1em;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
 }
 
-.service-times__card p {
-	margin-bottom: 0.4em;
-	line-height: 1.5;
-}
-
 .service-times__note {
 	font-size: 0.9em;
 	opacity: 0.8;
+}
+
+@media screen and (max-width: 736px) {
+	#footer .footer-service-schedule__item,
+	.service-times__schedule-item {
+		grid-template-columns: 1fr;
+		gap: 0.35rem;
+	}
+
+	#footer .footer-service-schedule__time,
+	.service-times__schedule-time {
+		text-align: start;
+		white-space: normal;
+	}
+
+	.service-times__card {
+		max-width: none;
+	}
 }
 
 .calendar-wrapper iframe {
@@ -5049,6 +5661,18 @@ ul.icons li a:focus-visible {
 	align-items: center;
 	min-height: 44px;
 	padding-inline: 0.5em;
+	color: #ffffff;
+	font-weight: 500;
+}
+
+#header .url-list,
+#header .url-list a,
+#header #ministries,
+#header .url-list a:hover,
+#header .url-list a:focus-visible,
+#header #ministries:hover,
+#header #ministries:focus-visible {
+	color: #ffffff;
 }
 
 ul.icons li a,

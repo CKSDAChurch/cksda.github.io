@@ -68,10 +68,10 @@ async function generateIcon(bgHex, logoFile, size, outFile) {
 async function build() {
     // Generate adaptive PWA icons — light and dark variants, 192 and 512 px.
     await Promise.all([
-        generateIcon('#3e8391', 'images/logo-light.png', 192, 'images/icon-light-192.png'),
-        generateIcon('#3e8391', 'images/logo-light.png', 512, 'images/icon-light-512.png'),
-        generateIcon('#042D2D', 'images/logo-light.png', 192, 'images/icon-dark-192.png'),
-        generateIcon('#042D2D', 'images/logo-light.png', 512, 'images/icon-dark-512.png'),
+        generateIcon('#3e8391', 'assets/images/logo-light.png', 192, 'assets/images/icon-light-192.png'),
+        generateIcon('#3e8391', 'assets/images/logo-light.png', 512, 'assets/images/icon-light-512.png'),
+        generateIcon('#042D2D', 'assets/images/logo-light.png', 192, 'assets/images/icon-dark-192.png'),
+        generateIcon('#042D2D', 'assets/images/logo-light.png', 512, 'assets/images/icon-dark-512.png'),
     ]);
     console.log('PWA icons generated.');
 
