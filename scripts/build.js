@@ -37,7 +37,7 @@ if (!calendarApiKey) {
 }
 
 // These are bundled standalone (no @import resolution needed).
-const cssFiles = ['main', 'lightmode', 'darkmode', 'menu', 'newsletter', 'pathfinders'];
+const cssFiles = ['main', 'lightmode', 'darkmode', 'menu', 'newsletter', 'pathfinders', 'today'];
 // analytics.js stays as a classic (non-ESM) synchronous script so consent-mode fires early.
 const classicJsFiles = ['analytics'];
 // consent.js is a deferred ESM module (loaded with type="module" in HTML).
@@ -122,6 +122,17 @@ async function build() {
                 __YOUTUBE_API_KEY__: JSON.stringify(apiKey),
             },
         }),
+        // daily.js bundles youtube.js for the Today page Sabbath section; API key also injected.
+        esbuild.build({
+            entryPoints: ['assets/js/daily.js'],
+            bundle: true,
+            minify: true,
+            format: 'esm',
+            outfile: 'assets/js/daily.min.js',
+            define: {
+                __YOUTUBE_API_KEY__: JSON.stringify(apiKey),
+            },
+        }),
         // calendar-events.js — __CALENDAR_API_KEY__ is injected the same way.
         esbuild.build({
             entryPoints: ['assets/js/calendar-events.js'],
@@ -152,6 +163,7 @@ async function build() {
     const allJs = [
         'assets/js/main.js', 'assets/js/page-config.js', 'assets/js/consent.js',
         'assets/js/analytics.js', 'assets/js/youtube.js', 'assets/js/calendar-events.js',
+        'assets/js/daily.js',
     ];
     console.log('Purging unused CSS…');
     await Promise.all([
@@ -168,6 +180,11 @@ async function build() {
         ]),
         // pathfinders.min.css — used only by pathfinders.html
         purgeFile('assets/css/pathfinders.min.css', ['pathfinders.html', ...allJs]),
+        // today.min.css — used only by today.html
+        purgeFile('assets/css/today.min.css', [
+            'today.html',
+            'assets/js/daily.js',
+        ]),
     ]);
 
     console.log('Build complete.');

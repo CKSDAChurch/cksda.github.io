@@ -83,7 +83,115 @@ const formatServiceTimeRange = (range) => {
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ── Clarity / Heatmap safety: mask PII inputs ───────────────────────
+const DAILY_TIME_ZONE = 'America/New_York';
+
+/** @param {Date} date @param {string} timeZone @returns {Record<string, string>} */
+const dailyZonedParts = (date, timeZone) => {
+	const formatter = new Intl.DateTimeFormat('en-US', {
+		timeZone,
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		weekday: 'short'
+	});
+
+	return formatter.formatToParts(date).reduce((parts, part) => {
+		if (part.type !== 'literal') parts[part.type] = part.value;
+		return parts;
+	}, /** @type {Record<string, string>} */({}));
+};
+
+const getTodayDisplayDate = () => {
+	const parts = dailyZonedParts(new Date(), DAILY_TIME_ZONE);
+	const date = new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day), 12));
+	return new Intl.DateTimeFormat('en-US', {
+		timeZone: DAILY_TIME_ZONE,
+		weekday: 'short',
+		month: 'short',
+		day: 'numeric',
+		year: 'numeric'
+	}).format(date);
+};
+
+const initDailyTopBar = async () => {
+	if (!document.body) return;
+
+	// Render the bar immediately so there's no layout shift waiting for the JSON.
+	const bar = document.createElement('section');
+	bar.id = 'daily-bar';
+	bar.setAttribute('aria-label', 'Today quick link');
+	bar.innerHTML = `
+		<div class="daily-bar__inner">
+			<span id="daily-bar-label" class="daily-bar__label">Today</span>
+			<span id="daily-bar-date" class="daily-bar__date">${getTodayDisplayDate()}</span>
+			<a class="daily-bar__today" href="today.html">Open today page →</a>
+		</div>
+	`;
+
+	document.body.prepend(bar);
+	document.body.classList.add('has-daily-bar');
+
+	const syncDailyBarOffset = () => {
+		document.documentElement.style.setProperty('--daily-bar-offset', `${bar.offsetHeight}px`);
+	};
+	syncDailyBarOffset();
+	window.addEventListener('resize', syncDailyBarOffset, { passive: true });
+
+	const labelEl = document.getElementById('daily-bar-label');
+	const ctaEl = /** @type {HTMLAnchorElement | null} */(bar.querySelector('.daily-bar__today'));
+
+	// Determine if it is currently Sabbath using the server-computed UTC timestamps.
+	// Sabbath = Friday sunset → Saturday sunset (all in actual wall-clock time).
+	let isSabbath = false;
+	try {
+		const response = await fetch('/assets/data/devotional-today.json');
+		if (response.ok) {
+			const data = await response.json();
+			if (data.sabbathStartUtc && data.sabbathEndUtc) {
+				const now = Date.now();
+				isSabbath = now >= new Date(data.sabbathStartUtc).getTime()
+					&& now < new Date(data.sabbathEndUtc).getTime();
+			}
+		}
+	} catch (_e) {
+		// Fallback: use calendar weekday when JSON is unavailable.
+		isSabbath = dailyZonedParts(new Date(), DAILY_TIME_ZONE).weekday === 'Sat';
+	}
+
+	if (isSabbath && labelEl) labelEl.textContent = 'Happy Sabbath';
+
+	const applySabbathCta = () => {
+		if (!ctaEl) return;
+		if (!isSabbath) {
+			ctaEl.textContent = 'Open today page →';
+			ctaEl.href = 'today.html';
+			ctaEl.removeAttribute('target');
+			ctaEl.removeAttribute('rel');
+			return;
+		}
+
+		const liveFrame = /** @type {HTMLIFrameElement | null} */(document.querySelector('#youtubeLive iframe[src*="live_stream"]'));
+		if (liveFrame) {
+			ctaEl.textContent = 'Watch livestream →';
+			ctaEl.href = 'https://www.youtube.com/@CKSDAChurch/live';
+			ctaEl.target = '_blank';
+			ctaEl.rel = 'noopener noreferrer';
+		} else {
+			ctaEl.textContent = 'Open today page →';
+			ctaEl.href = 'today.html';
+			ctaEl.removeAttribute('target');
+			ctaEl.removeAttribute('rel');
+		}
+	};
+
+	applySabbathCta();
+	const youtubeSlot = document.getElementById('youtubeLive');
+	if (youtubeSlot && isSabbath) {
+		const observer = new MutationObserver(() => applySabbathCta());
+		observer.observe(youtubeSlot, { childList: true, subtree: true, attributes: true });
+	}
+};
+
 function maskClarityPII(root = document) {
 	try {
 		const selector = 'input, textarea, [contenteditable]';
@@ -453,6 +561,7 @@ const initPastorBios = () => {
 		// Render header and footer
 		setHtml("header", buildHeader(json, title, subtitle));
 		setHtml("footer", buildFooter(json));
+		await initDailyTopBar();
 		initViewTransitions();
 
 		// ── Language switcher click handler ────────────────────────────────

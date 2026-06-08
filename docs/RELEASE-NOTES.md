@@ -3,6 +3,21 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v1.10.0 — June 8, 2026
+
+### Added
+- **`today.html` daily dashboard** — New standalone page with a teal header, live Sabbath countdown chip, sunset time chip (Fri/Sat), current weather (Open-Meteo), daily devotional card, today's church calendar events, all 8 Sabbath School lesson tiles (EM, KM, Collegiate, High School, Earliteen, Juniors, Primary, Cradle Roll), and a Happy Sabbath section (EM/KM service links, auto-detected YouTube video) visible only during active Sabbath hours; powered by `assets/js/daily.js` and `assets/css/today.css`.
+- **Today's calendar events on `today.html`** — `scripts/fetch-daily-data.js` fetches both EM and KM Google Calendars at build time, filters to today's events (Eastern time), deduplicates, and writes `assets/data/calendar-today.json`; `daily.js` reads this static file so no API key is needed at runtime.
+- **Persistent "Today" top banner** — Fixed `#daily-bar` strip prepended to every main-shell page by `main.js`; shows today's date, says "Happy Sabbath" during Sabbath hours, and links to `today.html` (swaps to "Watch livestream →" when a live YouTube stream is detected on Sabbath).
+- **`today.html`, `daily.min.js`, `devotional-today.json`, and `calendar-today.json` precached** — Added to `PRECACHE_URLS` in `sw.js` so the daily dashboard works offline on installed PWAs.
+- **`today.html` added to `sitemap.xml`** — With `<changefreq>daily</changefreq>` and priority `0.95`.
+
+### Changed
+- **`scripts/fetch-devotional.js` → `scripts/fetch-daily-data.js`** — Renamed to reflect its expanded scope: now also fetches today's church events from both calendars and writes `assets/data/calendar-today.json`. Both `daily-devotional.yml` and `deploy.yml` updated accordingly.
+- **`sw.js` caching strategies** — Navigation handler now tries the cached page (`ignoreSearch: true`) before `/offline.html` so the installed PWA shows real content offline; `devotional-today.json` and `calendar-today.json` now use network-first with cached fallback instead of stale-while-revalidate. Cache version bumped to `cksda-v1.10.0`.
+- **`scripts/build.js`** — Added `today` to `cssFiles`, added `daily.js` esbuild task with YouTube API key injection, and added a `today.min.css` PurgeCSS pass with `daily.js` as a content source.
+- **`index.html` CSP** — Added `https://api.sunrise-sunset.org` to `connect-src`.
+- **`eslint.config.js`** — Added `assets/js/daily.js` to lint content sources.
 ## v1.9.0 — June 7, 2026
 
 ### Added
@@ -82,7 +97,7 @@ Version numbers follow [Semantic Versioning](https://semver.org/).
 ### Changed
 - **`lightmode.css` and `darkmode.css`** — All hardcoded colour values replaced with `var(--color-*)` tokens; both files now respond automatically to any future token change.
 - **Newsletter devotional fetch strategy** — `newsletter.js` now skips direct White Estate client fetches on production hosts and uses the pre-patched HTML verse (while keeping live fetch behavior for localhost), eliminating expected browser CORS failures for site visitors.
-- **Deployment consistency for daily verse** — `deploy.yml` now runs `scripts/fetch-devotional.js` before publishing, matching `daily-devotional.yml` so push-triggered deploys do not overwrite the same-day devotional update.
+- **Deployment consistency for daily verse** — `deploy.yml` now runs `scripts/fetch-daily-data.js` before publishing, matching `daily-devotional.yml` so push-triggered deploys do not overwrite the same-day devotional update.
 - **Playwright runtime compatibility** — migrated Playwright setup to `playwright.config.cjs`, updated ESLint target mapping, and converted `tests/mobile.spec.js` to ESM import syntax so lint and mobile tests run cleanly under `"type": "module"`.
 
 ### Fixed
