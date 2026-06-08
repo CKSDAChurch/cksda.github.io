@@ -34,10 +34,10 @@ This is the heart of this round. The pieces already exist — they just need to 
 
 The newsletter currently interleaves content with very different lifespans. Splitting it makes both halves clearer and lets the daily half be reused elsewhere.
 
-- [ ] **Group "Every day" content at the top** — Daily devotional, verse of the day, sunset times, and the current Sabbath School lessons. This block is identical to what the homepage/`today.html` shows (shared JSON from §1).
-- [ ] **Group "This week" content below** — This week's sermon/speaker, dishwashing rotation, free rides, and giving. These are genuinely weekly and belong together.
-- [ ] **Add light in-page anchors / a tiny table of contents** — e.g. `#devotional`, `#lessons`, `#this-week` so the homepage and PWA shortcuts can deep-link straight to a section.
-- [ ] **Date-stamp the "This week" block clearly** — Reinforce that the operational items (rotation, sermon) are for the current Sabbath, while the daily block is always current. Reduces confusion when someone opens it mid-week.
+- [x] **Group "Every day" content at the top** — Daily devotional, verse of the day, sunset times, and the current Sabbath School lessons. This block is identical to what the homepage/`today.html` shows (shared JSON from §1).
+- [x] **Group "This week" content below** — This week's sermon/speaker, dishwashing rotation, free rides, and giving. These are genuinely weekly and belong together.
+- [x] **Add light in-page anchors / a tiny table of contents** — e.g. `#devotional`, `#lessons`, `#this-week` so the homepage and PWA shortcuts can deep-link straight to a section.
+- [x] **Date-stamp the "This week" block clearly** — Reinforce that the operational items (rotation, sermon) are for the current Sabbath, while the daily block is always current. Reduces confusion when someone opens it mid-week.
 
 ---
 

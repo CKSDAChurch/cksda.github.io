@@ -3,6 +3,19 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v1.11.0 — June 8, 2026
+
+### Added
+- **Newsletter "Today" pointer** — A `today-pointer` link at the top of `newsletter.html` directs readers to `today.html` for the daily devotional and today's lesson links, replacing the in-newsletter devotional card.
+- **Newsletter in-page TOC** — Pill-style anchor links (`#devotional`, `#lessons`, `#this-week`) let visitors jump directly to any section; matching `id` attributes added to each section heading.
+- **"This week" section header with date** — A teal `week-group-header` banner wraps all weekly operational content (sermon, rotation, rides, giving) and displays the current Sabbath date.
+
+### Changed
+- **Newsletter devotional section removed** — The verse-of-day card is no longer in `newsletter.html`; daily devotional content now lives exclusively on `today.html`. The "Today" pointer link replaces it.
+- **Newsletter lesson links simplified to week-only** — URLs changed from `.../wk/day` to `.../wk` so tiles always open the current week rather than a specific day.
+- **`newsletter.js` verse-of-day code removed** — `updateVerseOfDay`, `fetchWhiteEstateVerseOfDay`, `getHtmlFallbackVerseEntry`, and all related helpers deleted; `updateLessonLinks` simplified to replace only the week number.
+- **`sw.js` cache version** — Bumped to `cksda-v1.11.0`.
+
 ## v1.10.0 — June 8, 2026
 
 ### Added

@@ -5,13 +5,11 @@
 */
 
 import { getLatestVideoFromPlaylist, getNextScheduledVideoFromPlaylist } from './youtube.js';
-import { parseVerseAndReference } from './verse-utils.js';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const TIME_ZONE = 'America/New_York';
 const LOCATION = { lat: 35.055464, lng: -85.0710314 };
-const DEVOTIONAL_BASE_URL = 'https://whiteestate.org/devotional/ohc/';
 const EM_PLAYLIST = 'PLIkL0-bPEL8qQUoX4JIONp-RCjgwKQFgx';
 
 // ─── DOM Elements ─────────────────────────────────────────────────────────────
@@ -21,9 +19,7 @@ const els = {
 	sabbathDate: document.getElementById('sabbath-date'),
 	fridaySunset: document.getElementById('friday-sunset'),
 	saturdaySunset: document.getElementById('saturday-sunset'),
-	verseText: document.getElementById('verse-text'),
-	verseLink: /** @type {HTMLAnchorElement | null} */(document.getElementById('verse-link')),
-	devotionalLink: /** @type {HTMLAnchorElement | null} */(document.getElementById('devotional-link')),
+
 	sermonSpeaker: document.getElementById('sermon-speaker'),
 	sermonLine: document.getElementById('sermon-line'),
 	livestreamLink: /** @type {HTMLAnchorElement | null} */(document.getElementById('livestream-link')),
@@ -153,15 +149,11 @@ const updateLessonLinks = (sabbathDate) => {
 	const todayDate = makeDateFromZonedParts(todayParts);
 
 	// Adult: week starts Saturday; roll back to last Saturday for week number.
-	const adultDayMap = /** @type {Record<string, number>} */({ Sat: 1, Sun: 2, Mon: 3, Tue: 4, Wed: 5, Thu: 6, Fri: 7 });
-	const adultDay = adultDayMap[todayParts.weekday] ?? 1;
 	const saturdayOffsets = /** @type {Record<string, number>} */({ Sat: 0, Sun: 1, Mon: 2, Tue: 3, Wed: 4, Thu: 5, Fri: 6 });
 	const lastSaturday = new Date(todayDate.getTime() - (saturdayOffsets[todayParts.weekday] ?? 0) * 24 * 60 * 60 * 1000);
 	const weekNum = Math.round((lastSaturday.getTime() - quarterStart.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
 
 	// Child: week starts Sunday; count Sundays since the first Sunday of the quarter.
-	const childDayMap = /** @type {Record<string, number>} */({ Sun: 1, Mon: 2, Tue: 3, Wed: 4, Thu: 5, Fri: 6, Sat: 7 });
-	const childDay = childDayMap[todayParts.weekday] ?? 1;
 	const firstSunday = new Date(quarterStart.getTime() + 24 * 60 * 60 * 1000);
 	const sundayOffsets = /** @type {Record<string, number>} */({ Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 });
 	const childSunday = new Date(todayDate.getTime() - (sundayOffsets[todayParts.weekday] ?? 0) * 24 * 60 * 60 * 1000);
@@ -169,14 +161,11 @@ const updateLessonLinks = (sabbathDate) => {
 
 	(/** @type {NodeListOf<HTMLAnchorElement>} */(document.querySelectorAll('.lessons-grid a[href]'))).forEach((link) => {
 		const isAdult = /\/\d{4}-0[1-4]\//.test(link.href);
-		const wk     = isAdult ? weekNum : childWeekNum;
-		const dayNum = isAdult ? adultDay : childDay;
+		const wk = isAdult ? weekNum : childWeekNum;
 
 		let href = link.href.replace(/\d{4}-0[1-4]/g, quarterCode);
-		// Replace trailing /week or /week/day with recomputed values.
-		href = href.replace(/\/\d{1,2}(\/\d{1,2})?$/, (/** @type {string} */_,  /** @type {string | undefined} */dayPart) =>
-			dayPart !== undefined ? `/${pad2(wk)}/${pad2(dayNum)}` : `/${pad2(wk)}`
-		);
+		// Replace trailing /week or /week/day with week-only value.
+		href = href.replace(/\/\d{1,2}(\/\d{1,2})?$/, () => `/${pad2(wk)}`);
 		link.href = href;
 	});
 };
@@ -195,67 +184,6 @@ const fetchSunset = async (dateString) => {
 		throw new Error(`Sunset API returned an unexpected response for ${dateString}`);
 	}
 	return formatTime(new Date(payload.results.sunset));
-};
-
-// ─── Verse of the Day ─────────────────────────────────────────────────────────
-
-// Returns the verse/reference already rendered in the HTML, or a hardcoded default.
-const getHtmlFallbackVerseEntry = () => {
-	const reference = els.verseLink?.textContent.trim() ?? '';
-	const text = els.verseText?.textContent.trim() ?? '';
-	if (reference && text) return { reference, text };
-	return {
-		reference: 'Song of Solomon 2:11-12',
-		text: '"For, lo, the winter is past, the rain is over and gone; the flowers appear on the earth; the time of the singing of birds is come, and the voice of the turtle is heard in our land."'
-	};
-};
-
-const getWhiteEstateDevotionalUrl = (date = new Date()) => {
-	const parts = zonedParts(date, TIME_ZONE);
-	return `${DEVOTIONAL_BASE_URL}${parts.month}_${parts.day}/`;
-};
-
-// Fetches today's verse from the White Estate devotional page. Only works locally — CORS-blocked in production.
-const fetchWhiteEstateVerseOfDay = async () => {
-	const devotionalUrl = getWhiteEstateDevotionalUrl();
-	const response = await fetch(devotionalUrl);
-	if (!response.ok) throw new Error(`White Estate request failed with ${response.status}`);
-	const html = await response.text();
-	const doc = new DOMParser().parseFromString(html, 'text/html');
-	const parsed = parseVerseAndReference(doc.querySelector('p.devotionaltext')?.textContent ?? '');
-	if (!parsed) throw new Error('Unable to parse White Estate scripture block');
-	return { ...parsed, devotionalUrl };
-};
-
-/** @param {string} reference */
-const getBibleGatewayUrl = (reference) =>
-	`https://www.biblegateway.com/passage/?search=${encodeURIComponent(reference)}&version=NKJV`;
-
-const updateVerseOfDay = async () => {
-	let verseEntry;
-	let devotionalUrl = getWhiteEstateDevotionalUrl();
-	// In production the HTML is pre-patched at deploy time; skip the fetch to avoid CORS errors.
-	const { hostname } = window.location;
-	const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
-	if (isLocal) {
-		try {
-			const dailyVerse = await fetchWhiteEstateVerseOfDay();
-			verseEntry = { reference: dailyVerse.reference, text: dailyVerse.text };
-			devotionalUrl = dailyVerse.devotionalUrl;
-		} catch (error) {
-			console.warn('White Estate verse fetch failed, using HTML/default fallback:', error);
-			verseEntry = getHtmlFallbackVerseEntry();
-		}
-	} else {
-		verseEntry = getHtmlFallbackVerseEntry();
-	}
-
-	if (els.verseLink) {
-		els.verseLink.textContent = verseEntry.reference;
-		els.verseLink.href = getBibleGatewayUrl(verseEntry.reference);
-	}
-	if (els.devotionalLink) els.devotionalLink.href = devotionalUrl;
-	if (els.verseText) els.verseText.textContent = verseEntry.text;
 };
 
 // ─── Sermon Speaker ───────────────────────────────────────────────────────────
@@ -428,7 +356,6 @@ const trackEvent = (/** @type {string} */eventName, params = {}) => {
 const attachAnalyticsEvents = () => {
 	els.livestreamLink?.addEventListener('click', () => trackEvent('select_content', { content_type: 'livestream', item_id: 'em_main_service' }));
 	els.givingLink?.addEventListener('click', () => trackEvent('select_content', { content_type: 'giving', item_id: 'adventist_giving' }));
-	els.devotionalLink?.addEventListener('click', () => trackEvent('select_content', { content_type: 'devotional', item_id: 'ohc_daily' }));
 	(/** @type {NodeListOf<HTMLAnchorElement>} */(document.querySelectorAll('a[href*="youtube.com"][href*="live"]'))).forEach((link) => {
 		if (link.id !== 'livestream-link') {
 			link.addEventListener('click', () => trackEvent('select_content', { content_type: 'livestream', item_id: link.href }));
@@ -440,7 +367,6 @@ const attachAnalyticsEvents = () => {
 
 const applyStaticFallbacks = () => {
 	if (els.sabbathLabel) els.sabbathLabel.textContent = 'SABBATH';
-	if (els.devotionalLink) els.devotionalLink.href = getWhiteEstateDevotionalUrl();
 };
 
 const init = async () => {
@@ -468,7 +394,6 @@ const init = async () => {
 
 	updateKitchenDuty(sabbathDate || new Date());
 	updateLessonLinks(sabbathDate || new Date());
-	await updateVerseOfDay();
 	await updateSermonSpeakerFromYoutube();
 	attachAnalyticsEvents();
 };

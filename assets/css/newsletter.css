@@ -509,8 +509,13 @@ button:focus-visible,
     .service-info,
     #rides-section,
     .church-notice,
+    .week-group-header,
     .lessons-section {
         margin-inline: 24px;
+    }
+
+    .nl-toc {
+        padding-inline: 24px;
     }
 
     .date-chip {
@@ -554,10 +559,16 @@ button:focus-visible,
         padding: 6px 12px;
     }
 
+    .nl-toc {
+        padding-inline: 16px;
+        padding-top: 14px;
+    }
+
     .announcement,
     .service-info,
     #rides-section,
     .church-notice,
+    .week-group-header,
     .lessons-section {
         margin-inline: 16px;
     }
@@ -602,12 +613,104 @@ button:focus-visible,
     .service-info,
     #rides-section,
     .church-notice,
+    .week-group-header,
     .lessons-section {
         margin-inline: 0;
         border-inline-start: none;
         border-inline-end: none;
         border-radius: 0;
     }
+}
+
+/* Today pointer */
+.today-pointer {
+    text-align: center;
+    font-family: 'Mulish', Arial, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-line);
+    margin: 0;
+}
+
+.today-pointer a {
+    color: var(--teal-deep);
+    text-decoration: none;
+}
+
+.today-pointer a:hover {
+    text-decoration: underline;
+}
+
+.today-pointer a:focus-visible {
+    outline: 3px solid #0f3f99;
+    outline-offset: 2px;
+}
+
+/* In-page navigation TOC */
+.nl-toc {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 60px 8px;
+    font-family: 'Mulish', Arial, sans-serif;
+}
+
+.nl-toc a {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 16px;
+    border: 1.5px solid var(--teal);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--teal-deep);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+}
+
+.nl-toc a:hover {
+    background: var(--notice-cta-bg);
+}
+
+.nl-toc a:focus-visible {
+    outline: 3px solid #0f3f99;
+    outline-offset: 2px;
+}
+
+/* This Week group divider */
+.week-group {
+    padding-bottom: 16px;
+}
+
+.week-group-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 0 60px 0;
+    padding: 10px 20px;
+    background-color: var(--lessons-heading-bg);
+    color: var(--lessons-heading-text);
+    font-family: 'Mulish', Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.week-group-label {
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.week-group-date {
+    font-size: 0.78rem;
+    font-weight: 600;
+    opacity: 0.85;
 }
 
 /* Container query: collapse lessons grid when section is too narrow */
