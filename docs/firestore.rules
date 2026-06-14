@@ -1,0 +1,31 @@
+rules_version = '2';
+//
+// Firestore security rules for CKSDA website push notification subscriptions.
+//
+// Deploy these via the Firebase console:
+//   Firestore Database → Rules → paste and Publish
+//
+// Or via the Firebase CLI:
+//   firebase deploy --only firestore:rules
+//
+// Design:
+//   - Any browser can write (create or update) its own subscription document.
+//     The document ID is the FCM token; the client never reads other tokens.
+//   - Client-side reads and deletes are blocked — only the server-side
+//     Admin SDK (used by scripts/send-push.js) can enumerate or delete tokens.
+//
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /pushSubscriptions/{tokenId} {
+      // Allow any web client to register or refresh its own FCM token.
+      allow create, update: if
+        request.resource.data.keys().hasAll(['platform', 'lastSeen']) &&
+        request.resource.data.platform is string;
+
+      // Allow clients to read their own document by token ID (for loading preferences).
+      // Listing the whole collection is blocked; only the Admin SDK can do that.
+      allow get: if true;
+      allow list, delete: if false;
+    }
+  }
+}

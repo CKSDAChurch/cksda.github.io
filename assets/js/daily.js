@@ -20,8 +20,6 @@ const DEVOTIONAL_DATA_PATH = 'assets/data/devotional-today.json';
 const EM_PLAYLIST = 'PLIkL0-bPEL8qQUoX4JIONp-RCjgwKQFgx';
 // KM playlist: update today-km-video-link href in today.html once a KM playlist ID is available.
 
-const CALENDAR_TODAY_PATH = 'assets/data/calendar-today.json';
-
 const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=35.055464&longitude=-85.0710314&current=temperature_2m,weathercode&temperature_unit=fahrenheit&timezone=America%2FNew_York';
 
 /** @param {number} code */
@@ -138,48 +136,9 @@ const getTodayLessonPosition = () => {
 	};
 };
 
-// ─── Calendar: Today's Events ────────────────────────────────────────────────
-
-/**
- * Reads calendar-today.json (written at build time by fetch-daily-data.js)
- * and renders any events for today — no API key needed at runtime.
- */
-const loadTodayEvents = async () => {
-	try {
-		const res = await fetch(CALENDAR_TODAY_PATH);
-		if (!res.ok) return;
-		const data = await res.json();
-		const events = /** @type {Array<{summary:string,isAllDay:boolean,startDateTime:string|null,endDateTime:string|null,location:string|null}>} */ (data.events || []);
-		if (!events.length) return;
-
-		const section = document.getElementById('today-events');
-		const list = document.getElementById('today-events-list');
-		if (!(section instanceof HTMLElement) || !(list instanceof HTMLElement)) return;
-
-		const dtf = new Intl.DateTimeFormat('en-US', {
-			timeZone: TIME_ZONE,
-			hour: 'numeric',
-			minute: '2-digit',
-		});
-
-		list.innerHTML = events.map(ev => {
-			let timeLabel = 'All day';
-			if (!ev.isAllDay && ev.startDateTime) {
-				const start = new Date(ev.startDateTime);
-				const end = ev.endDateTime ? new Date(ev.endDateTime) : null;
-				timeLabel = end ? `${dtf.format(start)} \u2013 ${dtf.format(end)}` : dtf.format(start);
-			}
-			const loc = ev.location ? `<span class="today-event__loc">${ev.location}</span>` : '';
-			return `<li class="today-event"><span class="today-event__time">${timeLabel}</span><span class="today-event__title">${ev.summary || 'Event'}</span>${loc}</li>`;
-		}).join('');
-
-		section.hidden = false;
-	} catch (err) {
-		console.warn('[daily] Could not load today\'s events:', err);
-	}
-};
-
 // ─── Init ─────────────────────────────────────────────────────────────────────
+
+let countdownIntervalId = 0;
 
 const init = async () => {
 	if (!document.getElementById('today-devotional')) return;
@@ -215,24 +174,13 @@ const init = async () => {
 			const countdownEl = document.getElementById('today-sabbath-countdown');
 			const chipEl      = document.getElementById('today-sabbath-chip');
 			if (countdownEl && data.sabbathStartUtc && data.sabbathEndUtc) {
-				showCountdownChip();
 				const startMs = new Date(data.sabbathStartUtc).getTime();
-				const endMs   = new Date(data.sabbathEndUtc).getTime();
 
 				const tick = () => {
 					const now = Date.now();
-					if (now >= startMs && now < endMs) {
-						// Currently Sabbath
-						const remaining = endMs - now;
-						const h = Math.floor(remaining / 3600000);
-						const m = Math.floor((remaining % 3600000) / 60000);
-						const s = Math.floor((remaining % 60000) / 1000);
-						countdownEl.textContent = h > 0
-							? `Happy Sabbath \u2022 ends in ${h}h ${m}m`
-							: `Happy Sabbath \u2022 ends in ${m}m ${s}s`;
-						if (chipEl) chipEl.setAttribute('title', 'Sabbath is currently active');
-					} else if (now < startMs) {
+					if (now < startMs) {
 						// Counting down to Sabbath
+						showCountdownChip();
 						const diff = startMs - now;
 						const d = Math.floor(diff / 86400000);
 						const h = Math.floor((diff % 86400000) / 3600000);
@@ -246,14 +194,15 @@ const init = async () => {
 							countdownEl.textContent = `Sabbath in ${m}m ${s}s`;
 						}
 					} else {
-						// Sabbath just ended (Saturday evening before midnight refresh)
-						countdownEl.textContent = 'Good Sabbath! See you next week \u2665';
+						// Hide countdown once Sabbath begins.
+						setCountdownUnavailable();
 						return; // no need to keep ticking
 					}
 				};
 
 				tick();
-				setInterval(tick, 1000);
+				clearInterval(countdownIntervalId);
+				countdownIntervalId = setInterval(tick, 1000);
 			} else {
 				setCountdownUnavailable();
 			}
@@ -344,9 +293,22 @@ const init = async () => {
 		console.warn('Could not load weather:', err);
 	}
 
-	// ── Today's calendar events ───────────────────────────────────────────────
-	await loadTodayEvents();
-
 };
+
+// ── Visibility-change refresh ────────────────────────────────────────────────
+// Re-fetch content when the user returns to the app after 5+ minutes away.
+// This keeps the installed PWA fresh on iOS and all other platforms that don't
+// support the Periodic Background Sync API.
+let hiddenAt = 0;
+document.addEventListener('visibilitychange', () => {
+	if (document.hidden) {
+		hiddenAt = Date.now();
+	} else if (hiddenAt > 0 && Date.now() - hiddenAt > 5 * 60 * 1000) {
+		hiddenAt = 0;
+		init();
+	} else {
+		hiddenAt = 0;
+	}
+});
 
 init();

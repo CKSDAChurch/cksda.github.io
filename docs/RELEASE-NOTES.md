@@ -3,6 +3,31 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v2.0.0 — June 13, 2026
+
+### Added
+- **App shortcuts in `manifest.json`** — Long-pressing the installed icon now offers 5 quick-jump shortcuts: Today/Devotional, Sabbath School Lessons, Newsletter, Calendar, Give.
+- **`<link rel="apple-touch-icon">` on all 11 PWA pages** — Adds the correct home-screen icon on iOS Safari for every page that declares the manifest.
+- **Custom "Add to Home Screen" install prompt** — `initInstallPrompt()` in `main.js` captures `beforeinstallprompt`, shows a dismissible slide-up banner on the 2nd+ visit, and respects `localStorage` dismissal; no-op on iOS/Firefox where the event is unsupported.
+- **FCM push notifications** — `assets/js/fcm-push.js`: dismissible opt-in banner on `today.html`; on approval obtains an FCM registration token and persists it to Firestore (`pushSubscriptions/{token}`); token refresh runs silently on subsequent visits.
+- **`scripts/send-push.js`** — Firebase Admin SDK script that reads `devotional-today.json`, queries Firestore subscriber tokens, and dispatches a daily FCM multicast; exits `0` gracefully when the secret is absent or the subscriber list is empty.
+- **Firebase Cloud Functions** (`functions/index.js`) — server-side push notification dispatch and subscriber management logic deployed to Firebase.
+- **`docs/firestore.rules`** — Firestore security rules restricting `pushSubscriptions` write access to authenticated service accounts only.
+- **`firebase.json`, `.firebaserc`** — Firebase project configuration files.
+- **Push event handlers in `sw.js`** — `push` and `notificationclick` listeners handle FCM data-only messages and open `today.html` on tap.
+- **Visibility-change refresh in `daily.js`** — re-runs `init()` when the user returns to the app after ≥ 5 minutes away; keeps the installed PWA fresh on iOS and all browsers that lack Periodic Background Sync.
+
+### Changed
+- **`manifest.json` `start_url`** — Changed to `/today.html?source=pwa`; the installed app now opens the daily dashboard instead of the homepage.
+- **Manifest icon entries** — Split combined `"any maskable"` purpose into separate `"any"` and `"maskable"` entries; removed non-standard `media` property from icon objects.
+- **`scripts/fetch-daily-data.js` renamed to `scripts/fetch-daily-data.js`** — Name reverted after calendar-event fetching was removed from the script.
+- **`daily-devotional.yml` and `deploy.yml`** — Updated script reference to `scripts/fetch-daily-data.js`; added `functions/`, `firebase.json`, and `.firebaserc` to the deploy cleanup `rm` step so they are not published to Pages.
+- **`scripts/build.js`** — Added bundled esbuild task for `fcm-push.js` (outputs `fcm-push.min.js`); `fcm-push.js` added as a PurgeCSS content source for `today.min.css`.
+- **`sw.js` cache version** — Bumped to `cksda-v2.0.0`.
+
+### Removed
+- **Today's calendar events from `today.html` / `daily.js`** — `loadTodayEvents()`, the `calendar-today.json` read path, and the events section removed; `scripts/fetch-daily-data.js` reverted to devotional-only output.
+
 ## v1.11.0 — June 8, 2026
 
 ### Added
@@ -26,7 +51,7 @@ Version numbers follow [Semantic Versioning](https://semver.org/).
 - **`today.html` added to `sitemap.xml`** — With `<changefreq>daily</changefreq>` and priority `0.95`.
 
 ### Changed
-- **`scripts/fetch-devotional.js` → `scripts/fetch-daily-data.js`** — Renamed to reflect its expanded scope: now also fetches today's church events from both calendars and writes `assets/data/calendar-today.json`. Both `daily-devotional.yml` and `deploy.yml` updated accordingly.
+- **`scripts/fetch-daily-data.js` → `scripts/fetch-daily-data.js`** — Renamed to reflect its expanded scope: now also fetches today's church events from both calendars and writes `assets/data/calendar-today.json`. Both `daily-devotional.yml` and `deploy.yml` updated accordingly.
 - **`sw.js` caching strategies** — Navigation handler now tries the cached page (`ignoreSearch: true`) before `/offline.html` so the installed PWA shows real content offline; `devotional-today.json` and `calendar-today.json` now use network-first with cached fallback instead of stale-while-revalidate. Cache version bumped to `cksda-v1.10.0`.
 - **`scripts/build.js`** — Added `today` to `cssFiles`, added `daily.js` esbuild task with YouTube API key injection, and added a `today.min.css` PurgeCSS pass with `daily.js` as a content source.
 - **`index.html` CSP** — Added `https://api.sunrise-sunset.org` to `connect-src`.

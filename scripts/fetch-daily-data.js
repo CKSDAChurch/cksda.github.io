@@ -201,81 +201,9 @@ const main = async () => {
 	mkdirSync('assets/data', { recursive: true });
 	writeFileSync('assets/data/devotional-today.json', devotionalJson + '\n', 'utf8');
 	console.log(`assets/data/devotional-today.json written.`);
-
-	// ── Today's calendar events ───────────────────────────────────────────────
-	// Fetch both EM and KM calendars, filter to events whose ET start date is today,
-	// deduplicate, and write a static JSON so today.html needs no runtime API key.
-	const CALENDAR_API_KEY = process.env.CALENDAR_API_KEY;
-	if (CALENDAR_API_KEY) {
-		const CALENDAR_ID_EM = 'c_cupfa6741dgvle32pjejeoqog4@group.calendar.google.com';
-		const CALENDAR_ID_KM = 'c_m3106699ve2tvccdnva408cdlo@group.calendar.google.com';
-		try {
-			const todayParts = zonedParts(new Date(), TIME_ZONE);
-			const todayStr = `${todayParts.year}-${pad2(todayParts.month)}-${pad2(todayParts.day)}`;
-			const y = Number(todayParts.year), mo = Number(todayParts.month) - 1, d = Number(todayParts.day);
-			const timeMin = new Date(Date.UTC(y, mo, d - 1, 0, 0, 0)).toISOString();
-			const timeMax = new Date(Date.UTC(y, mo, d + 2, 0, 0, 0)).toISOString();
-
-			const fetchCal = async (calId) => {
-				const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calId)}/events` +
-					`?key=${encodeURIComponent(CALENDAR_API_KEY)}` +
-					`&timeMin=${encodeURIComponent(timeMin)}&timeMax=${encodeURIComponent(timeMax)}` +
-					`&singleEvents=true&orderBy=startTime&maxResults=20`;
-				const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
-				if (!res.ok) throw new Error(`HTTP ${res.status}`);
-				const data = await res.json();
-				return (data.items || []);
-			};
-
-			const [emItems, kmItems] = await Promise.all([
-				fetchCal(CALENDAR_ID_EM).catch(() => []),
-				fetchCal(CALENDAR_ID_KM).catch(() => []),
-			]);
-
-			const seen = new Set();
-			const todayEvents = [...emItems, ...kmItems].filter(ev => {
-				if (ev.visibility === 'private' || ev.visibility === 'confidential') return false;
-				if (ev.summary === 'Sabbath School' || ev.summary === 'Church Service') return false;
-				const isAllDay = !!ev.start?.date;
-				const startStr = isAllDay ? ev.start.date : ev.start?.dateTime;
-				if (!startStr) return false;
-				let startDate;
-				if (isAllDay) {
-					const [sy, sm, sd] = startStr.split('-').map(Number);
-					startDate = new Date(sy, sm - 1, sd);
-				} else {
-					startDate = new Date(startStr);
-				}
-				const startParts = zonedParts(startDate, TIME_ZONE);
-				const startDateStr = `${startParts.year}-${pad2(startParts.month)}-${pad2(startParts.day)}`;
-				if (startDateStr !== todayStr) return false;
-				const key = `${ev.summary}|${startStr}`;
-				if (seen.has(key)) return false;
-				seen.add(key);
-				return true;
-			}).map(ev => {
-				const isAllDay = !!ev.start?.date;
-				return {
-					summary: ev.summary || '',
-					isAllDay,
-					startDateTime: isAllDay ? null : (ev.start?.dateTime || null),
-					endDateTime: isAllDay ? null : (ev.end?.dateTime || null),
-					location: ev.location || null,
-				};
-			});
-
-			const calendarJson = JSON.stringify({ date: todayStr, events: todayEvents }, null, 2);
-			writeFileSync('assets/data/calendar-today.json', calendarJson + '\n', 'utf8');
-			console.log(`assets/data/calendar-today.json written (${todayEvents.length} event(s)).`);
-		} catch (err) {
-			console.warn(`Warning: Could not fetch calendar events (${err.message}).`);
-		}
-	} else {
-		console.warn('Warning: CALENDAR_API_KEY not set — skipping calendar-today.json.');
-	}
 };
 
 main().catch((err) => {
 	// Unexpected runtime error — log but still exit 0 to keep deployment alive.
-	console.error('Unexpected error in fetch-daily-data:', err);
+	console.error('Unexpected error in fetch-devotional:', err);
 });

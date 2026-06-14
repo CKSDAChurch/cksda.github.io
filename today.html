@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://api.open-meteo.com https://www.googleapis.com https://www.youtube.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms; worker-src 'self'; base-uri 'self'; form-action 'self';" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://api.open-meteo.com https://www.googleapis.com https://www.youtube.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms https://firestore.googleapis.com https://fcmregistrations.googleapis.com https://firebase.googleapis.com; worker-src 'self'; base-uri 'self'; form-action 'self';" />
 <meta name="color-scheme" content="light dark" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Today | Collegedale Korean SDA Church</title>
@@ -75,14 +75,8 @@
 </div>
 </section>
 
-<!-- Today's Events (populated by daily.js; hidden until events are found) -->
-<section class="today-events" id="today-events" aria-labelledby="today-events-heading" hidden>
-<h2 class="section-heading" id="today-events-heading">Today at Church</h2>
-<ul class="today-events-list" id="today-events-list" aria-label="Events today"></ul>
-</section>
-
 <!-- Sabbath School Lessons -->
-<section class="today-lessons" aria-labelledby="today-lessons-heading">
+<section class="today-lessons" id="today-lessons" aria-labelledby="today-lessons-heading">
 <h2 class="section-heading" id="today-lessons-heading">Today's Sabbath School Lesson</h2>
 <div class="today-lessons-grid">
 <a id="today-lesson-em" class="lesson-tile" href="https://sabbath-school.adventech.io/en/2026-02/10/03" target="_blank" rel="noopener noreferrer">
@@ -120,6 +114,28 @@
 </div>
 </section>
 
+
+<!-- Notification settings (shown only if already opted in) -->
+<section class="push-settings" id="push-settings-card" hidden aria-labelledby="push-settings-heading">
+<h2 class="section-heading" id="push-settings-heading">&#x1F514; Notification Settings</h2>
+<div class="push-settings__body">
+<div class="push-settings__row">
+<label class="push-settings__label" for="push-time-select">Daily devotional time</label>
+<select class="push-settings__select" id="push-time-select"></select>
+</div>
+<div class="push-settings__row">
+<label class="push-settings__label" for="push-sabbath-toggle">
+<input type="checkbox" id="push-sabbath-toggle" checked />
+Remind me 1&thinsp;hr before Sabbath begins
+</label>
+</div>
+<div class="push-settings__row push-settings__row--actions">
+<button class="push-settings__save" id="push-settings-save" type="button">Save preferences</button>
+<span class="push-settings__feedback" aria-live="polite"></span>
+</div>
+</div>
+</section>
+
 </main>
 
 <footer class="today-footer">
@@ -129,6 +145,7 @@
 
 <!-- Scripts -->
 <script type="module" src="assets/js/daily.min.js"></script>
+<script type="module" src="assets/js/fcm-push.min.js"></script>
 <script type="module" src="assets/js/consent.min.js"></script>
 <script type="module" src="assets/js/web-vitals.min.js"></script>
 
