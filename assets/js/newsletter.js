@@ -21,7 +21,9 @@ const els = {
 	saturdaySunset: document.getElementById('saturday-sunset'),
 
 	sermonSpeaker: document.getElementById('sermon-speaker'),
+	sermonTitle: document.getElementById('sermon-title'),
 	sermonLine: document.getElementById('sermon-line'),
+	sermonTime: document.getElementById('sermon-time'),
 	livestreamLink: /** @type {HTMLAnchorElement | null} */(document.getElementById('livestream-link')),
 	givingLink: document.getElementById('giving-link')
 };
@@ -260,6 +262,27 @@ const extractSpeakerFromTitle = (title) => {
 	return null;
 };
 
+// Extracts {title, speaker} from YouTube titles shaped like: "Sermon Title - Speaker Name".
+/** @param {string | null | undefined} videoTitle */
+const extractSermonDetailsFromTitle = (videoTitle) => {
+	if (!videoTitle) return null;
+
+	const match = videoTitle.match(/^(.*)\s[-\u2013\u2014]\s([^\-\u2013\u2014]+)$/);
+	if (!match?.[1] || !match?.[2]) return null;
+
+	const sermonTitle = match[1].trim().replace(/^['\"]+|['\"]+$/g, '');
+	const speakerCandidate = match[2].trim();
+	if (!sermonTitle) return null;
+
+	const speakerLooksValid = /^(?:(?:Pastor|Pr\.?|Dr\.?)\s+)?[A-Z][A-Za-z'.-]+(?:\s+[A-Z][A-Za-z'.-]+){1,3}$/.test(speakerCandidate);
+	if (!speakerLooksValid) return null;
+
+	return {
+		sermonTitle,
+		speaker: speakerCandidate.replace(/^Pr\s+/i, 'Pr. ')
+	};
+};
+
 // Returns 'combined', 'special-no-speaker', or 'normal' based on the video title.
 /** @param {string | null | undefined} title */
 const classifySermonTitle = (title) => {
@@ -273,6 +296,7 @@ const classifySermonTitle = (title) => {
 // Finds this week's EM service video and updates the sermon speaker and livestream link.
 const updateSermonSpeakerFromYoutube = async () => {
 	if (!els.sermonSpeaker || !els.livestreamLink) return;
+	if (els.sermonTime) els.sermonTime.textContent = '11:20am';
 
 	const sabbathParts = zonedParts(getUpcomingSabbathDate().date, TIME_ZONE);
 	const targetDateStr = `${sabbathParts.year}-${pad2(sabbathParts.month)}-${pad2(sabbathParts.day)}`;
@@ -303,14 +327,19 @@ const updateSermonSpeakerFromYoutube = async () => {
 		const sermonType = classifySermonTitle(title);
 
 		if (sermonType === 'combined' && els.sermonLine) {
-			els.sermonLine.textContent = 'This week is Combined KM / EM Worship beginning at 11am';
+			if (els.sermonTime) els.sermonTime.textContent = '11:00am';
+			els.sermonLine.textContent = 'This week is Combined KM / EM Worship beginning at 11:00am';
 			return;
 		}
 		if (sermonType === 'special-no-speaker' && els.sermonLine) {
 			els.sermonLine.textContent = 'This week is a special worship service beginning at 11am';
 			return;
 		}
-		const speaker = extractSpeakerFromTitle(title);
+
+		const sermonDetails = extractSermonDetailsFromTitle(title);
+		if (sermonDetails?.sermonTitle && els.sermonTitle) els.sermonTitle.textContent = sermonDetails.sermonTitle;
+
+		const speaker = sermonDetails?.speaker || extractSpeakerFromTitle(title);
 		if (speaker) els.sermonSpeaker.textContent = speaker;
 	} catch (error) {
 		console.warn('Sermon speaker auto-fill failed, using fallback speaker text:', error);
