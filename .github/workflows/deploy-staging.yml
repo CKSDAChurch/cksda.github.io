@@ -1,0 +1,79 @@
+name: Verify & Preview Staging (eckcm branch)
+
+on:
+  push:
+    branches:
+      - eckcm
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linters
+        run: npm run lint
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          fail: true
+          args: >-
+            --no-progress
+            --verbose
+            --accept 200,206,302,403,429,520
+            --root-dir ${{ github.workspace }}
+            --exclude 'localhost'
+            --exclude 'https://cksda\.church'
+            ./*.html ./sitemap.xml ./*.md docs/*.md
+
+  preview:
+    runs-on: ubuntu-latest
+    needs: verify
+    permissions:
+      pull-requests: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build assets
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          CALENDAR_API_KEY: ${{ secrets.CALENDAR_API_KEY }}
+        run: npm run build
+
+      - name: Inject today's OHC devotional verse
+        run: node scripts/fetch-daily-data.js
+
+      - name: Deploy to Firebase Hosting preview channel
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: cksda-website-eb944
+          target: review
+          channelId: eckcm-staging
+          expires: 30d

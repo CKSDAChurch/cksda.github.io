@@ -1,4 +1,29 @@
 {
+  "hosting": [
+    {
+      "target": "review",
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        ".firebaserc",
+        "docs/**",
+        "scripts/**",
+        "tests/**",
+        "test-results/**",
+        "playwright-report/**",
+        "node_modules/**",
+        "functions/**",
+        "secrets/**",
+        "package.json",
+        "package-lock.json",
+        "eslint.config.js",
+        "playwright.config.cjs",
+        "README.md"
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false
+    }
+  ],
   "functions": [
     {
       "source": "functions",
