@@ -10,7 +10,7 @@ UID:ko-sabbath-school@cksda.church
 DTSTAMP:20260531T120000Z
 SUMMARY:Korean Sabbath School
 DTSTART;TZID=America/New_York:20260606T093000
-DTEND;TZID=America/New_York:20260606T103000
+DTEND;TZID=America/New_York:20260606T100000
 RRULE:FREQ=WEEKLY;BYDAY=SA
 LOCATION:Collegedale Korean SDA Church
 DESCRIPTION:Weekly Korean Sabbath School at CKSDA Church.
@@ -31,7 +31,7 @@ BEGIN:VEVENT
 UID:ko-worship@cksda.church
 DTSTAMP:20260531T120000Z
 SUMMARY:Korean Worship Service
-DTSTART;TZID=America/New_York:20260606T103000
+DTSTART;TZID=America/New_York:20260606T100000
 DTEND;TZID=America/New_York:20260606T111000
 RRULE:FREQ=WEEKLY;BYDAY=SA
 LOCATION:Collegedale Korean SDA Church
@@ -47,6 +47,17 @@ DTEND;TZID=America/New_York:20260606T124500
 RRULE:FREQ=WEEKLY;BYDAY=SA
 LOCATION:Collegedale Korean SDA Church
 DESCRIPTION:Weekly English worship service at CKSDA Church.
+URL:https://cksda.church/calendar.html
+END:VEVENT
+BEGIN:VEVENT
+UID:ko-vespers@cksda.church
+DTSTAMP:20260531T120000Z
+SUMMARY:Korean Vespers
+DTSTART;TZID=America/New_York:20260605T193000
+DTEND;TZID=America/New_York:20260605T203000
+RRULE:FREQ=WEEKLY;BYDAY=FR
+LOCATION:Collegedale Korean SDA Church
+DESCRIPTION:Weekly Korean Friday evening vespers at CKSDA Church.
 URL:https://cksda.church/calendar.html
 END:VEVENT
 BEGIN:VEVENT

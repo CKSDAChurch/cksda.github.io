@@ -117,12 +117,16 @@ export const buildPageConfig = (helpers) => {
 								<h3>${f.korean}</h3>
 								<dl class="service-times__schedule">
 									<div class="service-times__schedule-item">
-										<dt class="service-times__schedule-label">${f.ssTitle}</dt>
-										<dd class="service-times__schedule-time">${fmtRange(f.koSStime)}</dd>
-									</div>
-									<div class="service-times__schedule-item">
-										<dt class="service-times__schedule-label">${f.wsTitle}</dt>
-										<dd class="service-times__schedule-time">${fmtRange(f.koWStime)}</dd>
+									<dt class="service-times__schedule-label">${f.vespersTitle}</dt>
+									<dd class="service-times__schedule-time">${fmtRange(f.koVespersTime)}</dd>
+								</div>
+								<div class="service-times__schedule-item">
+									<dt class="service-times__schedule-label">${f.ssTitle}</dt>
+									<dd class="service-times__schedule-time">${fmtRange(f.koSStime)}</dd>
+								</div>
+								<div class="service-times__schedule-item">
+									<dt class="service-times__schedule-label">${f.wsTitle}</dt>
+									<dd class="service-times__schedule-time">${fmtRange(f.koWStime)}</dd>
 									</div>
 								</dl>
 							</div>

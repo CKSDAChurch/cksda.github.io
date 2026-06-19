@@ -151,6 +151,14 @@ async function build() {
             format: 'esm',
             outfile: 'assets/js/web-vitals.min.js',
         }),
+        // fcm-push.js — bundled ESM; imports Firebase SDK packages.
+        esbuild.build({
+            entryPoints: ['assets/js/fcm-push.js'],
+            bundle: true,
+            minify: true,
+            format: 'esm',
+            outfile: 'assets/js/fcm-push.min.js',
+        }),
     ];
 
     await Promise.all(tasks);
@@ -184,6 +192,7 @@ async function build() {
         purgeFile('assets/css/today.min.css', [
             'today.html',
             'assets/js/daily.js',
+            'assets/js/fcm-push.js',
         ]),
     ]);
 

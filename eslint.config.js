@@ -53,7 +53,8 @@ export default [
 			'assets/js/verse-utils.js',
 			'assets/js/calendar-events.js',
 			'assets/js/web-vitals.js',
-			'assets/js/daily.js'
+			'assets/js/daily.js',
+			'assets/js/fcm-push.js'
 		],
 		languageOptions: {
 			ecmaVersion: 2022,
@@ -71,6 +72,18 @@ export default [
 			'prefer-const': 'off',
 			'no-useless-escape': 'off',
 			'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true, varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }]
+		}
+	},
+	{
+		// Firebase Cloud Functions — ESM (Node 18+, has fetch + console built-in)
+		files: ['functions/**/*.js'],
+		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: 'module',
+			globals: {
+				...globals.node,
+				fetch: 'readonly'
+			}
 		}
 	},
 	{

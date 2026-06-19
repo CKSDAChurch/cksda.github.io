@@ -23,6 +23,7 @@
 	<script>(function(){var t=localStorage.getItem('cksda-theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.classList.add('theme-'+(t==='light'||t==='dark'?t:d));})();</script>
 	<link rel="stylesheet" href="assets/css/main.min.css" />
 	<link rel="icon" href="./assets/images/favicon.png" />
+	<link rel="apple-touch-icon" href="/assets/images/icon-light-192.png">
 	<link rel="manifest" href="/manifest.json" />
 	<meta name="theme-color" content="#3e8391" media="(prefers-color-scheme: light)" />
 	<meta name="theme-color" content="#042D2D" media="(prefers-color-scheme: dark)" />
@@ -56,10 +57,17 @@
 		"openingHoursSpecification": [
 			{
 				"@type": "OpeningHoursSpecification",
+				"dayOfWeek": "Friday",
+				"opens": "19:30",
+				"closes": "20:30",
+				"description": "Korean Vespers 19:30–20:30"
+			},
+			{
+				"@type": "OpeningHoursSpecification",
 				"dayOfWeek": "Saturday",
 				"opens": "09:30",
 				"closes": "12:45",
-				"description": "Korean Sabbath School 09:30–10:30, English Sabbath School 10:00–11:00, Korean Worship Service 10:30–11:10, English Worship Service 11:20–12:45"
+				"description": "Korean Sabbath School 09:30–10:00, English Sabbath School 10:00–11:00, Korean Worship Service 10:00–11:10, English Worship Service 11:20–12:45"
 			}
 		]
 	}
