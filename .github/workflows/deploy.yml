@@ -85,11 +85,22 @@ jobs:
       - name: Inject today's OHC devotional verse
         run: node scripts/fetch-daily-data.js
 
+      # Deploy Firebase Cloud Functions.
+      - name: Deploy Firebase Functions
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          npm install -g firebase-tools
+          echo "$FIREBASE_SERVICE_ACCOUNT" > /tmp/sa-key.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa-key.json
+          cd functions && npm install && cd ..
+          firebase deploy --only functions --non-interactive --force
+
       # Keep only publishable web files.
       - name: Remove non-web files before publish
         run: |
-          rm -rf docs/ scripts/ tests/ test-results/ playwright-report/ node_modules/
-          rm -f package.json package-lock.json eslint.config.js playwright.config.js README.md
+          rm -rf docs/ scripts/ tests/ test-results/ playwright-report/ node_modules/ functions/
+          rm -f package.json package-lock.json eslint.config.js playwright.config.js README.md firebase.json .firebaserc
 
       # Prepare Pages deployment context.
       - name: Configure GitHub Pages

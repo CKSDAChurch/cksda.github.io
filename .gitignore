@@ -26,3 +26,8 @@ desktop.ini
 *.tmp
 *.bak
 *.orig
+
+# Firebase service account keys — never commit these
+*adminsdk*.json
+firebase-service-account*.json
+secrets/

@@ -16,7 +16,7 @@ window.addEventListener('load', () => {
 const LANG = detectLanguage(localStorage.getItem('cksda-lang'), navigator.language);
 
 // Global lang variable for use by other scripts (e.g., youtube.js)
-window.lang = LANG;
+/** @type {any} */(window).lang = LANG;
 
 // Update <html lang> to match detected language
 document.documentElement.lang = LANG;
@@ -33,6 +33,7 @@ const getThemePreference = () => {
 	return 'system';
 };
 
+/** @param {'system' | 'light' | 'dark'} preference */
 const applyThemePreference = (preference) => {
 	const root = document.documentElement;
 	root.classList.remove('theme-light', 'theme-dark');
@@ -42,23 +43,29 @@ const applyThemePreference = (preference) => {
 	}
 	root.classList.add(resolved === 'dark' ? 'theme-dark' : 'theme-light');
 	root.dataset.themePreference = preference;
-	window.cksdaTheme = resolved;
+	/** @type {any} */(window).cksdaTheme = resolved;
 };
 
 applyThemePreference(getThemePreference());
 
 // Cache for DOM elements
 const domCache = new Map();
+/** @param {string} id */
 const el = (id) => {
 	if (!domCache.has(id)) domCache.set(id, document.getElementById(id));
 	return domCache.get(id);
 };
 
+/**
+ * @param {string} id
+ * @param {string} html
+ */
 const setHtml = (id, html) => {
 	const element = el(id);
 	if (element) element.innerHTML = html;
 };
 
+/** @param {string} url @returns {boolean} */
 const pageMatches = (url) => {
 	let normalized = url.toLowerCase().replace(/\.html$/, '');
 	// Handle root path
@@ -192,6 +199,7 @@ const initDailyTopBar = async () => {
 	}
 };
 
+/** @param {Document | Element} [root] */
 function maskClarityPII(root = document) {
 	try {
 		const selector = 'input, textarea, [contenteditable]';
@@ -232,7 +240,7 @@ window.addEventListener('load', () => {
 const initViewTransitions = () => {
 	if (!document.startViewTransition) return;
 	document.addEventListener('click', (event) => {
-		const link = event.target.closest('a');
+		const link = /** @type {Element | null} */(event.target)?.closest('a');
 		if (!link) return;
 		if (link.target && link.target !== '_self') return;
 		if (link.hasAttribute('download')) return;
@@ -301,6 +309,7 @@ const loadLanguageFile = async () => {
 // ============ PAGE CONFIGURATION ============
 const PAGE_CONFIG = buildPageConfig({ pageMatches });
 
+/** @param {any} urls */
 const findPageConfig = (urls) => {
 	for (const [, config] of Object.entries(PAGE_CONFIG)) {
 		if (config.match(urls)) return config;
@@ -309,8 +318,8 @@ const findPageConfig = (urls) => {
 };
 
 const buildLangSwitcher = (extraClass = '') => {
-	const langLabels = { en: 'EN', ko: '한', es: 'ES' };
-	const langNames = { en: 'English', ko: '한국어', es: 'Español' };
+	const langLabels = /** @type {Record<string, string>} */({ en: 'EN', ko: '한', es: 'ES' });
+	const langNames = /** @type {Record<string, string>} */({ en: 'English', ko: '한국어', es: 'Español' });
 	const className = ['lang-switcher', extraClass].filter(Boolean).join(' ');
 	return `<div class="${className}" role="navigation" aria-label="Language selection">
 	${['en', 'ko', 'es'].map(l =>
@@ -339,6 +348,11 @@ const PASTOR_BIOS = {
 		img: 'assets/images/pastor-jeon.jpg',
 	},
 };
+/**
+ * @param {any} json
+ * @param {string} title
+ * @param {string} subtitle
+ */
 const buildHeader = (json, title, subtitle) => {
 	const { menuItems } = json;
 	const { 
@@ -386,6 +400,7 @@ const buildHeader = (json, title, subtitle) => {
 	<p>${subtitle}</p>`;
 };
 
+/** @param {string} address @returns {string} */
 const getPreferredMapsUrl = (address) => {
 	const encodedAddress = encodeURIComponent(address);
 	const ua = navigator.userAgent || '';
@@ -399,6 +414,7 @@ const getPreferredMapsUrl = (address) => {
 	return `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
 };
 
+/** @param {any} json */
 const buildFooter = (json) => {
 	const { footer } = json;
 	const fullAddress = `${footer.mailingAddressLine1}, ${footer.mailingAddressLine2}`;
@@ -422,6 +438,10 @@ const buildFooter = (json) => {
 		<article class="footer-tile WorshipChild">
 			<h4 class="footer-tile__title">${footer.korean}</h4>
 			<dl class="footer-service-schedule">
+				<div class="footer-service-schedule__item">
+					<dt class="footer-service-schedule__label">${footer.vespersTitle}</dt>
+					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.koVespersTime)}</dd>
+				</div>
 				<div class="footer-service-schedule__item">
 					<dt class="footer-service-schedule__label">${footer.ssTitle}</dt>
 					<dd class="footer-service-schedule__time">${formatServiceTimeRange(footer.koSStime)}</dd>
@@ -568,7 +588,7 @@ const initPastorBios = () => {
 		document.querySelectorAll('.lang-btn').forEach(btn => {
 			if (btn.id === 'theme-toggle') return;
 			btn.addEventListener('click', () => {
-				const lang = btn.dataset.lang;
+			const lang = /** @type {HTMLElement} */(btn).dataset.lang;
 				if (lang && lang !== LANG) {
 					localStorage.setItem('cksda-lang', lang);
 					window.location.reload();
@@ -596,12 +616,15 @@ const initPastorBios = () => {
 		backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' }));
 
 		// ── Outbound link tracking ────────────────────────────────────────
+		/** @returns {((...args: any[]) => void) | undefined} */
+		const getGtag = () => /** @type {any} */(globalThis).gtag;
 		document.addEventListener('click', (event) => {
-			const link = event.target.closest('a[target="_blank"]');
-			if (link && typeof gtag === 'function') {
+			const link = /** @type {HTMLAnchorElement | null} */(/** @type {Element | null} */(event.target)?.closest('a[target="_blank"]') ?? null);
+			const _gtag = getGtag();
+			if (link && _gtag) {
 				try {
 					const url = new URL(link.href);
-					gtag('event', 'click', {
+					_gtag('event', 'click', {
 						event_category: 'outbound',
 						event_label: url.hostname,
 						link_domain: url.hostname,
@@ -610,7 +633,7 @@ const initPastorBios = () => {
 
 					// Conversion funnel: AdventistGiving clicks
 					if (url.hostname && url.hostname.indexOf('adventistgiving.org') !== -1) {
-						gtag('event', 'open_adventist_giving', {
+						_gtag('event', 'open_adventist_giving', {
 							event_category: 'conversion',
 							event_label: link.href,
 							link_url: link.href
@@ -624,27 +647,28 @@ const initPastorBios = () => {
 
 		// ── Conversion funnel clicks (mailto / tel) ─────────────────────────
 		document.addEventListener('click', (event) => {
-			const link = event.target.closest('a[href^="mailto:"] , a[href^="tel:"]');
-			if (!link || typeof gtag !== 'function') return;
+			const link = /** @type {HTMLAnchorElement | null} */(event.target)?.closest('a[href^="mailto:"] , a[href^="tel:"]');
+			const _gtag = getGtag();
+			if (!link || !_gtag) return;
 			try {
 				const href = link.getAttribute('href');
 				if (!href) return;
 				if (href.startsWith('mailto:')) {
 					const email = href.slice(7);
-					gtag('event', 'open_contact_email', {
+					_gtag('event', 'open_contact_email', {
 						event_category: 'conversion',
 						event_label: email
 					});
 				} else if (href.startsWith('tel:')) {
 					const number = href.slice(4);
-					gtag('event', 'start_call', {
+					_gtag('event', 'start_call', {
 						event_category: 'conversion',
 						event_label: number
 					});
 					// If this matches the prayer hotline number, emit a specific event
 					const normalized = number.replace(/[^+0-9]/g, '');
 					if (normalized === '+14234533004' || normalized === '14234533004') {
-						gtag('event', 'start_prayer_hotline', {
+						_gtag('event', 'start_prayer_hotline', {
 							event_category: 'conversion',
 							event_label: number
 						});
@@ -658,14 +682,15 @@ const initPastorBios = () => {
 		// ── Scroll-depth tracking ─────────────────────────────────────────
 		const scrollDepthThresholds = new Set();
 		window.addEventListener('scroll', () => {
-			if (typeof gtag !== 'function') return;
+			const _gtag = getGtag();
+			if (!_gtag) return;
 			const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
 			if (scrollHeight <= 0) return; // Page isn't scrollable
 			const scrollPercent = Math.round((window.scrollY / scrollHeight) * 100);
 			[25, 50, 75, 100].forEach(threshold => {
 				if (scrollPercent >= threshold && !scrollDepthThresholds.has(threshold)) {
 					scrollDepthThresholds.add(threshold);
-					gtag('event', 'scroll', {
+					_gtag('event', 'scroll', {
 						event_category: 'engagement',
 						event_label: `${threshold}%`,
 						scroll_depth: threshold,
@@ -688,3 +713,68 @@ if ('serviceWorker' in navigator) {
 		);
 	});
 }
+
+// ============ INSTALL PROMPT ============
+// Capture beforeinstallprompt and show a small dismissible banner on the
+// second visit for browsers that support the event (Chromium-based).
+// Does nothing on iOS / Firefox where the event is not fired.
+(function initInstallPrompt() {
+	// Skip if already running as an installed PWA.
+	const isInstalled = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+		|| /** @type {any} */(navigator).standalone === true;
+	if (isInstalled) return;
+
+	// Skip if the user previously dismissed the banner.
+	try { if (localStorage.getItem('cksda-install-dismissed') === 'true') return; } catch (_e) { return; }
+
+	// Track visit count — only show on the 2nd+ visit to avoid startling new visitors.
+	let visitCount = 0;
+	try {
+		visitCount = (parseInt(localStorage.getItem('cksda-visit-count') || '0', 10) || 0) + 1;
+		localStorage.setItem('cksda-visit-count', String(visitCount));
+	} catch (_e) { return; }
+
+	/** @type {{ prompt: () => void, userChoice: Promise<{outcome: string}> } | null} */
+	let deferredPrompt = null;
+
+	window.addEventListener('beforeinstallprompt', (event) => {
+		event.preventDefault();
+		deferredPrompt = /** @type {any} */(event);
+
+		if (visitCount < 2) return; // Don't show on the very first visit.
+
+		const banner = document.createElement('div');
+		banner.id = 'install-banner';
+		banner.setAttribute('role', 'complementary');
+		banner.setAttribute('aria-label', 'Install the church app');
+		banner.innerHTML = `
+			<div class="install-banner__inner">
+				<span class="install-banner__text">&#128242;&nbsp; Install the CKSDA Church app for quick access</span>
+				<button class="install-banner__btn" id="install-banner-btn">Install</button>
+				<button class="install-banner__dismiss" id="install-banner-dismiss" aria-label="Dismiss install prompt">&#x2715;</button>
+			</div>
+		`;
+		document.body.appendChild(banner);
+
+		// Trigger CSS slide-up transition on the next two frames.
+		requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('is-visible')));
+
+		document.getElementById('install-banner-btn')?.addEventListener('click', () => {
+			if (!deferredPrompt) return;
+			deferredPrompt.prompt();
+			deferredPrompt.userChoice.then((choiceResult) => {
+				if (choiceResult.outcome === 'accepted') {
+					try { localStorage.setItem('cksda-pwa-installed', 'true'); } catch (_e) { /* storage unavailable */ }
+				}
+				deferredPrompt = null;
+				banner.remove();
+			});
+		});
+
+		document.getElementById('install-banner-dismiss')?.addEventListener('click', () => {
+			try { localStorage.setItem('cksda-install-dismissed', 'true'); } catch (_e) { /* storage unavailable */ }
+			banner.classList.remove('is-visible');
+			setTimeout(() => banner.remove(), 300);
+		});
+	});
+})();

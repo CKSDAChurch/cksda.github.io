@@ -534,7 +534,10 @@ const loadEvents = async () => {
 				ev.visibility !== 'private' &&
 				ev.visibility !== 'confidential' &&
 				ev.summary !== 'Sabbath School' &&
-				ev.summary !== 'Church Service'
+				ev.summary !== 'Church Service' &&
+				ev.summary !== '금요일 예배 (Korean Vespers)' &&
+				ev.summary !== '안식일 학교 (Korean Sabbath School)' &&
+				ev.summary !== '안식일 설교 예배 (Korean Church Service)'
 		);
 		renderEvents(items);
 	} catch (err) {

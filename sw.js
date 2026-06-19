@@ -12,7 +12,7 @@
 
 'use strict';
 
-const CACHE_NAME = 'cksda-v1.11.0';
+const CACHE_NAME = 'cksda-v2.0.0-20260614_0427';
 
 // Core assets pre-cached on first install.
 // Keep this list to critical same-origin assets that are always present.
@@ -28,7 +28,6 @@ const PRECACHE_URLS = [
 	'/assets/js/consent.min.js',
 	'/assets/js/web-vitals.min.js',
 	'/assets/data/devotional-today.json',
-	'/assets/data/calendar-today.json',
 	'/assets/images/logo-light.png',
 	'/assets/images/logo-mid.png',
 	'/assets/images/favicon.png',
@@ -36,7 +35,16 @@ const PRECACHE_URLS = [
 
 self.addEventListener('install', event => {
 	event.waitUntil(
-		caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_URLS))
+		caches.open(CACHE_NAME).then(async cache => {
+			// Don't fail SW install if one optional precache asset is missing.
+			await Promise.all(PRECACHE_URLS.map(async url => {
+				try {
+					await cache.add(url);
+				} catch (err) {
+					console.warn('[SW] Precache failed:', url, err);
+				}
+			}));
+		})
 	);
 	self.skipWaiting();
 });
@@ -49,6 +57,37 @@ self.addEventListener('activate', event => {
 		)
 	);
 	self.clients.claim();
+});
+
+// ── Push Notifications ─────────────────────────────────────────────────────
+// Handles FCM data-only messages (sent by scripts/send-push.js).
+// The payload is: { data: { title, body, url, icon } }
+
+self.addEventListener('push', event => {
+	if (!event.data) return;
+	let payload;
+	try { payload = event.data.json(); } catch { return; }
+
+	const d     = (payload && payload.data) || {};
+	const title = d.title || 'CKSDA Daily Devotional';
+	const body  = d.body  || '';
+	const url   = d.url   || '/today.html';
+	const icon  = d.icon  || '/assets/images/icon-light-192.png';
+
+	event.waitUntil(
+		self.registration.showNotification(title, {
+			body,
+			icon,
+			badge: '/assets/images/favicon.png',
+			data:  { url },
+		})
+	);
+});
+
+self.addEventListener('notificationclick', event => {
+	event.notification.close();
+	const url = (event.notification.data && event.notification.data.url) || '/today.html';
+	event.waitUntil(self.clients.openWindow(url));
 });
 
 self.addEventListener('fetch', event => {
@@ -73,6 +112,8 @@ self.addEventListener('fetch', event => {
 		return;
 	}
 
+	// Daily JSON data: network-first so the devotional is always today's when online.
+	// Falls back to the last cached copy when the device is offline or the fetch fails.
 	// Daily JSON data: network-first so content is always fresh when online.
 	// Falls back to the last cached copy when the device is offline or fetch fails.
 	if (url.pathname === '/assets/data/devotional-today.json' ||

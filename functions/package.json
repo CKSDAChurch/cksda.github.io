@@ -1,0 +1,14 @@
+{
+  "name": "cksda-functions",
+  "version": "1.0.0",
+  "description": "Firebase Cloud Functions for CKSDA push notifications.",
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^7.2.5"
+  }
+}
