@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: https: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://www.google.com https://clarity.ms https://script.google.com https://script.googleusercontent.com; frame-src https://www.youtube-nocookie.com https://drive.google.com; worker-src 'self'; base-uri 'self'; form-action 'self';" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ECKCM Newspaper — daily highlights, schedule, and photo notes from camp meeting, updated nightly." />
+    <meta property="og:title" content="ECKCM Newspaper" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Daily highlights, schedule, and photo notes from East Coast Korean Camp Meeting, updated nightly." />
+    <meta property="og:url" content="https://cksda.church/eckcm.html" />
+    <meta property="og:image" content="https://cksda.church/images/logo-light.png" />
+    <meta property="og:site_name" content="Collegedale Korean SDA Church" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ECKCM Newspaper" />
+    <meta name="twitter:description" content="Daily highlights, schedule, and photo notes from East Coast Korean Camp Meeting, updated nightly." />
+    <meta name="twitter:image" content="https://cksda.church/images/logo-light.png" />
+    <meta name="theme-color" content="#f2f3f6" />
+    <link rel="canonical" href="https://cksda.church/eckcm.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Libre+Franklin:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="assets/css/eckcm.min.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="./assets/images/favicon.png" />
+    <title id="browserTitle">ECKCM Newspaper</title>
+
+    <script src="assets/js/analytics.min.js"></script>
+    <script>(function(){var t=localStorage.getItem('ledger-theme');if(t)document.documentElement.dataset.theme=t;})();</script>
+</head>
+
+<body class="ledger-body">
+    <a class="skip-to-content" href="#ledger-main">Skip to main content</a>
+
+    <header class="ledger-strip" aria-label="Edition strip">
+        <p id="ledger-strip-text">East Coast Korean Camp Meeting — Daily Newspaper</p>
+    </header>
+
+    <main id="ledger-main" class="ledger-main">
+        <div class="ledger-shell">
+            <section class="ledger-paper" aria-labelledby="ledger-nameplate">
+                <p id="ledger-section-label" class="ledger-section-label">Camp Meeting Coverage</p>
+                <h1 id="ledger-nameplate" class="ledger-nameplate">ECKCM Newspaper</h1>
+                <p id="ledger-subhead" class="ledger-subhead">Daily highlights, moments, and photo notes from June 21–28, 2026.</p>
+
+                <div class="ledger-meta" aria-label="Edition metadata">
+                    <span id="gazette-edition-label">Camp Meeting Special</span>
+                    <span id="gazette-issue-range">June 21-28, 2026</span>
+                    <a href="https://eckcm.com" target="_blank" rel="noopener noreferrer" class="ledger-location-link"><span id="gazette-location">East Coast Korean Camp Meeting</span></a>
+                    <span id="gazette-updated">Updated nightly</span>
+                </div>
+
+                <section class="ledger-jump" aria-labelledby="ledger-jump-title">
+                    <h2 id="ledger-jump-title">Edition Index</h2>
+                    <nav id="edition-jump" class="edition-jump" aria-label="Jump to day"></nav>
+                </section>
+
+                <section class="ledger-update-note" aria-labelledby="ledger-update-title" id="loading-note">
+                    <h2 id="ledger-update-title">Press is printing...</h2>
+                    <p id="ledger-loading-body">Fetching the latest news directly from the editing room.</p>
+                </section>
+
+                <div id="eckcm-edition-list" class="edition-list" aria-live="polite"></div>
+            </section>
+
+            <footer class="ledger-footer" aria-label="Page footer">
+                <button id="ledger-lang-btn" class="ledger-theme-btn" aria-label="Switch language">KO</button>
+                <button id="ledger-theme-btn" class="ledger-theme-btn" aria-label="Switch to dark mode">Dark</button>
+                <a class="ledger-home-link" href="/" aria-label="Collegedale Korean SDA Church home">cksda.church</a>
+            </footer>
+        </div>
+    </main>
+
+    <script type="module" src="assets/js/eckcm.min.js"></script>
+    <script type="module" src="assets/js/consent.min.js"></script>
+
+    <div id="eckcm-lightbox" class="eckcm-lightbox" role="dialog" aria-modal="true" aria-label="Full size image">
+        <button class="eckcm-lightbox-close" aria-label="Close image">&#x2715;</button>
+        <img id="eckcm-lightbox-img" src="" alt="" />
+    </div>
+</body>
+
+</html>

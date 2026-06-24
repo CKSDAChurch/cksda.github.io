@@ -1,5 +1,12 @@
 {
   "projects": {
     "default": "cksda-website-eb944"
+  },
+  "targets": {
+    "cksda-website-eb944": {
+      "hosting": {
+        "review": ["cksda-review"]
+      }
+    }
   }
 }
