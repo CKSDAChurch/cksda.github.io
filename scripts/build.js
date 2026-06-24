@@ -37,11 +37,11 @@ if (!calendarApiKey) {
 }
 
 // These are bundled standalone (no @import resolution needed).
-const cssFiles = ['main', 'lightmode', 'darkmode', 'menu', 'newsletter', 'pathfinders', 'today'];
+const cssFiles = ['main', 'lightmode', 'darkmode', 'menu', 'newsletter', 'pathfinders', 'today', 'eckcm'];
 // analytics.js stays as a classic (non-ESM) synchronous script so consent-mode fires early.
 const classicJsFiles = ['analytics'];
 // consent.js is a deferred ESM module (loaded with type="module" in HTML).
-const esmJsFiles = ['consent'];
+const esmJsFiles = ['consent', 'eckcm'];
 
 /**
  * Generate a PWA icon with a solid background colour and the white logo
@@ -193,6 +193,11 @@ async function build() {
             'today.html',
             'assets/js/daily.js',
             'assets/js/fcm-push.js',
+        ]),
+        // eckcm.min.css — used only by eckcm.html
+        purgeFile('assets/css/eckcm.min.css', [
+            'eckcm.html',
+            'assets/js/eckcm.js',
         ]),
     ]);
 

@@ -54,7 +54,8 @@ export default [
 			'assets/js/calendar-events.js',
 			'assets/js/web-vitals.js',
 			'assets/js/daily.js',
-			'assets/js/fcm-push.js'
+			'assets/js/fcm-push.js',
+			'assets/js/eckcm.js'
 		],
 		languageOptions: {
 			ecmaVersion: 2022,

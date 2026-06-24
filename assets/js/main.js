@@ -167,6 +167,26 @@ const initDailyTopBar = async () => {
 
 	if (isSabbath && labelEl) labelEl.textContent = 'Happy Sabbath';
 
+	// ── TEMPORARY: remove after June 28, 2026 ────────────────────────────────
+	// During ECKCM camp meeting (June 20–28, 2026), redirect all visitors to the camp newspaper.
+	const todayParts = dailyZonedParts(new Date(), DAILY_TIME_ZONE);
+	const isEckcmPeriod = Number(todayParts.year) === 2026
+		&& Number(todayParts.month) === 6
+		&& Number(todayParts.day) >= 20
+		&& Number(todayParts.day) <= 28;
+
+	if (isEckcmPeriod) {
+		if (labelEl) labelEl.textContent = 'ECKCM';
+		if (ctaEl) {
+			ctaEl.textContent = LANG === 'ko' ? '캠프 소식 →' : 'Camp Newspaper →';
+			ctaEl.href = 'eckcm.html';
+			ctaEl.removeAttribute('target');
+			ctaEl.removeAttribute('rel');
+		}
+		return;
+	}
+	// ── END TEMPORARY ─────────────────────────────────────────────────────────
+
 	const applySabbathCta = () => {
 		if (!ctaEl) return;
 		if (!isSabbath) {
