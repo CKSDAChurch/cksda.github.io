@@ -2,11 +2,12 @@
 
 /*
     ECKCM page updates:
-    This file now pulls dynamically from the Google Apps Script Web App.
+    This page now renders from a local 2026 archive JSON file so the content remains
+    available without relying on live Google Apps Script updates.
     Language toggle switches between English and Korean fields.
 */
 
-const WEB_APP_URL = 'https://script.google.com/a/macros/cksda.church/s/AKfycbzIE0DhHwEzcDGnh62vI1WvbebWEnQg-QjpwW9vhn8jwsv0OeAPbPwu6_KrmWknzmP-2A/exec'; 
+const ARCHIVE_DATA_URL = 'assets/data/eckcm-2026.json';
 
 const NEWSPAPER_EN = {
     editionLabel: 'Camp Meeting Special',
@@ -87,6 +88,21 @@ const toYouTubeEmbedUrl = (src) => {
         if (/^[A-Za-z0-9_-]{11}$/.test(src)) videoId = src;
     }
     return videoId ? `https://www.youtube-nocookie.com/embed/${videoId}?rel=0` : null;
+};
+
+const toVimeoEmbedUrl = (src) => {
+    try {
+        const url = new URL(src);
+        if (url.hostname.includes('vimeo.com')) {
+            const match = url.pathname.match(/\/([0-9]+)(?:\/|$)/);
+            if (match) {
+                return `https://player.vimeo.com/video/${match[1]}?app_id=122963&dnt=1&title=0&byline=0&portrait=0`;
+            }
+        }
+    } catch {
+        // Ignore invalid URLs
+    }
+    return null;
 };
 
 // Inline markdown: bold, italic, links, images, videos.
@@ -239,6 +255,16 @@ const renderMediaItem = (media) => {
         </figure>`;
     }
 
+    if (media.type === 'vimeo') {
+        const embedUrl = toVimeoEmbedUrl(media.src);
+        if (!embedUrl) return '';
+        return `
+        <figure class="edition-media edition-media--live edition-media--vimeo">
+            <iframe class="edition-media-el" src="${embedUrl}" title="${escapeHtml(media.alt || 'Video')}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            ${caption}
+        </figure>`;
+    }
+
     if (media.type === 'video') {
         const poster = media.poster ? ` poster="${escapeHtml(media.poster)}"` : '';
         return `
@@ -335,13 +361,14 @@ const buildIssueAnchors = (issues) => issues.map((issue, index) => ({
 
 const renderJumpMarkup = (issues, lang) => issues
     .map((issue, index) => {
-        // If the Day ID is 0, substitute it with 'Arrival' in English or '도착' in Korean.
-        // The issues are reversed, so we grab the dayId from the issue object.
-        let label = `Day ${issue.dayId}`;
-        if (String(issue.dayId) === '0') {
+        const dayId = Number(issue.dayId);
+        let label = `Day ${dayId}`;
+        if (String(dayId) === '0') {
             label = lang === 'ko' ? '캠프 전' : 'Pre-Camp';
+        } else if (dayId > 7) {
+            label = lang === 'ko' ? '캠프 후' : 'Post-Camp';
         } else if (lang === 'ko') {
-            label = `제 ${issue.dayId} 일`;
+            label = `제 ${dayId} 일`;
         }
         return `<a class="edition-jump-link" href="#${escapeHtml(issue.anchorId)}" data-page="${index}">${escapeHtml(label)}</a>`;
     })
@@ -434,8 +461,9 @@ const mapDataToIssues = (data, lang) => {
             if (!src) return null;
             const isVideo = /\.(mp4|webm|mov)$/i.test(src);
             const isYouTube = /youtube\.com|youtu\.be/i.test(src);
+            const isVimeo = /vimeo\.com/i.test(src);
             return {
-                type: isYouTube ? 'youtube' : isVideo ? 'video' : 'image',
+                type: isYouTube ? 'youtube' : isVimeo ? 'vimeo' : isVideo ? 'video' : 'image',
                 src,
                 alt: item.ImageAlt || '',
                 caption
@@ -675,8 +703,8 @@ const setupLightbox = () => {
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 };
 
-const CACHE_KEY = 'eckcm-data-v1';
-const CACHE_TTL = 2 * 60 * 60 * 1000; // 2 hours
+const CACHE_KEY = 'eckcm-data-2026-archive-v1';
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
 const loadFromCache = () => {
     try {
@@ -706,18 +734,18 @@ const init = async () => {
         renderDailyDispatch();
     }
 
-    // Always fetch fresh data in the background
+    // Load the archived 2026 data locally so the page works without live updates.
     try {
-        const res = await fetch(WEB_APP_URL);
-        const fresh = await res.json();
-        saveToCache(fresh);
-        // Only re-render if data actually changed
-        if (JSON.stringify(fresh) !== JSON.stringify(rawData)) {
-            rawData = fresh;
+        const res = await fetch(ARCHIVE_DATA_URL);
+        if (!res.ok) throw new Error(`Unable to load archived ECKCM data (${res.status})`);
+        const archiveData = await res.json();
+        saveToCache(archiveData);
+        if (JSON.stringify(archiveData) !== JSON.stringify(rawData)) {
+            rawData = archiveData;
             renderDailyDispatch();
         }
     } catch (err) {
-        console.error('Failed to load ECKCM news', err);
+        console.error('Failed to load archived ECKCM news', err);
         if (!rawData.length) {
             const labels = currentLang === 'ko' ? NEWSPAPER_KO : NEWSPAPER_EN;
             applyStaticStrings(labels);
