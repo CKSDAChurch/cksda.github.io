@@ -3,6 +3,18 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v2.1.3 — August 7, 2026
+
+### Added
+
+- **Translation drift CI check** — `scripts/check-lang-drift.js` recursively diffs key sets between `assets/langStrings/en.json`, `es.json`, and `ko.json`, failing loudly on missing or extra keys. Wired into `npm run lint` (and therefore CI) via the new `check:lang` script.
+
+### Changed
+
+- **`sw.js` cache version** — Bumped to `cksda-v2.1.3`.
+
+---
+
 ## v2.1.2 — June 23, 2026
 
 ### Added

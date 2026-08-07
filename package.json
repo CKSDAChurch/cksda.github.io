@@ -7,7 +7,8 @@
     "test:unit": "node --test tests/unit/*.test.js",
     "lint:js": "eslint .",
     "lint:css": "stylelint \"assets/css/**/*.css\"",
-    "lint": "npm run lint:js && npm run lint:css"
+    "check:lang": "node scripts/check-lang-drift.js",
+    "lint": "npm run lint:js && npm run lint:css && npm run check:lang"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
