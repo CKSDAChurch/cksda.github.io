@@ -3,6 +3,9 @@
 > **Created:** All items created by Claude Opus 4.8 on **June 7, 2026**.  
 > **Archived:** All items completed and this document moved to its final resting place on **TBD**.
 
+**Progress: `███████████░░░░░░░░` 53% (16/30 items complete)**
+<!-- Progress bar is a manual snapshot, not auto-computed — recalculate after checking off items. -->
+
 A focused, small-church-sized batch building on [2026-05-29-ImprovementSuggestions.md](2026-05-29-ImprovementSuggestions.md) and [2026-05-30-ImprovementSuggestions.md](2026-05-30-ImprovementSuggestions.md). Everything below is intentionally **lightweight, static-friendly, and free** — no heavy frameworks, no new paid services, nothing that needs a server.
 
 > **Guiding idea:** The site already produces genuinely *daily* value (auto-updating devotional, sunset times, current-day Sabbath School lesson links). Today that value is buried inside a *weekly* newsletter that most people only open on Friday from the automated email. With members now installing the PWA to their devices, the goal of this round is to **surface daily content first** and **separate "use every day" content from "read once a week" content** — so opening the app feels like a useful daily companion, not a Friday flyer.

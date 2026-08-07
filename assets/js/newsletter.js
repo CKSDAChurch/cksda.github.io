@@ -12,20 +12,21 @@ const TIME_ZONE = 'America/New_York';
 const LOCATION = { lat: 35.055464, lng: -85.0710314 };
 const EM_PLAYLIST = 'PLIkL0-bPEL8qQUoX4JIONp-RCjgwKQFgx';
 
-// ─── DOM Elements ─────────────────────────────────────────────────────────────
+// ─── Environment / DOM Elements ─────────────────────────────────────────────
 
+const isBrowser = typeof document !== 'undefined' && typeof window !== 'undefined';
 const els = {
-	sabbathLabel: document.getElementById('sabbath-label'),
-	sabbathDate: document.getElementById('sabbath-date'),
-	fridaySunset: document.getElementById('friday-sunset'),
-	saturdaySunset: document.getElementById('saturday-sunset'),
+	sabbathLabel: isBrowser ? document.getElementById('sabbath-label') : null,
+	sabbathDate: isBrowser ? document.getElementById('sabbath-date') : null,
+	fridaySunset: isBrowser ? document.getElementById('friday-sunset') : null,
+	saturdaySunset: isBrowser ? document.getElementById('saturday-sunset') : null,
 
-	sermonSpeaker: document.getElementById('sermon-speaker'),
-	sermonTitle: document.getElementById('sermon-title'),
-	sermonLine: document.getElementById('sermon-line'),
-	sermonTime: document.getElementById('sermon-time'),
-	livestreamLink: /** @type {HTMLAnchorElement | null} */(document.getElementById('livestream-link')),
-	givingLink: document.getElementById('giving-link')
+	sermonSpeaker: isBrowser ? document.getElementById('sermon-speaker') : null,
+	sermonTitle: isBrowser ? document.getElementById('sermon-title') : null,
+	sermonLine: isBrowser ? document.getElementById('sermon-line') : null,
+	sermonTime: isBrowser ? document.getElementById('sermon-time') : null,
+	livestreamLink: /** @type {HTMLAnchorElement | null} */(isBrowser ? document.getElementById('livestream-link') : null),
+	givingLink: isBrowser ? document.getElementById('giving-link') : null
 };
 
 // ─── Date / Time Utilities ────────────────────────────────────────────────────
@@ -293,6 +294,20 @@ const classifySermonTitle = (title) => {
 	return 'normal';
 };
 
+/** @param {string | null | undefined} speaker @param {string | null | undefined} sermonTitle @param {string} timeLabel */
+const formatSermonLine = (speaker, sermonTitle, timeLabel) => {
+	if (speaker && sermonTitle) {
+		return `${speaker} will be sharing a message with us titled "${sermonTitle}", starting at ${timeLabel}.`;
+	}
+	if (speaker) {
+		return `${speaker} will be sharing a message with us, starting at ${timeLabel}.`;
+	}
+	if (sermonTitle) {
+		return `A message titled "${sermonTitle}" will be shared starting at ${timeLabel}.`;
+	}
+	return '';
+};
+
 // Finds this week's EM service video and updates the sermon speaker and livestream link.
 const updateSermonSpeakerFromYoutube = async () => {
 	if (!els.sermonSpeaker || !els.livestreamLink) return;
@@ -337,10 +352,17 @@ const updateSermonSpeakerFromYoutube = async () => {
 		}
 
 		const sermonDetails = extractSermonDetailsFromTitle(title);
-		if (sermonDetails?.sermonTitle && els.sermonTitle) els.sermonTitle.textContent = sermonDetails.sermonTitle;
+		const sermonTitle = sermonDetails?.sermonTitle;
+		if (sermonTitle && els.sermonTitle) els.sermonTitle.textContent = sermonTitle;
 
 		const speaker = sermonDetails?.speaker || extractSpeakerFromTitle(title);
-		if (speaker) els.sermonSpeaker.textContent = speaker;
+		if (speaker && els.sermonSpeaker) els.sermonSpeaker.textContent = speaker;
+
+		if (els.sermonLine) {
+			const timeLabel = els.sermonTime?.textContent || '11:20am';
+			const lineText = formatSermonLine(speaker, sermonTitle, timeLabel);
+			if (lineText) els.sermonLine.textContent = lineText;
+		}
 	} catch (error) {
 		console.warn('Sermon speaker auto-fill failed, using fallback speaker text:', error);
 	}
@@ -427,4 +449,12 @@ const init = async () => {
 	attachAnalyticsEvents();
 };
 
-init();
+if (isBrowser) init();
+
+export {
+	getYoutubeVideoId,
+	extractSpeakerFromTitle,
+	extractSermonDetailsFromTitle,
+	classifySermonTitle,
+	formatSermonLine
+};

@@ -3,6 +3,9 @@
 > **Created:** All items created by Claude Opus 4.7 on **May 30, 2026**.  
 > **Archived:** All items completed and this document moved to `docs/` on **TBD**.
 
+**Progress: `███████░░░░░░░░░░░░░` 38% (41/107 items complete)**
+<!-- Progress bar is a manual snapshot, not auto-computed — recalculate after checking off items. -->
+
 A fresh batch of suggestions building on the work captured in [2026-05-29-ImprovementSuggestions.md](2026-05-30-ImprovementSuggestions.md). These focus on **engagement, observability, content depth, and modernization** now that foundational accessibility, SEO, security, performance, and PWA work is in place.
 
 > **Scope update (June 1, 2026):** Newsletter should stay focused on automation reliability only (no signup/share/archive/read-time changes for now); prayer requests should emphasize the existing texting hotline; service times already exist in the footer (focus on clarity improvements, not duplication); avoid Cloudflare-dependent recommendations.
@@ -141,7 +144,7 @@ You've cleared WCAG AA basics; these go further.
 
 Translation strings exist; the architecture around them can mature.
 
-- [ ] **Translation drift CI check** — A Node script run in CI that diffs key sets between `en.json`, `es.json`, `ko.json` and fails on missing/extra keys.
+- [x] **Translation drift CI check** — `scripts/check-lang-drift.js` recursively diffs key sets between `en.json`, `es.json`, and `ko.json`; wired into `npm run lint` (and therefore CI) via the `check:lang` script, failing loudly on missing or extra keys.
 - [x] **Language preference persistence** — Save the chosen language in `localStorage` and honor it on next visit before falling back to browser language.
 - [x] **`<html lang>` reflects active language across the SPA-style swap** — Verify it changes when the user clicks Korean, not just on initial load.
 - [ ] **Localized URLs** — `/es/` and `/ko/` path prefixes so search engines index translated content separately and users can share language-specific links. Use `hreflang` to link them.
@@ -242,7 +245,7 @@ The CSS is solid but uses few modern features. These are quality-of-code improve
 ## 16. Build & Developer Experience
 
 - [ ] **`README.md` quickstart** — `npm install && npm start` instructions with screenshot of expected output.
-- [ ] **Document the build pipeline** — Diagram in `docs/` showing the data flow (lang JSON → main.js → DOM, verse-cron → JSON → newsletter, esbuild → minified outputs).
+- [x] **Document the build pipeline** — [docs/BUILD-PIPELINE.md](BUILD-PIPELINE.md) documents the full data flow with Mermaid diagrams: lang JSON → `main.js` → DOM, White Estate/sunset APIs → `fetch-daily-data.js` → `devotional-today.json` → newsletter/today.html, `esbuild` → minified outputs, plus the three CI/CD workflows and the service-worker caching strategy.
 - [ ] **Pre-commit hooks** — `lint-staged` + `husky` (or `simple-git-hooks`) running Prettier, ESLint, Stylelint on touched files only.
 - [ ] **Conventional commits + auto-changelog** — Generate `CHANGELOG.md` from commit messages; helpful when multiple contributors arrive.
 - [ ] **TypeScript project references for JSON** — `langStrings/*.json` could be typed with a generated `.d.ts` so missing keys break the build, not the user's screen.

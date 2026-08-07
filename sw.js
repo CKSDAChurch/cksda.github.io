@@ -12,7 +12,7 @@
 
 'use strict';
 
-const CACHE_NAME = 'cksda-v2.1.2';
+const CACHE_NAME = 'cksda-v2.1.3';
 
 // Core assets pre-cached on first install.
 // Keep this list to critical same-origin assets that are always present.

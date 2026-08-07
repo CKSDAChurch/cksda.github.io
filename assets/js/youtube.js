@@ -6,7 +6,8 @@
 
 // YouTube Data API Key — injected at build time by scripts/build.js via esbuild `define`.
 // __YOUTUBE_API_KEY__ is replaced with the real key before minification; never commit a real key here.
-const YOUTUBE_API_KEY = __YOUTUBE_API_KEY__;
+const YOUTUBE_API_KEY = typeof __YOUTUBE_API_KEY__ !== 'undefined' ? __YOUTUBE_API_KEY__ : '';
+const isBrowser = typeof document !== 'undefined' && typeof window !== 'undefined';
 
 //// *********** Helper function to get latest PUBLISHED video from playlist (excluding scheduled) *********** ////
 async function getLatestVideoFromPlaylist(playlistId) {
@@ -200,21 +201,21 @@ async function getNextScheduledVideoFromPlaylist(playlistId, targetDate = null) 
 }
 
 //// *********** Livestream YouTube *********** ////
-var now = new Date();
-var hour = now.getHours();
-var day = now.getDay();
+var now = isBrowser ? new Date() : null;
+var hour = now ? now.getHours() : 0;
+var day = now ? now.getDay() : 0;
 
-const youtubeLive = document.getElementById("youtubeLive");
-if (youtubeLive) {
+const youtubeLive = isBrowser ? document.getElementById('youtubeLive') : null;
+if (isBrowser && youtubeLive) {
     // CKSDA Church hours (EM)
-    if (window.lang == "en" && (hour >= 11 && hour < 13 && day == 6)) {
+    if (window.lang == 'en' && (hour >= 11 && hour < 13 && day == 6)) {
         youtubeLive.innerHTML = `<h3>Watch CKSDA Church</h3>
             <iframe style="width: 100%; height: 22em;" title="CKSDA Church Livestream" frameborder="0" allowfullscreen
             src="https://www.youtube.com/embed/live_stream?channel=UCwWsr1Z3S9SY-DfkIwUMSYQ"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
     }
     // CKSDA Church hours (KM)
-    else if (window.lang == "ko" && ((hour >= 19 && hour <= 20 && day == 5) || (hour >= 9 && hour < 11 && day == 6))) {
+    else if (window.lang == 'ko' && ((hour >= 19 && hour <= 20 && day == 5) || (hour >= 9 && hour < 11 && day == 6))) {
         youtubeLive.innerHTML = `<h3>Watch CKSDA Church</h3>
             <iframe style="width: 100%; height: 22em;" title="CKSDA Church Livestream" frameborder="0" allowfullscreen
             src="https://www.youtube.com/embed/live_stream?channel=UCwWsr1Z3S9SY-DfkIwUMSYQ"
@@ -264,47 +265,49 @@ if (youtubeLive) {
 // 2. Load the IFrame Player API code asynchronously only when player placeholders exist.
 var player, player2, player3;
 var playerIds = ['player', 'player2', 'player3'];
-var hasPlayerEmbed = playerIds.some(function(id) {
+var hasPlayerEmbed = isBrowser && playerIds.some(function(id) {
     return document.getElementById(id) !== null;
 });
 
-if (hasPlayerEmbed) {
+if (isBrowser && hasPlayerEmbed) {
     var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
+    tag.src = 'https://www.youtube.com/iframe_api';
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 }
 
 // 3. This function creates an <iframe> (and YouTube player) after the API code downloads.
 // Must be assigned to window so the YouTube IFrame API (a non-module external script) can call it.
-window.onYouTubeIframeAPIReady = function() {
-    if (document.getElementById('player')) {
-        player = new YT.Player('player', {
-            videoId: 'wyswv1J8kAM',
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-    if (document.getElementById('player2')) {
-        player2 = new YT.Player('player2', {
-            videoId: 'QffWImBqfuc',
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-    if (document.getElementById('player3')) {
-        player3 = new YT.Player('player3', {
-            videoId: 'LN-4AfzdCNg',
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
+if (isBrowser) {
+    window.onYouTubeIframeAPIReady = function() {
+        if (document.getElementById('player')) {
+            player = new YT.Player('player', {
+                videoId: 'wyswv1J8kAM',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+        if (document.getElementById('player2')) {
+            player2 = new YT.Player('player2', {
+                videoId: 'QffWImBqfuc',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+        if (document.getElementById('player3')) {
+            player3 = new YT.Player('player3', {
+                videoId: 'LN-4AfzdCNg',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+    };
 }
 
 // 4. The API will call this function when the video player is ready.
@@ -344,16 +347,17 @@ function onPlayerStateChange(event) {
     }
 }
 function stopVideo() {
-    player.stopVideo();
-    player2.stopVideo();
-    player3.stopVideo();
+    player?.stopVideo?.();
+    player2?.stopVideo?.();
+    player3?.stopVideo?.();
 }
 
 // ── YouTube watch-progress tracking ────────────────────────────────────
 // Track when users reach 25%, 50%, 75%, and 100% watched
 const youtubeProgressTracking = new Map();
 
-window.addEventListener('load', () => {
+if (isBrowser) {
+    window.addEventListener('load', () => {
     if (typeof gtag !== 'function') return;
 	
     setInterval(() => {
@@ -385,6 +389,7 @@ window.addEventListener('load', () => {
             });
         });
     }, 1000); // Check every second
-});
+    });
+}
 
 export { getLatestVideoFromPlaylist, getNextScheduledVideoFromPlaylist };
