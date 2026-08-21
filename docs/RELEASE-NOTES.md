@@ -3,6 +3,18 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v2.1.4 — August 20, 2026
+
+### Fixed
+
+- **Pastoral staff listing** — Removed the former associate pastor's public footer listing, biography data, translations, and headshot while the church searches for a replacement.
+
+### Changed
+
+- **`sw.js` cache version** — Bumped to `cksda-v2.1.4`.
+
+---
+
 ## v2.1.3 — August 7, 2026
 
 ### Added
