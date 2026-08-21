@@ -360,13 +360,6 @@ const PASTOR_BIOS = {
 		contact: 'pastor@cksda.church',
 		img: 'assets/images/pastor-yang.jpg',
 	},
-	jeon: {
-		name: 'Pastor Daniel Jeon',
-		role: 'Associate Pastor',
-		bio: 'Born in Colorado, Pastor Jeon holds a master of divinity from Andrews University and has been pastoring since 2015 across the U.S., Canada, and Australia. Fluent in English and Korean, he joined our church in 2024. His favourite verse is John 17:3 \u2014 \u201cAnd this is eternal life, that they may know You, the only true God, and Jesus Christ whom You have sent.\u201d',
-		contact: 'associatepastor@cksda.church',
-		img: 'assets/images/pastor-jeon.jpg',
-	},
 };
 /**
  * @param {any} json
@@ -495,12 +488,6 @@ const buildFooter = (json) => {
 			<img class="footer-tile__photo" src="${PASTOR_BIOS.yang.img}" alt="" loading="lazy">
 			<h4 class="footer-tile__title">${footer.headPastorTitle}</h4>
 			<p class="footer-tile__value">${footer.headPastor}</p>
-			<span class="footer-tile__cue" aria-hidden="true">View bio &rsaquo;</span>
-		</button>
-		<button class="footer-tile footer-tile--pastor" data-pastor="jeon" aria-haspopup="dialog">
-			<img class="footer-tile__photo" src="${PASTOR_BIOS.jeon.img}" alt="" loading="lazy">
-			<h4 class="footer-tile__title">${footer.associatePastorTitle}</h4>
-			<p class="footer-tile__value">${footer.associatePastor}</p>
 			<span class="footer-tile__cue" aria-hidden="true">View bio &rsaquo;</span>
 		</button>
 	</div>
