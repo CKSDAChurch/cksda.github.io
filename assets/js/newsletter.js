@@ -26,7 +26,13 @@ const els = {
 	sermonLine: isBrowser ? document.getElementById('sermon-line') : null,
 	sermonTime: isBrowser ? document.getElementById('sermon-time') : null,
 	livestreamLink: /** @type {HTMLAnchorElement | null} */(isBrowser ? document.getElementById('livestream-link') : null),
-	givingLink: isBrowser ? document.getElementById('giving-link') : null
+	givingLink: isBrowser ? document.getElementById('giving-link') : null,
+
+	lessonTeacherHighschool: isBrowser ? document.getElementById('lesson-teacher-highschool') : null,
+	lessonTeacherEarliteen: isBrowser ? document.getElementById('lesson-teacher-earliteen') : null,
+	lessonTeacherJuniors: isBrowser ? document.getElementById('lesson-teacher-juniors') : null,
+	lessonTeacherPrimary: isBrowser ? document.getElementById('lesson-teacher-primary') : null,
+	lessonTeacherCradleroll: isBrowser ? document.getElementById('lesson-teacher-cradleroll') : null
 };
 
 // ─── Date / Time Utilities ────────────────────────────────────────────────────
@@ -171,6 +177,48 @@ const updateLessonLinks = (sabbathDate) => {
 		href = href.replace(/\/\d{1,2}(\/\d{1,2})?$/, () => `/${pad2(wk)}`);
 		link.href = href;
 	});
+};
+
+// ─── SS Teacher Names ─────────────────────────────────────────────────────────
+
+const SS_TEACHERS_DATA_PATH = 'assets/data/ss-teachers.json';
+
+// Shows the assigned teacher name on each kids' lesson tile, or hides the line
+// entirely when no teacher is scheduled yet for the current week.
+/** @param {Record<string, string>} classes */
+const applySSTeacherNames = (classes) => {
+	const fields = /** @type {[HTMLElement | null, string][]} */([
+		[els.lessonTeacherHighschool, classes.highschool],
+		[els.lessonTeacherEarliteen, classes.earliteen],
+		[els.lessonTeacherJuniors, classes.juniors],
+		[els.lessonTeacherPrimary, classes.primary],
+		[els.lessonTeacherCradleroll, classes.cradleroll]
+	]);
+
+	fields.forEach(([el, teacher]) => {
+		if (!el) return;
+		const name = teacher?.trim();
+		if (name) {
+			el.textContent = `Teacher: ${name}`;
+			el.hidden = false;
+		} else {
+			el.hidden = true;
+		}
+	});
+};
+
+// Reads the pre-fetched SS teacher schedule (assets/data/ss-teachers.json, written
+// nightly by scripts/fetch-ss-teachers.js from the CKSDA Children's Ministries
+// Schedule spreadsheet) and applies it to the kids' lesson tiles.
+const updateSSTeacherNames = async () => {
+	try {
+		const response = await fetch(SS_TEACHERS_DATA_PATH);
+		if (!response.ok) return;
+		const data = await response.json();
+		applySSTeacherNames(data.classes || {});
+	} catch (err) {
+		console.warn('Could not load ss-teachers.json:', err);
+	}
 };
 
 // ─── Sunset / Sabbath Times ───────────────────────────────────────────────────
@@ -446,6 +494,7 @@ const init = async () => {
 	updateKitchenDuty(sabbathDate || new Date());
 	updateLessonLinks(sabbathDate || new Date());
 	await updateSermonSpeakerFromYoutube();
+	await updateSSTeacherNames();
 	attachAnalyticsEvents();
 };
 

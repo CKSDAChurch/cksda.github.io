@@ -519,6 +519,13 @@ button:focus-visible,
     font-style: italic;
 }
 
+.lesson-teacher {
+    font-family: 'Mulish', Arial, sans-serif;
+    font-size: 0.68rem;
+    color: var(--ink);
+    opacity: 0.75;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .date-info,
