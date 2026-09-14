@@ -52,6 +52,10 @@ jobs:
       - name: Inject today's OHC devotional verse
         run: node scripts/fetch-daily-data.js
 
+      # Update this week's kids' SS teacher schedule.
+      - name: Fetch kids' Sabbath School teacher schedule
+        run: node scripts/fetch-ss-teachers.js
+
       # Keep only publishable web files.
       - name: Remove non-web files before publish
         run: |
