@@ -406,6 +406,17 @@ const formatSermonLine = (speaker, sermonTitle, timeLabel) => {
 	return '';
 };
 
+// Recovers the video title from oEmbed's embedded iframe markup when the top-level "title" field is absent.
+/** @param {string | null | undefined} html */
+const extractTitleFromOembedHtml = (html) => {
+	if (!html) return null;
+	const match = html.match(/title="([^"]*)"/);
+	if (!match?.[1]) return null;
+	return match[1]
+		.replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+		.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+};
+
 // Finds this week's EM service video and updates the sermon speaker and livestream link.
 const updateSermonSpeakerFromYoutube = async () => {
 	if (!els.sermonSpeaker || !els.livestreamLink) return;
@@ -436,7 +447,10 @@ const updateSermonSpeakerFromYoutube = async () => {
 		const oembedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(`https://www.youtube.com/watch?v=${videoId}`)}&format=json`;
 		const response = await fetch(oembedUrl);
 		if (!response.ok) throw new Error(`YouTube oEmbed request failed with ${response.status}`);
-		const { title } = await response.json();
+		const oembed = await response.json();
+		// Scheduled/Premiere videos sometimes omit the top-level "title" field;
+		// fall back to the title baked into the embedded iframe's HTML.
+		const title = oembed.title || extractTitleFromOembedHtml(oembed.html);
 		const sermonType = classifySermonTitle(title);
 
 		if (sermonType === 'combined' && els.sermonLine) {

@@ -3,6 +3,19 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v2.3.0 — October 28, 2026
+
+### Changed
+
+- **GitHub Actions versions** — Bumped `actions/checkout`, `actions/setup-node`, `actions/configure-pages`, `actions/upload-pages-artifact`, and `actions/deploy-pages` to their latest Node 24-native major versions in all three workflows, clearing the "Node.js 20 is deprecated" warnings and removing the now-unneeded `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` workaround.
+- **`sw.js` cache version** — Bumped to `cksda-v2.2.3`.
+
+### Fixed
+
+- **Newsletter sermon speaker placeholder** — [newsletter.html](../newsletter.html) kept showing "Someone Special / A Special Message" when YouTube's oEmbed response omitted the top-level `title` (e.g. scheduled videos). `assets/js/newsletter.js` now falls back to the title in the embed's iframe HTML.
+
+---
+
 ## v2.2.0 — September 4, 2026
 
 ### Added
