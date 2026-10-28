@@ -18,6 +18,7 @@ const isBrowser = typeof document !== 'undefined' && typeof window !== 'undefine
 const els = {
 	sabbathLabel: isBrowser ? document.getElementById('sabbath-label') : null,
 	sabbathDate: isBrowser ? document.getElementById('sabbath-date') : null,
+	lessonsQuarterWeek: isBrowser ? document.getElementById('lessons-quarter-week') : null,
 	fridaySunset: isBrowser ? document.getElementById('friday-sunset') : null,
 	saturdaySunset: isBrowser ? document.getElementById('saturday-sunset') : null,
 
@@ -26,7 +27,18 @@ const els = {
 	sermonLine: isBrowser ? document.getElementById('sermon-line') : null,
 	sermonTime: isBrowser ? document.getElementById('sermon-time') : null,
 	livestreamLink: /** @type {HTMLAnchorElement | null} */(isBrowser ? document.getElementById('livestream-link') : null),
-	givingLink: isBrowser ? document.getElementById('giving-link') : null
+	givingLink: isBrowser ? document.getElementById('giving-link') : null,
+
+	lessonTeacherHighschool: isBrowser ? document.getElementById('lesson-teacher-highschool') : null,
+	lessonTeacherEarliteen: isBrowser ? document.getElementById('lesson-teacher-earliteen') : null,
+	lessonTeacherJuniors: isBrowser ? document.getElementById('lesson-teacher-juniors') : null,
+	lessonTeacherPrimary: isBrowser ? document.getElementById('lesson-teacher-primary') : null,
+	lessonTeacherCradleroll: isBrowser ? document.getElementById('lesson-teacher-cradleroll') : null,
+	lessonTeacherYa: isBrowser ? document.getElementById('lesson-teacher-ya') : null,
+
+	collegiateLessonTile: /** @type {HTMLAnchorElement | null} */(isBrowser ? document.getElementById('collegiate-lesson-tile') : null),
+	collegiateTopic: isBrowser ? document.getElementById('lesson-topic-collegiate') : null,
+	lessonTeacherCollegiate: isBrowser ? document.getElementById('lesson-teacher-collegiate') : null
 };
 
 // ─── Date / Time Utilities ────────────────────────────────────────────────────
@@ -162,6 +174,11 @@ const updateLessonLinks = (sabbathDate) => {
 	const childSunday = new Date(todayDate.getTime() - (sundayOffsets[todayParts.weekday] ?? 0) * 24 * 60 * 60 * 1000);
 	const childWeekNum = Math.round((childSunday.getTime() - firstSunday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
 
+	if (els.lessonsQuarterWeek) {
+		const headingMeta = Number.isInteger(qNum) && weekNum > 0 ? ` - Quarter ${qNum}, Week ${weekNum}` : '';
+		els.lessonsQuarterWeek.textContent = headingMeta;
+	}
+
 	(/** @type {NodeListOf<HTMLAnchorElement>} */(document.querySelectorAll('.lessons-grid a[href]'))).forEach((link) => {
 		const isAdult = /\/\d{4}-0[1-4]\//.test(link.href);
 		const wk = isAdult ? weekNum : childWeekNum;
@@ -171,6 +188,87 @@ const updateLessonLinks = (sabbathDate) => {
 		href = href.replace(/\/\d{1,2}(\/\d{1,2})?$/, () => `/${pad2(wk)}`);
 		link.href = href;
 	});
+};
+
+// ─── SS Teacher Names ─────────────────────────────────────────────────────────
+
+// Shows the Collegiate tile only when a topic is scheduled this week, linking it
+// to a Bible reference lookup for that topic and showing the moderator, if any.
+/** @param {{moderator?: string, topic?: string, yaTeacher?: string}} collegiate */
+const applyCollegiateInfo = (collegiate) => {
+	const tile = els.collegiateLessonTile;
+	if (!tile) return;
+
+	const topic = collegiate.topic?.trim();
+	if (!topic) {
+		tile.hidden = true;
+		return;
+	}
+
+	tile.hidden = false;
+	tile.href = `https://www.biblegateway.com/passage/?search=${encodeURIComponent(topic)}&version=NKJV`;
+	if (els.collegiateTopic) els.collegiateTopic.textContent = topic;
+
+	const moderator = collegiate.moderator?.trim();
+	if (els.lessonTeacherCollegiate) {
+		if (moderator) {
+			els.lessonTeacherCollegiate.textContent = `Moderator: ${moderator}`;
+			els.lessonTeacherCollegiate.hidden = false;
+		} else {
+			els.lessonTeacherCollegiate.hidden = true;
+		}
+	}
+
+	const yaTeacher = collegiate.yaTeacher?.trim();
+	if (els.lessonTeacherYa) {
+		if (yaTeacher) {
+			els.lessonTeacherYa.textContent = `Teacher: ${yaTeacher}`;
+			els.lessonTeacherYa.hidden = false;
+		} else {
+			els.lessonTeacherYa.hidden = true;
+		}
+	}
+};
+
+const SS_TEACHERS_DATA_PATH = 'assets/data/ss-teachers.json';
+
+// Shows the assigned teacher name on each kids' lesson tile, or hides the line
+// entirely when no teacher is scheduled yet for the current week.
+/** @param {Record<string, string>} classes */
+const applySSTeacherNames = (classes) => {
+	const fields = /** @type {[HTMLElement | null, string][]} */([
+		[els.lessonTeacherHighschool, classes.highschool],
+		[els.lessonTeacherEarliteen, classes.earliteen],
+		[els.lessonTeacherJuniors, classes.juniors],
+		[els.lessonTeacherPrimary, classes.primary],
+		[els.lessonTeacherCradleroll, classes.cradleroll]
+	]);
+
+	fields.forEach(([el, teacher]) => {
+		if (!el) return;
+		const name = teacher?.trim();
+		if (name) {
+			el.textContent = `Teacher: ${name}`;
+			el.hidden = false;
+		} else {
+			el.hidden = true;
+		}
+	});
+};
+
+// Reads the pre-fetched SS teacher schedule (assets/data/ss-teachers.json, written
+// nightly by scripts/fetch-ss-teachers.js from the CKSDA Children's Ministries
+// Schedule spreadsheet) and applies it to the kids' lesson tiles.
+const updateSSTeacherNames = async () => {
+	try {
+		const response = await fetch(SS_TEACHERS_DATA_PATH);
+		if (!response.ok) return;
+		const data = await response.json();
+		applySSTeacherNames(data.classes || {});
+		applyCollegiateInfo(data.collegiate || {});
+	} catch (err) {
+		console.warn('Could not load ss-teachers.json:', err);
+	}
 };
 
 // ─── Sunset / Sabbath Times ───────────────────────────────────────────────────
@@ -386,7 +484,7 @@ const updateKitchenDuty = (sabbathDate) => {
 
 	const schedule = isSummer
 		? ['High School', 'Collegiate', 'Young Adults', 'EM Adults', 'Gaon']
-		: ['Freshmen', 'Sophomores', 'Juniors', 'Seniors', 'Young Adults'];
+		: ['Freshmen', 'Sophomores', 'Juniors', 'Seniors', 'Gaon'];
 
 	scheduleEl.innerHTML = schedule.map((group, i) => {
 		const isCurrent = (i + 1) === weekNum;
@@ -446,6 +544,7 @@ const init = async () => {
 	updateKitchenDuty(sabbathDate || new Date());
 	updateLessonLinks(sabbathDate || new Date());
 	await updateSermonSpeakerFromYoutube();
+	await updateSSTeacherNames();
 	attachAnalyticsEvents();
 };
 

@@ -467,6 +467,14 @@ button:focus-visible,
     border-bottom: 1px solid var(--section-heading-border);
 }
 
+.lessons-quarter-week {
+    font: inherit;
+    letter-spacing: inherit;
+    opacity: 0.85;
+    text-transform: none;
+    white-space: nowrap;
+}
+
 .lessons-note {
     text-align: center;
     font-family: 'Mulish', Arial, sans-serif;
@@ -512,11 +520,18 @@ button:focus-visible,
     color: var(--ink);
 }
 
-.lesson-lang {
+.lesson-topic {
     font-family: 'Lora', Georgia, serif;
     font-size: 0.85rem;
     color: var(--link);
     font-style: italic;
+}
+
+.lesson-teacher {
+    font-family: 'Mulish', Arial, sans-serif;
+    font-size: 0.68rem;
+    color: var(--ink);
+    opacity: 0.75;
 }
 
 /* Responsive */

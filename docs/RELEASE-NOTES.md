@@ -3,6 +3,19 @@
 These notes summarize notable website updates by release.
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v2.2.0 — September 4, 2026
+
+### Added
+
+- **Kids' SS teacher names on the newsletter** — [newsletter.html](../newsletter.html) now shows this week's assigned teacher under the High School, Earliteen, Juniors, Primary, and Cradle Roll lesson tiles. `scripts/fetch-ss-teachers.js` (run nightly alongside the devotional fetch) pulls the current week's row from the "CKSDA Children's Ministries Schedule" spreadsheet and writes `assets/data/ss-teachers.json`; the teacher line is hidden automatically when no one is scheduled yet.
+
+### Changed
+
+- **Sabbath School lesson group labels** — Renamed "EM / Young Adults" to "EM Adults" and "Collegiate" to "Collegiate / Young Adults" on both the weekly newsletter and daily "Today" page, reflecting the Young Adults class now following the Collegiate lesson.
+- **`sw.js` cache version** — Bumped to `cksda-v2.2.0`.
+
+---
+
 ## v2.1.4 — August 20, 2026
 
 ### Fixed
